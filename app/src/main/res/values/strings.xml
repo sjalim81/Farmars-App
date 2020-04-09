@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FarmersApp</string>
+    <string name="login_as_farmerText">কৃষিজীবী হিসেবে লগ ইন করুন</string>
+    <string name="login_as_buyerText">ক্রেতা হিসেবে লগ ইন করুন</string>
+    <string name="enter_phoneText">মোবাইল নম্বর দিন</string>
+    <string name="enter_pinText">পিন নম্বর দিন</string>
+    <string name="phoneText">মোবাইল নম্বর</string>
+    <string name="pinText">পিন নম্বর</string>
+    <string name="forgotPin_text">পিন নম্বর ভুলে গিয়েছেন?</string>
+    <string name="loginButton_text">লগ ইন</string>
+    <string name="createAcc_asFarmer_text">কৃষিজীবী হিসেবে নতুন একাউন্ট তৈরী করতে এখানে ট্যাপ করুন!</string>
+    <string name="createAcc_asBuyer_text">ক্রেতা হিসেবে নতুন একাউন্ট তৈরী করতে এখানে ট্যাপ করুন!</string>
+</resources>
