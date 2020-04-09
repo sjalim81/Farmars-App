@@ -33,6 +33,8 @@ public class FarmerLoginActivity extends AppCompatActivity implements View.OnCli
         forgotPinText.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         createAccount.setOnClickListener(this);
+
+        Log.d("test", "Matcovic");
     }
 
     @Override
