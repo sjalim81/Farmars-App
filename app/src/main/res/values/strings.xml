@@ -10,4 +10,19 @@
     <string name="loginButton_text">লগ ইন</string>
     <string name="createAcc_asFarmer_text">কৃষিজীবী হিসেবে নতুন একাউন্ট তৈরী করতে এখানে ট্যাপ করুন!</string>
     <string name="createAcc_asBuyer_text">ক্রেতা হিসেবে নতুন একাউন্ট তৈরী করতে এখানে ট্যাপ করুন!</string>
+    <string name="general_info">সাধারণ তথ্য</string>
+    <string name="name">নাম</string>
+    <string name="dateOfBirth">জন্ম তারিখ</string>
+    <string name="day">দিন</string>
+    <string name="month">মাস</string>
+    <string name="year">সাল</string>
+    <string name="address">ঠিকানা</string>
+    <string name="division">বিভাগ</string>
+    <string name="district">জেলা</string>
+    <string name="subDistrict">উপজেলা</string>
+    <string name="union">ইউনিয়ন</string>
+    <string name="policeStation">থানা</string>
+    <string name="village">গ্রাম</string>
+    <string name="picture">ছবি সংযুক্ত করুন</string>
+    <string name="confirmRegistration">রেজিস্ট্রেশন নিশ্চিত করুন</string>
 </resources>
