@@ -3,6 +3,7 @@ package com.example.farmersapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -16,6 +17,7 @@ public class BuyerLoginActivity extends AppCompatActivity implements View.OnClic
     private TextView forgotPinText;
     private Button loginButton;
     private TextView createAccountText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class BuyerLoginActivity extends AppCompatActivity implements View.OnClic
         forgotPinText.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         createAccountText.setOnClickListener(this);
+        Log.d("che","alim");
     }
 
     @Override
