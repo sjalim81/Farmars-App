@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         login_as_farmer.setOnClickListener(this);
         login_as_buyer.setOnClickListener(this);
-        Log.d("che","badhon");
+        Log.d("che","badhon1");
     }
 
     @Override
