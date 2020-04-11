@@ -17,7 +17,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
 
-    private EditText enterNameText, phoneNoText, pinText, confirmPinText;
+    private EditText enterNameText, phoneNoText, occupationText;
     Spinner birth_dayText, birth_monthText, birth_yearText, divisionText, districtText,
                         subDistrictText, unionText, thanaText,villageText;
     private Button regConfirmButton;
@@ -33,8 +33,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         enterNameText = findViewById(R.id.regActivity_name);
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
-        pinText = findViewById(R.id.regActivity_pin);
-        confirmPinText = findViewById(R.id.regActivity_confirmPin);
+       // pinText = findViewById(R.id.regActivity_pin);
+      //  confirmPinText = findViewById(R.id.regActivity_confirmPin);
+        occupationText = findViewById(R.id.regActivity_occupation);
         birth_dayText = findViewById(R.id.regActivity_birth_day);
         birth_monthText = findViewById(R.id.regActivity_birth_month);
         birth_yearText = findViewById(R.id.regActivity_birth_year);
@@ -49,34 +50,8 @@ public class RegistrationActivity extends AppCompatActivity {
         regConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createOTPpopupDialog();
 
             }
         });
-    }
-
-    private void createOTPpopupDialog() {
-        builder = new AlertDialog.Builder(this);
-
-        View view = getLayoutInflater().inflate(R.layout.otp_popup, null);
-
-        otpPassText = view.findViewById(R.id.otp_password);
-        otpConfirmButton = view.findViewById(R.id.otp_button);
-        otpConfirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(!otpPassText.getText().toString().isEmpty()) {
-                    Log.d("Print","pass is: " +otpPassText.getText().toString().trim());
-                }
-                else {
-                    Snackbar.make(v,"ভুল পাসওয়ার্ড! পুনরায় চেষ্টা করুন।", Snackbar.LENGTH_LONG).show();
-                }
-
-            }
-        });
-        builder.setView(view);
-        dialog = builder.create();
-        dialog.show();
     }
 }

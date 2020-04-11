@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="8dp"
+    android:padding="10dp"
     tools:context=".RegistrationActivity">
 
     <TextView
@@ -35,19 +35,11 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/regActivity_pin"
+        android:id="@+id/regActivity_occupation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_pinText"
-        android:inputType="numberPassword"
-        android:textSize="15sp" />
-
-    <EditText
-        android:id="@+id/regActivity_confirmPin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/confirm_pinText"
-        android:inputType="numberPassword"
+        android:hint="@string/occupation_text"
+        android:inputType="textPersonName"
         android:textSize="15sp" />
 
     <LinearLayout
@@ -232,6 +224,7 @@
 
     </RelativeLayout>
     <Button
+        android:layout_marginTop="10dp"
         android:textSize="15sp"
         android:id="@+id/regActivity_confimButton"
         android:layout_width="180dp"
