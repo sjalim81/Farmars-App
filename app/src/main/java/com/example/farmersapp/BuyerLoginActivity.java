@@ -33,7 +33,6 @@ public class BuyerLoginActivity extends AppCompatActivity implements View.OnClic
         forgotPinText.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         createAccountText.setOnClickListener(this);
-        Log.d("che","alim");
     }
 
     @Override

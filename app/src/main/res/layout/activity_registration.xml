@@ -3,35 +3,201 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="8dp"
     tools:context=".RegistrationActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="সাধারণ তথ্য"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/phoneText"/>
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:text="@string/general_info"
+        android:layout_gravity="center"/>
 
     <EditText
-        android:id="@+id/reg_phoneNo"
-        android:hint="মোবাইল নম্বর টাইপ করুন"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/regActivity_name"
 
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="নাম"/>
+        android:textSize="15sp"
+        android:inputType="textPersonName"
+        android:hint="@string/enter_name" />
 
     <EditText
-        android:id="@+id/reg_name"
-        android:hint="নাম টাইপ করুন"
+        android:id="@+id/regActivity_phoneNo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_phoneText"
+        android:inputType="phone"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/regActivity_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_pinText"
+        android:inputType="numberPassword"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/regActivity_confirmPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirm_pinText"
+        android:inputType="numberPassword"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="@string/dateOfBirth" />
+
+    <EditText
+        android:id="@+id/regActivity_birthDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:textSize="15sp"
+        android:hint="@string/birthFormat"/>
+
+    <TextView
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/address"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/divisionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/division"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/regActivity_division"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/divisionText"
+            android:layout_marginEnd="-269dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/districtText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divisionText"
+            android:padding="10dp"
+            android:text="@string/district"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/regActivity_district"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/regActivity_division"
+            android:layout_alignEnd="@+id/districtText"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="-273dp"
+            android:layout_marginRight="-342dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/subDistrictText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/districtText"
+            android:padding="10dp"
+            android:text="@string/subDistrict"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/regActivity_subDistrict"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/regActivity_district"
+            android:layout_alignEnd="@+id/subDistrictText"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="-251dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/unionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subDistrictText"
+            android:padding="10dp"
+            android:text="@string/union"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/regActivity_union"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/regActivity_subDistrict"
+            android:layout_alignEnd="@+id/unionText"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="-256dp"
+            android:layout_marginRight="-342dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/thanaText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/unionText"
+            android:layout_marginTop="1dp"
+            android:padding="10dp"
+            android:text="@string/thana"
+            android:textSize="15sp" />
+
+        <EditText
+            android:textSize="15sp"
+            android:id="@+id/regActivity_thana"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/regActivity_union"
+            android:layout_alignEnd="@+id/thanaText"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="-280dp" />
+
+        <TextView
+            android:id="@+id/villageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/thanaText"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:text="@string/village"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/regActivity_village"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/regActivity_thana"
+            android:layout_alignEnd="@+id/villageText"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="-283dp"
+            android:layout_marginRight="-342dp"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+    <Button
+        android:textSize="15sp"
+        android:id="@+id/regActivity_confimButton"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="@string/confirmRegistration" />
 
 </LinearLayout>
