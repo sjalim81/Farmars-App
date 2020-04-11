@@ -50,19 +50,59 @@
         android:inputType="numberPassword"
         android:textSize="15sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="@string/dateOfBirth" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/regActivity_birthDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:textSize="15sp"
-        android:hint="@string/birthFormat"/>
+        <TextView
+            android:id="@+id/birthDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dateOfBirth"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"/>
+        <Spinner
+            android:id="@+id/regActivity_birth_day"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/month"
+            android:textSize="15sp" />
+        <Spinner
+            android:id="@+id/regActivity_birth_month"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/year"
+            android:textSize="15sp" />
+        <Spinner
+            android:id="@+id/regActivity_birth_year"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
     <TextView
         android:textSize="15sp"
@@ -70,7 +110,7 @@
         android:layout_height="wrap_content"
         android:text="@string/address"
         android:textStyle="bold"
-        android:layout_gravity="center"/>
+        android:layout_gravity="left"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -85,7 +125,7 @@
             android:text="@string/division"
             android:textSize="15sp" />
 
-        <EditText
+        <Spinner
             android:id="@+id/regActivity_division"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
@@ -102,15 +142,14 @@
             android:text="@string/district"
             android:textSize="15sp" />
 
-        <EditText
+        <Spinner
             android:id="@+id/regActivity_district"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/regActivity_division"
             android:layout_alignEnd="@+id/districtText"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="-273dp"
-            android:layout_marginRight="-342dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="-272dp"
             android:textSize="15sp" />
 
         <TextView
@@ -122,13 +161,13 @@
             android:text="@string/subDistrict"
             android:textSize="15sp" />
 
-        <EditText
+        <Spinner
             android:id="@+id/regActivity_subDistrict"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/regActivity_district"
             android:layout_alignEnd="@+id/subDistrictText"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="19dp"
             android:layout_marginEnd="-251dp"
             android:textSize="15sp" />
 
@@ -141,15 +180,14 @@
             android:text="@string/union"
             android:textSize="15sp" />
 
-        <EditText
+        <Spinner
             android:id="@+id/regActivity_union"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/regActivity_subDistrict"
             android:layout_alignEnd="@+id/unionText"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="-256dp"
-            android:layout_marginRight="-342dp"
             android:textSize="15sp" />
 
         <TextView
@@ -162,15 +200,15 @@
             android:text="@string/thana"
             android:textSize="15sp" />
 
-        <EditText
-            android:textSize="15sp"
+        <Spinner
             android:id="@+id/regActivity_thana"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/regActivity_union"
             android:layout_alignEnd="@+id/thanaText"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="-280dp" />
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="-280dp"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/villageText"
@@ -181,15 +219,15 @@
             android:padding="10dp"
             android:text="@string/village"
             android:textSize="15sp" />
-        <EditText
+
+        <Spinner
             android:id="@+id/regActivity_village"
             android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/regActivity_thana"
             android:layout_alignEnd="@+id/villageText"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="-283dp"
-            android:layout_marginRight="-342dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="-282dp"
             android:textSize="15sp" />
 
     </RelativeLayout>

@@ -11,8 +11,10 @@
     <string name="createAcc_asBuyer_text">ক্রেতা হিসেবে নতুন একাউন্ট তৈরী করতে এখানে ট্যাপ করুন!</string>
     <string name="general_info">সাধারণ তথ্য</string>
     <string name="enter_name">নাম দিন</string>
-    <string name="dateOfBirth">জন্ম তারিখ</string>
-    <string name="birthFormat">dd/mm/yyyy</string>
+    <string name="dateOfBirth">জন্ম তারিখ:</string>
+    <string name="day">দিন</string>
+    <string name="month">মাস</string>
+    <string name="year">বছর</string>
     <string name="address">ঠিকানা</string>
     <string name="division">বিভাগ:</string>
     <string name="district">জেলা:</string>

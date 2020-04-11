@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -16,7 +17,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
 
-    private EditText enterNameText, phoneNoText, pinText, confirmPinText, birthdateText, divisionText, districtText,
+    private EditText enterNameText, phoneNoText, pinText, confirmPinText;
+    Spinner birth_dayText, birth_monthText, birth_yearText, divisionText, districtText,
                         subDistrictText, unionText, thanaText,villageText;
     private Button regConfirmButton;
 
@@ -33,7 +35,9 @@ public class RegistrationActivity extends AppCompatActivity {
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
         pinText = findViewById(R.id.regActivity_pin);
         confirmPinText = findViewById(R.id.regActivity_confirmPin);
-        birthdateText = findViewById(R.id.regActivity_birthDate);
+        birth_dayText = findViewById(R.id.regActivity_birth_day);
+        birth_monthText = findViewById(R.id.regActivity_birth_month);
+        birth_yearText = findViewById(R.id.regActivity_birth_year);
         divisionText = findViewById(R.id.regActivity_division);
         districtText = findViewById(R.id.regActivity_district);
         subDistrictText = findViewById(R.id.regActivity_subDistrict);
