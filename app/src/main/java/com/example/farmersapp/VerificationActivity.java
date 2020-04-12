@@ -46,6 +46,8 @@ public class VerificationActivity extends AppCompatActivity {
         mVerifybtn = findViewById(R.id.Button_otp);
 //        verifyProgressBar = findViewById(R.id.otp_progress_bar);
 
+        Log.d("Print","commit");
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
