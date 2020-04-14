@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -49,6 +50,10 @@ public class BuyerLoginActivity extends AppCompatActivity  {
     private FirebaseUser mCurrentUser;
 
     private String sentVerificationId;
+
+
+    SharedPreferences sharedprefs ;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,9 @@ public class BuyerLoginActivity extends AppCompatActivity  {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
+        sharedprefs = getSharedPreferences("FarmarLogin",MODE_PRIVATE);
+        editor = sharedprefs.edit();
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +80,8 @@ public class BuyerLoginActivity extends AppCompatActivity  {
                 String phone_number = phoneNumberText.getText().toString().trim();
                 String complete_phone_number = country_code + phone_number;
                 if (phone_number.isEmpty()) {
+                    editor.putString("phoneNumber",phone_number);
+                    editor.commit();
                     Toast.makeText(getApplicationContext(), "Please Fill", Toast.LENGTH_LONG).show();
                 } else {
 //                    mLoginProgress.setVisibility(View.VISIBLE);
@@ -114,6 +124,8 @@ public class BuyerLoginActivity extends AppCompatActivity  {
                 // createOTPpopupDialog();
                 Intent otpIntent = new Intent(BuyerLoginActivity.this,VerificationActivity.class);
                 otpIntent.putExtra("AuthCredentials",s);
+                otpIntent.putExtra("phoneNumber",phoneNumberText.getText().toString());
+                otpIntent.putExtra("activity","Buyer");
                 startActivity(otpIntent);
 
             }

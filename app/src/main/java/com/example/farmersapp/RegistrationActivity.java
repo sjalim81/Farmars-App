@@ -1,16 +1,25 @@
 package com.example.farmersapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -26,10 +35,21 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText otpPassText;
     private Button otpConfirmButton;
 
+    String phoneNumber;
+    String sourceActivity;
+
+    private FirebaseFirestore db;
+
+    private String division_name[],district_name_barisal[],union_name_barisal[],subDivision_name_barisal[],village_name_barisal[],thana_name_barisal[];
+    private String date[],month[],year[];
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        db = FirebaseFirestore.getInstance();
 
         enterNameText = findViewById(R.id.regActivity_name);
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
@@ -47,11 +67,139 @@ public class RegistrationActivity extends AppCompatActivity {
         villageText = findViewById(R.id.regActivity_village);
         regConfirmButton = findViewById(R.id.regActivity_confimButton);
 
+        phoneNumber = getIntent().getExtras().getString("phoneNumber");
+        sourceActivity = getIntent().getExtras().getString("activity");
+
+
+        date = getResources().getStringArray(R.array.date);
+        month = getResources().getStringArray(R.array.month);
+        year = getResources().getStringArray(R.array.year);
+        division_name = getResources().getStringArray(R.array.division_name);
+        district_name_barisal = getResources().getStringArray(R.array.district_name_barisal);
+        subDivision_name_barisal = getResources().getStringArray(R.array.subDivision_name_barisal);
+        union_name_barisal =getResources().getStringArray(R.array.union_name_barisal);
+        thana_name_barisal =getResources().getStringArray(R.array.thana_name_barisal);
+        village_name_barisal =getResources().getStringArray(R.array.village_name_barisal);
+
+
+        ArrayAdapter<String> date_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,date);
+        ArrayAdapter<String> month_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,month);
+        ArrayAdapter<String> year_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,year);
+        ArrayAdapter<String> division_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,division_name);
+        ArrayAdapter<String> district_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,district_name_barisal);
+        ArrayAdapter<String> subDivision_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,subDivision_name_barisal);
+        ArrayAdapter<String> union_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,union_name_barisal);
+        ArrayAdapter<String> thana_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,thana_name_barisal);
+        ArrayAdapter<String> village_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,village_name_barisal);
+
+        birth_dayText.setAdapter(date_adpter);
+        birth_monthText.setAdapter(month_adpter);
+        birth_yearText.setAdapter(year_adpter);
+        divisionText.setAdapter(division_adpter);
+        districtText.setAdapter(district_adpter);
+        subDistrictText.setAdapter(subDivision_adpter);
+        unionText.setAdapter(union_adpter);
+        thanaText.setAdapter(thana_adpter);
+        villageText.setAdapter(village_adpter);
+
         regConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(sourceActivity.equals("Farmer"))
+                {
+                    setDataAsFarmer();
+                }
+                else if(sourceActivity.equals("Buyer"))
+                {
+                    setDataAsBuyer();
+                }
+                else
+                {
+                    Toast.makeText(RegistrationActivity.this,"Error is selecting user typer.",Toast.LENGTH_SHORT);
+                }
+
+
 
             }
         });
     }
+
+    private void setDataAsFarmer() {
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("name",enterNameText.getText().toString());
+        user.put("phone",phoneNoText.getText().toString());
+        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
+        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
+        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
+        user.put("division",divisionText.getSelectedItem().toString());
+        user.put("district",districtText.getSelectedItem().toString());
+        user.put("union",unionText.getSelectedItem().toString());
+        user.put("subDivision",subDistrictText.getSelectedItem().toString());
+        user.put("village",villageText.getSelectedItem().toString());
+        user.put("occupation",occupationText.getText().toString());
+        user.put("thana",thanaText.getSelectedItem().toString());
+
+
+
+
+        db.collection("farmers").document(phoneNumber).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+    }
+
+    private void setDataAsBuyer() {
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("name",enterNameText.getText().toString());
+        user.put("phone",phoneNoText.getText().toString());
+        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
+        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
+        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
+        user.put("division",divisionText.getSelectedItem().toString());
+        user.put("district",districtText.getSelectedItem().toString());
+        user.put("union",unionText.getSelectedItem().toString());
+        user.put("subDivision",subDistrictText.getSelectedItem().toString());
+        user.put("village",villageText.getSelectedItem().toString());
+        user.put("occupation",occupationText.getText().toString());
+        user.put("thana",thanaText.getSelectedItem().toString());
+
+
+
+
+        db.collection("buyers").document(phoneNumber).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+    }
+
+
+
+
+
 }

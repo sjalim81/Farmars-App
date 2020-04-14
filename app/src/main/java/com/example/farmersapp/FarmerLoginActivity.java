@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -52,6 +53,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
 
     private String sentVerificationId, inputOtpCode;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,8 @@ public class FarmerLoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
+
+
         Log.d("calls", "2");
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +82,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
                 String phone_number = phoneNumberText.getText().toString().trim();
                 String complete_phone_number = country_code + phone_number;
                 if (phone_number.isEmpty()) {
+
                     Toast.makeText(getApplicationContext(), "Please Fill", Toast.LENGTH_LONG).show();
                 } else {
 //                    mLoginProgress.setVisibility(View.VISIBLE);
@@ -121,6 +126,8 @@ public class FarmerLoginActivity extends AppCompatActivity {
                // createOTPpopupDialog();
                 Intent otpIntent = new Intent(FarmerLoginActivity.this,VerificationActivity.class);
                 otpIntent.putExtra("AuthCredentials",s);
+                otpIntent.putExtra("phoneNumber",phoneNumberText.getText().toString());
+                otpIntent.putExtra("activity","Farmer");
                 startActivity(otpIntent);
 
             }

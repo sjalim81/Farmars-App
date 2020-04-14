@@ -100,10 +100,16 @@ public class VerificationActivity extends AppCompatActivity {
 
     private void registerPage(){
         Log.d("Print","9");
-        Intent HomeiNtent = new Intent(VerificationActivity.this,RegistrationActivity.class);
-        HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(HomeiNtent);
+        Intent registerIntent = new Intent(VerificationActivity.this,RegistrationActivity.class);
+        registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        String phone = getIntent().getExtras().getString("phoneNumber");
+        String activity = getIntent().getExtras().getString("activity");
+        registerIntent.putExtra("phoneNumber",phone);
+        registerIntent.putExtra("activity",activity);
+
+
+        startActivity(registerIntent);
         finish();
     }
 }

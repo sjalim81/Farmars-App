@@ -29,4 +29,77 @@
     <string name="otp_hint">ওয়ান টাইম পাসওয়ার্ড</string>
     <string name="otp_confirmText">পরবর্তী</string>
     <string name="occupation_text">পেশাঃ</string>
+    <string-array name="division_name">
+        <item>বরিশাল</item>
+        <item>সিলেট</item>
+    </string-array>
+
+
+    <string-array name="subDivision_name_barisal">
+        <item>ভোলা</item>
+        <item>পটুয়াখলি</item>
+    </string-array>
+
+
+
+    <string-array name="union_name_barisal">
+        <item>ভোলা</item>
+        <item>পটুয়াখলি</item>
+    </string-array>
+
+
+
+    <string-array name="thana_name_barisal">
+        <item>ভোলা</item>
+        <item>পটুয়াখলি</item>
+    </string-array>
+
+
+
+
+    <string-array name="district_name_barisal">
+        <item>ভোলা</item>
+        <item>পটুয়াখলি</item>
+    </string-array>
+
+
+
+    <string-array name="village_name_barisal">
+        <item>ভোলা</item>
+        <item>পটুয়াখলি</item>
+    </string-array>
+
+    <string-array name="date">
+        <item>১</item>
+        <item>২</item>
+        <item>৩</item>
+        <item>৪</item>
+
+
+    </string-array>
+
+    <string-array name="month">
+
+        <item>জানুয়ারি</item>
+        <item>ফেব্রুয়ারি</item>
+        <item>মার্চ</item>
+
+
+
+
+    </string-array>
+
+    <string-array name="year">
+        <item>১৯৭১</item>
+        <item>১৯৭২</item>
+        <item>১৯৭৩</item>
+        <item>১৯৭৩</item>
+
+
+    </string-array>
+
+
+
+
+
 </resources>
