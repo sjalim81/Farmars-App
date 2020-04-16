@@ -42,18 +42,13 @@
     <string-array name="thana_gazipur">
         <item>কাপাসিয়া</item>
         <item>কালিয়াকৈর</item>
-        <item>শ্রীপুর</item>
     </string-array>
 
     <string-array name="thana_dhaka">
         <item>আশুলিয়া</item>
         <item>ধামরাই</item>
     </string-array>
-    
-    <string-array name="thana_gazipur">
-        <item>জয়দেবপুর</item>
-        <item>টঙ্গী</item>
-    </string-array>
+
     
     <string-array name="thana_barisal">
         <item>বরিশাল</item>
@@ -107,20 +102,10 @@
         <item>উজিরপুর</item>
     </string-array>
 
-    <string-array name="thana_barisal">
-        <item>উজিরপুর</item>
-        <item>গৌরনদী</item>
-    </string-array>
 
     <string-array name="subDistrict_patuakhali">
         <item>কলাপাড়া</item>
         <item>গলাচিপা</item>
-    </string-array>
-
-    <string-array name="thana_patuakhali">
-        <item>গলাচিপা</item>
-        <item>কলাপাড়া</item>
-        <item>মহিপুর</item>
     </string-array>
 
     <string-array name="union_kolapara">
@@ -163,9 +148,7 @@
         <item>১৯৭২</item>
         <item>১৯৭৩</item>
         <item>১৯৭৩</item>
-
-
     </string-array>
-    
+
 
 </resources>
