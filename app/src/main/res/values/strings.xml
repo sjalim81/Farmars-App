@@ -31,42 +31,116 @@
     <string name="occupation_text">পেশাঃ</string>
     <string-array name="division_name">
         <item>বরিশাল</item>
-        <item>সিলেট</item>
+        <item>ঢাকা</item>
     </string-array>
 
-
-    <string-array name="subDivision_name_barisal">
-        <item>ভোলা</item>
-        <item>পটুয়াখলি</item>
+    <string-array name="district_dhaka">
+        <item>ঢাকা</item>
+        <item>গাজীপুর</item>
     </string-array>
 
-
-
-    <string-array name="union_name_barisal">
-        <item>ভোলা</item>
-        <item>পটুয়াখলি</item>
+    <string-array name="thana_gazipur">
+        <item>কাপাসিয়া</item>
+        <item>কালিয়াকৈর</item>
+        <item>শ্রীপুর</item>
     </string-array>
 
-
-
-    <string-array name="thana_name_barisal">
-        <item>ভোলা</item>
-        <item>পটুয়াখলি</item>
+    <string-array name="thana_dhaka">
+        <item>আশুলিয়া</item>
+        <item>ধামরাই</item>
+    </string-array>
+    
+    <string-array name="thana_gazipur">
+        <item>জয়দেবপুর</item>
+        <item>টঙ্গী</item>
+    </string-array>
+    
+    <string-array name="thana_barisal">
+        <item>বরিশাল</item>
+        <item>কাউনিয়া</item>
     </string-array>
 
-
-
-
-    <string-array name="district_name_barisal">
-        <item>ভোলা</item>
-        <item>পটুয়াখলি</item>
+    <string-array name="thana_patuakhali">
+        <item>পটুয়াখালী সদর</item>
+        <item>গলাচিপা</item>
     </string-array>
 
+    <string-array name="district_barisal">
+        <item>বরিশাল</item>
+        <item>পটুয়াখালী</item>
+    </string-array>
+
+    <string-array name="subDistrict_dhaka">
+        <item>সাভার</item>
+        <item>ধামরাই</item>
+    </string-array>
+
+    <string-array name="subDistrict_gazipur">
+        <item>কালিয়াকৈর</item>
+        <item>কাপাসিয়া</item>
+    </string-array>
+
+    <string-array name="union_savar">
+        <item>শিমুলিয়া</item>
+        <item>আশুলিয়া</item>
+    </string-array>
+
+    <string-array name="union_dhamrai">
+        <item>যাদবপুর</item>
+        <item>ভাড়ারিয়া</item>
+    </string-array>
+
+    <string-array name="union_kapashia">
+        <item>কাপাসিয়া</item>
+        <item>তরগাঁও</item>
+    </string-array>
+
+    <string-array name="union_kaliyakoir">
+        <item>বোয়ালী</item>
+        <item>ফুলবাড়ীয়া</item>
+    </string-array>
+    
 
 
-    <string-array name="village_name_barisal">
-        <item>ভোলা</item>
-        <item>পটুয়াখলি</item>
+    <string-array name="subDistrict_barisal">
+        <item>গৌরনদী</item>
+        <item>উজিরপুর</item>
+    </string-array>
+
+    <string-array name="thana_barisal">
+        <item>উজিরপুর</item>
+        <item>গৌরনদী</item>
+    </string-array>
+
+    <string-array name="subDistrict_patuakhali">
+        <item>কলাপাড়া</item>
+        <item>গলাচিপা</item>
+    </string-array>
+
+    <string-array name="thana_patuakhali">
+        <item>গলাচিপা</item>
+        <item>কলাপাড়া</item>
+        <item>মহিপুর</item>
+    </string-array>
+
+    <string-array name="union_kolapara">
+        <item>ধানখালী</item>
+        <item>নীলগঞ্জ</item>
+    </string-array>
+
+    <string-array name="union_golachipa">
+        <item>আমখোলা</item>
+        <item>ডাকুয়া</item>
+    </string-array>
+
+    <string-array name="union_gouronodi">
+        <item>খাঞ্জাপুর</item>
+        <item>চাঁদশী</item>
+    </string-array>
+
+    <string-array name="union_uzirpur">
+        <item>সাতলা</item>
+        <item>বরাকোঠা</item>
     </string-array>
 
     <string-array name="date">
@@ -75,7 +149,6 @@
         <item>৩</item>
         <item>৪</item>
 
-
     </string-array>
 
     <string-array name="month">
@@ -83,10 +156,6 @@
         <item>জানুয়ারি</item>
         <item>ফেব্রুয়ারি</item>
         <item>মার্চ</item>
-
-
-
-
     </string-array>
 
     <string-array name="year">
@@ -97,9 +166,6 @@
 
 
     </string-array>
-
-
-
-
+    
 
 </resources>

@@ -12,33 +12,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter otp"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:text="@string/otp_info_text"
+        android:gravity="center"
+        android:textSize="20sp"
         />
 
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="verification Code"
+        android:hint="@string/otp_hint"
         android:id="@+id/verificattion_code_et"
         android:layout_margin="40dp"
         android:inputType="number"
         android:textSize="20sp"
-        android:textColorHint="@android:color/black"
-        android:backgroundTint="@android:color/black"
-        android:textColor="@android:color/black"/>
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Button_otp"
-        android:background="@android:color/black"
-        android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:text="submit"
-        android:padding="10dp"/>
+        android:text="@string/otp_confirmText"
+        android:padding="10dp"
+        android:textStyle="bold"/>
 
 
 </LinearLayout>

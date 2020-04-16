@@ -8,42 +8,43 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:padding="24dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/otpTitle"
-                android:layout_centerHorizontal="true"
-                android:text="@string/otp_info_text"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            
-            <EditText
-                android:layout_marginTop="15dp"
-                android:id="@+id/otp_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="@string/otp_hint"
-                android:layout_below="@+id/otpTitle"/>
-
-            <Button
-                android:layout_marginTop="15dp"
-                android:id="@+id/otp_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/otp_confirmText"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_below="@id/otp_password"/>
-
-
-        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/otpTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/otp_info_text"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/otp_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/otpTitle"
+            android:layout_marginTop="15dp"
+            android:hint="@string/otp_hint"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/otp_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/otp_password"
+            android:layout_marginTop="15dp"
+            android:text="@string/otp_confirmText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
 
 </LinearLayout>
