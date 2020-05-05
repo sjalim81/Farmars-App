@@ -75,11 +75,11 @@ public class RegistrationActivity extends AppCompatActivity {
         month = getResources().getStringArray(R.array.month);
         year = getResources().getStringArray(R.array.year);
         division_name = getResources().getStringArray(R.array.division_name);
-        district_name_barisal = getResources().getStringArray(R.array.district_name_barisal);
-        subDivision_name_barisal = getResources().getStringArray(R.array.subDivision_name_barisal);
-        union_name_barisal =getResources().getStringArray(R.array.union_name_barisal);
-        thana_name_barisal =getResources().getStringArray(R.array.thana_name_barisal);
-        village_name_barisal =getResources().getStringArray(R.array.village_name_barisal);
+        district_name_barisal = getResources().getStringArray(R.array.district_barisal);
+        subDivision_name_barisal = getResources().getStringArray(R.array.subDistrict_barisal);
+        union_name_barisal =getResources().getStringArray(R.array.union_gouronodi);
+        thana_name_barisal =getResources().getStringArray(R.array.thana_barisal);
+        village_name_barisal =getResources().getStringArray(R.array.union_gouronodi);
 
 
         ArrayAdapter<String> date_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,date);
@@ -109,15 +109,14 @@ public class RegistrationActivity extends AppCompatActivity {
                 {
                     setDataAsFarmer();
                 }
-                else if(sourceActivity.equals("Buyer"))
-                {
-                    setDataAsBuyer();
-                }
-                else
-                {
-                    Toast.makeText(RegistrationActivity.this,"Error is selecting user typer.",Toast.LENGTH_SHORT);
-                }
-
+//                else if(sourceActivity.equals("Buyer"))
+//                {
+//                    setDataAsBuyer();
+//                }
+//                else
+//                {
+//                    Toast.makeText(RegistrationActivity.this,"Error is selecting user typer.",Toast.LENGTH_SHORT);
+//                }
 
 
             }
@@ -161,42 +160,42 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void setDataAsBuyer() {
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("name",enterNameText.getText().toString());
-        user.put("phone",phoneNoText.getText().toString());
-        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
-        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
-        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
-        user.put("division",divisionText.getSelectedItem().toString());
-        user.put("district",districtText.getSelectedItem().toString());
-        user.put("union",unionText.getSelectedItem().toString());
-        user.put("subDivision",subDistrictText.getSelectedItem().toString());
-        user.put("village",villageText.getSelectedItem().toString());
-        user.put("occupation",occupationText.getText().toString());
-        user.put("thana",thanaText.getSelectedItem().toString());
-
-
-
-
-        db.collection("buyers").document(phoneNumber).set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-    }
+//    private void setDataAsBuyer() {
+//
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("name",enterNameText.getText().toString());
+//        user.put("phone",phoneNoText.getText().toString());
+//        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
+//        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
+//        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
+//        user.put("division",divisionText.getSelectedItem().toString());
+//        user.put("district",districtText.getSelectedItem().toString());
+//        user.put("union",unionText.getSelectedItem().toString());
+//        user.put("subDivision",subDistrictText.getSelectedItem().toString());
+//        user.put("village",villageText.getSelectedItem().toString());
+//        user.put("occupation",occupationText.getText().toString());
+//        user.put("thana",thanaText.getSelectedItem().toString());
+//
+//
+//
+//
+//        db.collection("buyers").document(phoneNumber).set(user)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                });
+//
+//
+//    }
 
 
 

@@ -29,6 +29,13 @@
     <string name="otp_hint">ওয়ান টাইম পাসওয়ার্ড</string>
     <string name="otp_confirmText">পরবর্তী</string>
     <string name="occupation_text">পেশাঃ</string>
+
+    <string name="home">হোম</string>
+    <string name="marketplace">কেনা-বেচা</string>
+    <string name="blog">ব্লগ</string>
+    <string name="vehicle_tracking">যন্ত্রপাতি খুঁজুন</string>
+    <string name="more">আরও</string>
+
     <string-array name="division_name">
         <item>বরিশাল</item>
         <item>ঢাকা</item>
@@ -49,7 +56,7 @@
         <item>ধামরাই</item>
     </string-array>
 
-    
+
     <string-array name="thana_barisal">
         <item>বরিশাল</item>
         <item>কাউনিয়া</item>
@@ -94,7 +101,6 @@
         <item>বোয়ালী</item>
         <item>ফুলবাড়ীয়া</item>
     </string-array>
-    
 
 
     <string-array name="subDistrict_barisal">

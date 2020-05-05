@@ -19,21 +19,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         login_as_farmer = findViewById(R.id.login_as_farmer);
-        login_as_buyer = findViewById(R.id.login_as_buyer);
+
 
         login_as_farmer.setOnClickListener(this);
-        login_as_buyer.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login_as_farmer:
-                startActivity(new Intent(MainActivity.this, FarmerLoginActivity.class));
-                break;
-            case R.id.login_as_buyer:
-                startActivity(new Intent(MainActivity.this, BuyerLoginActivity.class));
-                break;
+        if (v.getId() == R.id.login_as_farmer) {
+            startActivity(new Intent(MainActivity.this, FarmerLoginActivity.class));
         }
 
     }

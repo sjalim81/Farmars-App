@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_bottomNavigation"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/blog_bottomNavigation"
+        android:icon="@drawable/ic_forum_black_24dp"
+        android:title="@string/blog"/>
+    <item
+        android:id="@+id/marketPlace_bottomNavigation"
+        android:icon="@drawable/ic_shopping_black_24dp"
+        android:title="@string/marketplace"/>
+
+    <item
+        android:id="@+id/vehicleTrack_bottomNavigation"
+        android:icon="@drawable/ic_track_vehicle_black_24dp"
+        android:title="@string/vehicle_tracking"/>
+    <item
+        android:id="@+id/more_bottomNavigation"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:title="@string/more"/>
+</menu>
