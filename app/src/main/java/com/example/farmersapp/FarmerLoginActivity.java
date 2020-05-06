@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
@@ -28,6 +29,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -54,6 +60,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks McallBack;
 
     private String sentVerificationId, inputOtpCode;
+    String phone_number;
 
 
     @Override
@@ -80,7 +87,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String country_code = "+88";
-                String phone_number = phoneNumberText.getText().toString().trim();
+                phone_number = phoneNumberText.getText().toString().trim();
                 String complete_phone_number = country_code + phone_number;
                 if (phone_number.isEmpty()) {
 
@@ -122,7 +129,13 @@ public class FarmerLoginActivity extends AppCompatActivity {
                 sentVerificationId = s;
 //                Log.d("printId",s);
                 Log.d("calls", "4");
-                createOTPpopupDialog();
+                //createOTPpopupDialog();
+                Intent otpIntent = new Intent(FarmerLoginActivity.this,otpActivity.class);
+                otpIntent.putExtra("AuthCredentials",s);
+                otpIntent.putExtra("phone",phone_number);
+                Log.d("checked","farmerloginactivity "+phone_number+"  ");
+                startActivity(otpIntent);
+
 
             }
         };
@@ -138,6 +151,9 @@ public class FarmerLoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+
+
+
                                     registerPage();
                                 }
                                 // mLoginProgress.setVisibility(View.VISIBLE);
@@ -156,16 +172,16 @@ public class FarmerLoginActivity extends AppCompatActivity {
     private void registerPage() {
         Log.d("calls", "8");
         new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                            Intent registerIntent = new Intent(FarmerLoginActivity.this,RegistrationActivity.class);
-                            registerIntent.putExtra("phoneNumber",phoneNumberText.getText().toString());
-                            registerIntent.putExtra("activity","Farmer");
-                            startActivity(registerIntent);
-                            finish();
-                        }
-                    },2000);
+            @Override
+            public void run() {
+                //dialog.dismiss();
+                Intent registerIntent = new Intent(FarmerLoginActivity.this, RegistrationActivity.class);
+                registerIntent.putExtra("phoneNumber", phoneNumberText.getText().toString());
+                registerIntent.putExtra("activity", "Farmer");
+                startActivity(registerIntent);
+                finish();
+            }
+        }, 2000);
 
     }
 
@@ -209,10 +225,21 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onStart();
         Log.d("calls", "1");
         if (mCurrentUser != null) {
-//            registerPage();
-//            sendUserhome();
+
+            sendUserhome();
         }
 
     }
+
+    private void sendUserhome() {
+
+
+        Intent homeIntent = new Intent(FarmerLoginActivity.this, ExploreActivity.class);
+        homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(homeIntent);
+        finish();
+    }
+
 
 }

@@ -7,4 +7,18 @@
     <color name="color_bottom_navigation">#d9bf77</color>
     <color name="color_menu_selected">#2b580c</color>
     <color name="color_menu_notSelected">#639a67</color>
+
+
+    <color name="white">#ffffff</color>
+
+
+
+
+
+    <color name="card_bg_color">#f6f6f6</color>
+    <color name="card_bg_dark_color">#0e0e0e</color>
+    <color name="title_text_color">#258bd6</color>
+    <color name="content_text_color">#999da4</color>
+
+    <color name="black" >#000000</color>
 </resources>

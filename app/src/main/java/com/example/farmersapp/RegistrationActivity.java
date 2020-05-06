@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText enterNameText, phoneNoText, occupationText;
     Spinner birth_dayText, birth_monthText, birth_yearText, divisionText, districtText,
-                        subDistrictText, unionText, thanaText,villageText;
+            subDistrictText, unionText, thanaText, villageText;
     private Button regConfirmButton;
 
     //Declaration for PopUp
@@ -40,8 +41,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
-    private String division_name[],district_name_barisal[],union_name_barisal[],subDivision_name_barisal[],village_name_barisal[],thana_name_barisal[];
-    private String date[],month[],year[];
+    private String division_name[], district_name_barisal[], union_name_barisal[], subDivision_name_barisal[], village_name_barisal[], thana_name_barisal[];
+    private String date[], month[], year[];
 
 
     @Override
@@ -53,8 +54,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         enterNameText = findViewById(R.id.regActivity_name);
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
-       // pinText = findViewById(R.id.regActivity_pin);
-      //  confirmPinText = findViewById(R.id.regActivity_confirmPin);
         occupationText = findViewById(R.id.regActivity_occupation);
         birth_dayText = findViewById(R.id.regActivity_birth_day);
         birth_monthText = findViewById(R.id.regActivity_birth_month);
@@ -62,12 +61,12 @@ public class RegistrationActivity extends AppCompatActivity {
         divisionText = findViewById(R.id.regActivity_division);
         districtText = findViewById(R.id.regActivity_district);
         subDistrictText = findViewById(R.id.regActivity_subDistrict);
-        unionText =findViewById(R.id.regActivity_union);
+        unionText = findViewById(R.id.regActivity_union);
         thanaText = findViewById(R.id.regActivity_thana);
         villageText = findViewById(R.id.regActivity_village);
         regConfirmButton = findViewById(R.id.regActivity_confimButton);
 
-        phoneNumber = getIntent().getExtras().getString("phoneNumber");
+        phoneNumber = getIntent().getExtras().getString("phone");
         sourceActivity = getIntent().getExtras().getString("activity");
 
 
@@ -77,20 +76,20 @@ public class RegistrationActivity extends AppCompatActivity {
         division_name = getResources().getStringArray(R.array.division_name);
         district_name_barisal = getResources().getStringArray(R.array.district_barisal);
         subDivision_name_barisal = getResources().getStringArray(R.array.subDistrict_barisal);
-        union_name_barisal =getResources().getStringArray(R.array.union_gouronodi);
-        thana_name_barisal =getResources().getStringArray(R.array.thana_barisal);
-        village_name_barisal =getResources().getStringArray(R.array.union_gouronodi);
+        union_name_barisal = getResources().getStringArray(R.array.union_gouronodi);
+        thana_name_barisal = getResources().getStringArray(R.array.thana_barisal);
+        village_name_barisal = getResources().getStringArray(R.array.union_gouronodi);
 
 
-        ArrayAdapter<String> date_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,date);
-        ArrayAdapter<String> month_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,month);
-        ArrayAdapter<String> year_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,year);
-        ArrayAdapter<String> division_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,division_name);
-        ArrayAdapter<String> district_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,district_name_barisal);
-        ArrayAdapter<String> subDivision_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,subDivision_name_barisal);
-        ArrayAdapter<String> union_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,union_name_barisal);
-        ArrayAdapter<String> thana_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,thana_name_barisal);
-        ArrayAdapter<String> village_adpter = new ArrayAdapter<String>(this,R.layout.sample_layout_spinner,R.id.sample_textView,village_name_barisal);
+        ArrayAdapter<String> date_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, date);
+        ArrayAdapter<String> month_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, month);
+        ArrayAdapter<String> year_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, year);
+        ArrayAdapter<String> division_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, division_name);
+        ArrayAdapter<String> district_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, district_name_barisal);
+        ArrayAdapter<String> subDivision_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, subDivision_name_barisal);
+        ArrayAdapter<String> union_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, union_name_barisal);
+        ArrayAdapter<String> thana_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, thana_name_barisal);
+        ArrayAdapter<String> village_adpter = new ArrayAdapter<String>(this, R.layout.sample_layout_spinner, R.id.sample_textView, village_name_barisal);
 
         birth_dayText.setAdapter(date_adpter);
         birth_monthText.setAdapter(month_adpter);
@@ -105,18 +104,8 @@ public class RegistrationActivity extends AppCompatActivity {
         regConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sourceActivity.equals("Farmer"))
-                {
-                    setDataAsFarmer();
-                }
-//                else if(sourceActivity.equals("Buyer"))
-//                {
-//                    setDataAsBuyer();
-//                }
-//                else
-//                {
-//                    Toast.makeText(RegistrationActivity.this,"Error is selecting user typer.",Toast.LENGTH_SHORT);
-//                }
+                setDataAsFarmer();
+
 
 
             }
@@ -126,79 +115,49 @@ public class RegistrationActivity extends AppCompatActivity {
     private void setDataAsFarmer() {
 
         Map<String, Object> user = new HashMap<>();
-        user.put("name",enterNameText.getText().toString());
-        user.put("phone",phoneNoText.getText().toString());
-        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
-        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
-        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
-        user.put("division",divisionText.getSelectedItem().toString());
-        user.put("district",districtText.getSelectedItem().toString());
-        user.put("union",unionText.getSelectedItem().toString());
-        user.put("subDivision",subDistrictText.getSelectedItem().toString());
-        user.put("village",villageText.getSelectedItem().toString());
-        user.put("occupation",occupationText.getText().toString());
-        user.put("thana",thanaText.getSelectedItem().toString());
+        user.put("name", enterNameText.getText().toString());
+        user.put("phone", phoneNoText.getText().toString());
+        user.put("dayOfBirth", birth_dayText.getSelectedItem().toString());
+        user.put("monthOfBirth", birth_monthText.getSelectedItem().toString());
+        user.put("yearOfBirth", birth_yearText.getSelectedItem().toString());
+        user.put("division", divisionText.getSelectedItem().toString());
+        user.put("district", districtText.getSelectedItem().toString());
+        user.put("union", unionText.getSelectedItem().toString());
+        user.put("subDivision", subDistrictText.getSelectedItem().toString());
+        user.put("village", villageText.getSelectedItem().toString());
+        user.put("occupation", occupationText.getText().toString());
+        user.put("thana", thanaText.getSelectedItem().toString());
+        user.put("logedInPhoneNumber", phoneNumber);
+        Log.d("checked","register activity"+phoneNumber+"  ");
 
-
-
-
-        db.collection("farmers").document(phoneNumber).set(user)
+        db.collection("users").document(phoneNumber).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
+                        sendUserhome();
+
+                        Toast.makeText(RegistrationActivity.this, "You are registered!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
 
     }
-
-//    private void setDataAsBuyer() {
-//
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("name",enterNameText.getText().toString());
-//        user.put("phone",phoneNoText.getText().toString());
-//        user.put("dayOfBirth",birth_dayText.getSelectedItem().toString());
-//        user.put("monthOfBirth",birth_monthText.getSelectedItem().toString());
-//        user.put("yearOfBirth",birth_yearText.getSelectedItem().toString());
-//        user.put("division",divisionText.getSelectedItem().toString());
-//        user.put("district",districtText.getSelectedItem().toString());
-//        user.put("union",unionText.getSelectedItem().toString());
-//        user.put("subDivision",subDistrictText.getSelectedItem().toString());
-//        user.put("village",villageText.getSelectedItem().toString());
-//        user.put("occupation",occupationText.getText().toString());
-//        user.put("thana",thanaText.getSelectedItem().toString());
-//
-//
-//
-//
-//        db.collection("buyers").document(phoneNumber).set(user)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(RegistrationActivity.this,"You are registered!",Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(RegistrationActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                });
-//
-//
-//    }
-
-
-
+    private void sendUserhome(){
+        Log.d("Print","6");
+        Intent homeIntent = new Intent(RegistrationActivity.this,ExploreActivity.class);
+        homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        homeIntent.putExtra("phone",phoneNumber);
+        startActivity(homeIntent);
+        finish();
+    }
 
 
 }
