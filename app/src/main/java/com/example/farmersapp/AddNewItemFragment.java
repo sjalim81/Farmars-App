@@ -447,6 +447,11 @@ public class AddNewItemFragment extends Fragment {
 
                             }
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("checked",e.toString());
+                        }
                     });
 
                     Task<Uri> uriTask1 = uploadTask1.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

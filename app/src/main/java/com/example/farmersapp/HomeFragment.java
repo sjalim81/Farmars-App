@@ -1,14 +1,23 @@
 package com.example.farmersapp;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -22,7 +31,9 @@ public class HomeFragment extends Fragment {
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
 
-  private Button cultivationButon,microloanButton,poultryButton,diseaseButton,infoButton,suggestionButton;
+  private Button learnMore;
+  private ImageView click_cultivation, click_microloan, click_poultry, click_disease, click_information, click_suggestion;
+  RecyclerView recyclerView_stories;
 
   FragmentManager fragmentManager;
 
@@ -34,15 +45,6 @@ public class HomeFragment extends Fragment {
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment HomeFragment.
-   */
-  // TODO: Rename and change types and number of parameters
   public static HomeFragment newInstance(String param1, String param2) {
     HomeFragment fragment = new HomeFragment();
     Bundle args = new Bundle();
@@ -61,9 +63,6 @@ public class HomeFragment extends Fragment {
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
 
-
-
-
   }
 
   @Override
@@ -71,63 +70,118 @@ public class HomeFragment extends Fragment {
       Bundle savedInstanceState) {
     View convertView = inflater.inflate(R.layout.fragment_home, container, false);
 
-    cultivationButon =  convertView.findViewById(R.id.button_cultivation);
-    microloanButton = convertView.findViewById(R.id.button_microloan);
-    diseaseButton = convertView.findViewById(R.id.button_disease);
-    poultryButton = convertView.findViewById(R.id.button_poultry);
-    suggestionButton = convertView.findViewById(R.id.button_suggestion);
-    infoButton = convertView.findViewById(R.id.button_info);
+    click_cultivation = convertView.findViewById(R.id.click_cultivation);
+    click_microloan = convertView.findViewById(R.id.click_microloan);
+    click_disease = convertView.findViewById(R.id.click_disease);
+    click_poultry = convertView.findViewById(R.id.click_poultry);
+    click_suggestion = convertView.findViewById(R.id.click_suggestion);
+    click_information = convertView.findViewById(R.id.click_information);
+    learnMore = convertView.findViewById(R.id.learnMore);
+    recyclerView_stories = convertView.findViewById(R.id.recyclerView_stories);
+
+//    recyclerView_stories.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false ));
 
 
-    cultivationButon.setOnClickListener(new View.OnClickListener() {
+    click_information.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        clickAnimation(v);
 
-        Fragment fragment = new CultivationFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            Fragment fragment = new CultivationFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+          }
+        },300);
       }
     });
 
-    microloanButton.setOnClickListener(new View.OnClickListener() {
+    click_microloan.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        clickAnimation(v);
+
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+
+          }
+        },300);
 
       }
     });
 
-    diseaseButton.setOnClickListener(new View.OnClickListener() {
+    click_disease.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        clickAnimation(v);
+
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+
+          }
+        },300);
+      }
+    });
+
+    click_poultry.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        clickAnimation(v);
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+
+          }
+        },300);
 
       }
     });
 
-    poultryButton.setOnClickListener(new View.OnClickListener() {
+    click_cultivation.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        clickAnimation(v);
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
 
+          }
+        },300);
       }
     });
 
-    infoButton.setOnClickListener(new View.OnClickListener() {
+    click_suggestion.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        clickAnimation(v);
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
 
+          }
+        },300);
       }
     });
 
-    suggestionButton.setOnClickListener(new View.OnClickListener() {
+    learnMore.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
       }
     });
 
     return convertView;
+  }
+
+  private void clickAnimation(View v) {
+    Animation animShake = AnimationUtils.loadAnimation(getActivity(),R.anim.shake_button);
+    v.startAnimation(animShake);
   }
 }

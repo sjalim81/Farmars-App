@@ -57,8 +57,8 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
         holder.textView_productId.setText(curretItem.getProductId());
         holder.textView_price.setText(curretItem.getProductPrice());
         holder.textView_title.setText(curretItem.getProductTitle());
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/user_image1/").child(curretItem.getProductId() + ".jpg");
-        try {
+            try {   StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/user_image1/").child(curretItem.getProductId() + ".jpg");
+
             final File file = File.createTempFile("image", "jpg");
             storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
@@ -69,7 +69,7 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("checked",e.toString());
         }
 
     }

@@ -36,6 +36,18 @@
     <string name="vehicle_tracking">যন্ত্রপাতি খুঁজুন</string>
     <string name="more">আরও</string>
 
+<!--    String names for HomeFragment-->
+    <string name="categories">ক্যাটেগরিস্</string>
+    <string name="information">শস্যের তালিকা</string>
+    <string name="cultivation">চাষাবাদের নিয়ম</string>
+    <string name="poultry">পোল্ট্রি ফার্ম</string>
+    <string name="suggestions">পরামর্শ</string>
+    <string name="disease">শস্যের রোগসনাক্ত</string>
+    <string name="mircoloan">মাইক্রো-লোন</string>
+    <string name="stories">সাফল্যতার জয়</string>
+    <string name="howItWorks">অ্যাপটি কীভাবে কাজ করে?</string>
+    <string name="learnMore">আরও জানুন</string>
+
     <string-array name="division_name">
         <item>বরিশাল</item>
         <item>ঢাকা</item>
