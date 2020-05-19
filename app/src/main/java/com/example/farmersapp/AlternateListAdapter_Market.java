@@ -96,19 +96,6 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
                 .into(holder.imageView);
 
 
-//
-//        mStorage= FirebaseStorage.getInstance();
-//        StorageReference   mStorageRef = mStorage.getReferenceFromUrl("gs://farmersapp-31e06.appspot.com");
-//        StorageReference spaceRef = mStorageRef.child("user_image1/"+curretItem.getProductId() + ".jpg");
-//        String url = spaceRef.getBucket();
-//
-//
-//        System.out.println("Here is the print of url : "+url);
-//        Picasso.get().load(url)
-//                .error(R.mipmap.ic_launcher).
-//                resize(100, 100)
-//                .placeholder(R.mipmap.ic_launcher).into(holder.imageView);
-
 
 
 

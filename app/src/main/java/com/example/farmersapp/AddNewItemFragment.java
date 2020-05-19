@@ -666,12 +666,12 @@ return dateTime;
                 if(calledChoose==1)
 
                 {
-                    imageUri = Uri.fromFile(new File(path));
+                    imageUri = data.getData();
                     imageView1.setImageURI(imageUri);
                 }
                 else if(calledChoose == 2)
                 {
-                    imageUri1 = Uri.fromFile(new File(path));
+                    imageUri1 = data.getData();
                     imageView2.setImageURI(imageUri1);
 
                 }
