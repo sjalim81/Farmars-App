@@ -16,16 +16,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +38,12 @@ import java.util.List;
 
 public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateListAdapter_Market.AlternateListHolder_Market> implements Filterable {
 
-     List<productsListOfMarketFirestore>filterList;
-     List<productsListOfMarketFirestore>mainList;
-     Context mContext;
+    List<productsListOfMarketFirestore> filterList;
+    List<productsListOfMarketFirestore> mainList;
+    Context mContext;
+    private FirebaseStorage mStorage;
+
+
 
     @NonNull
     @Override
@@ -51,26 +58,59 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
     public void onBindViewHolder(@NonNull final AlternateListHolder_Market holder, int position) {
 
         productsListOfMarketFirestore curretItem = filterList.get(position);
-        holder.imageView.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_transition_animation));
-        holder.container.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_scale_animation));
+        holder.imageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_transition_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_scale_animation));
 
         holder.textView_productId.setText(curretItem.getProductId());
         holder.textView_price.setText(curretItem.getProductPrice());
         holder.textView_title.setText(curretItem.getProductTitle());
-            try {   StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/user_image1/").child(curretItem.getProductId() + ".jpg");
+        holder.textView_uploadedTime.setText((curretItem.getProductUploadedTime()));
+        if (curretItem.getProductSoldStatus().equals("no")) {
+            holder.imageView_soldOut.setVisibility(View.INVISIBLE);
+        } else {
+            holder.imageView_soldOut.setVisibility(View.VISIBLE);
 
-            final File file = File.createTempFile("image", "jpg");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    holder.imageView.setImageBitmap(bitmap);
 
-                }
-            });
-        } catch (IOException e) {
-            Log.d("checked",e.toString());
         }
+//        try {
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/user_image1/").child(curretItem.getProductId() + ".jpg");
+//
+//            final File file = File.createTempFile("image", "jpg");
+//            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                    holder.imageView.setImageBitmap(bitmap);
+//                }
+//            });
+//        } catch (IOException e) {
+//            Log.d("checked", e.toString());
+//        }
+
+
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/user_image1/").child(curretItem.getProductId() + ".jpg");
+        Log.d("checkedimage",storageReference.toString());
+        GlideApp.with(holder.imageView.getContext())
+                .load(storageReference)
+                .into(holder.imageView);
+
+
+//
+//        mStorage= FirebaseStorage.getInstance();
+//        StorageReference   mStorageRef = mStorage.getReferenceFromUrl("gs://farmersapp-31e06.appspot.com");
+//        StorageReference spaceRef = mStorageRef.child("user_image1/"+curretItem.getProductId() + ".jpg");
+//        String url = spaceRef.getBucket();
+//
+//
+//        System.out.println("Here is the print of url : "+url);
+//        Picasso.get().load(url)
+//                .error(R.mipmap.ic_launcher).
+//                resize(100, 100)
+//                .placeholder(R.mipmap.ic_launcher).into(holder.imageView);
+
+
+
 
     }
 
@@ -84,7 +124,8 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
 
         return filteredData;
     }
-    private   Filter filteredData= new Filter() {
+
+    private Filter filteredData = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<productsListOfMarketFirestore> filteredList = new ArrayList<>();
@@ -96,7 +137,7 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
 
                 for (productsListOfMarketFirestore item : mainList) {
                     if (item.getProductTitle().toLowerCase().contains(filterPattern)) {
-                        Log.d("checked","productTitle check "+item.getProductTitle());
+                        Log.d("checked", "productTitle check " + item.getProductTitle());
                         filteredList.add(item);
                     }
                 }
@@ -113,24 +154,27 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            filterList =(List<productsListOfMarketFirestore>)results.values;
+            filterList = (List<productsListOfMarketFirestore>) results.values;
             notifyDataSetChanged();
         }
     };
-    class AlternateListHolder_Market extends RecyclerView.ViewHolder{
 
-        ImageView imageView;
+    class AlternateListHolder_Market extends RecyclerView.ViewHolder {
+
+        ImageView imageView, imageView_soldOut;
         TextView textView_title;
-        TextView textView_price,textView_productId;
-        RelativeLayout container;
+        TextView textView_price, textView_productId, textView_uploadedTime;
+        ConstraintLayout container;
 
         public AlternateListHolder_Market(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView_item_market);
+            imageView_soldOut = itemView.findViewById(R.id.imageView_soldOut);
             textView_title = itemView.findViewById(R.id.textView_item_title_market);
             textView_price = itemView.findViewById(R.id.textView_price);
             textView_productId = itemView.findViewById(R.id.textView_productId);
+            textView_uploadedTime = itemView.findViewById(R.id.textView_time);
             container = itemView.findViewById(R.id.item_container_market);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,18 +203,17 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
         }
     }
 
-    AlternateListAdapter_Market(List<productsListOfMarketFirestore > exampleList,Context Context) {
+    AlternateListAdapter_Market(List<productsListOfMarketFirestore> exampleList, Context Context) {
         this.filterList = exampleList;
         this.mainList = exampleList;
         this.mContext = Context;
     }
 
 
-public void setFilterList(List<productsListOfMarketFirestore> mList)
-{
-    this.filterList = mList;
-    notifyDataSetChanged();
-}
+    public void setFilterList(List<productsListOfMarketFirestore> mList) {
+        this.filterList = mList;
+        notifyDataSetChanged();
+    }
 
 
 }
