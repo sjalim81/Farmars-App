@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,7 +47,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -503,6 +510,12 @@ public class AddNewItemFragment extends Fragment {
 
     private void storeData(String productRegion, String productArea, String productCategory, String productTitle, String productDescription, String productPrice, String productCondition) {
 
+        DateFormat df = SimpleDateFormat.getDateTimeInstance();
+        String dateText = df.format(new Date());
+
+        String banglaDateTime = banglaDateTimeMaker(dateText);
+
+
         Map<String,String> productData = new HashMap<>();
         productData.put("productOwner",userId);
         productData.put("productId",productIdString);
@@ -513,6 +526,8 @@ public class AddNewItemFragment extends Fragment {
         productData.put("productDescription",productDescription);
         productData.put("productPrice",productPrice);
         productData.put("productCondition",productCondition);
+        productData.put("productUploadedTime", banglaDateTime);
+        productData.put("productSoldStatus","no");
 
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -538,6 +553,92 @@ public class AddNewItemFragment extends Fragment {
         databaseReferenceId.set(mp);
 
 
+
+    }
+
+    private String banglaDateTimeMaker(String dateText) {
+        String dateTime="";
+
+        String[] tokens = dateText.split(" ");
+
+
+        for (int i = 0; i < tokens.length; i++) {
+            String temp="";
+
+            if (i == 1 || i == 4) {
+                if (tokens[i].equals("January")) {
+                    temp = "জানু";
+
+                } else if (tokens[i].equals("February")) {
+                    temp = "ফেব্রু";
+
+                } else if (tokens[i].equals("March")) {
+                    temp = "মার্চ";
+
+                } else if (tokens[i].equals("April")) {
+                    temp = "এপ্রিল";
+                } else if (tokens[i].equals("May")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("June")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("July")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("August")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("September")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("October")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("November")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("December")) {
+                    temp = "মে";
+                } else if (tokens[i].equals("am")) {
+                    temp = "সকাল";
+                } else if (tokens[i].equals("pm")) {
+                    temp = "রাত";
+                }
+            } else {
+                temp ="";
+                for (int j = 0; j < tokens[i].length(); j++) {
+                    if ('0' <= tokens[i].charAt(j) && tokens[i].charAt(j) <= '9') {
+                        if (tokens[i].charAt(j) == '0') {
+                            temp += "০";
+
+                        } else if (tokens[i].charAt(j) == '1') {
+                            temp += "১";
+
+                        } else if (tokens[i].charAt(j) == '2') {
+                            temp += "২";
+                        } else if (tokens[i].charAt(j) == '3') {
+                            temp += "৩";
+                        } else if (tokens[i].charAt(j) == '4') {
+                            temp += "৪";
+                        } else if (tokens[i].charAt(j) == '5') {
+                            temp += "৫";
+                        } else if (tokens[i].charAt(j) == '6') {
+                            temp += "৬";
+                        } else if (tokens[i].charAt(j) == '7') {
+                            temp += "৭";
+                        } else if (tokens[i].charAt(j) == '8') {
+                            temp += "৮";
+                        } else if (tokens[i].charAt(j) == '9') {
+                            temp += "৯";
+                        }
+                    } else {
+                        temp += ":";
+                    }
+                }
+
+            }
+            tokens[i] = temp;
+        }
+        for(String str:tokens)
+        {
+            dateTime += str+" ";
+        }
+        Log.d("checked",dateTime);
+return dateTime;
 
     }
 

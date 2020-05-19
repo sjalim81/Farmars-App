@@ -90,13 +90,7 @@ public class HomeFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
           @Override
           public void run() {
-            Fragment fragment = new CultivationFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
-            fragmentTransaction.replace(R.id.container, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+
           }
         },300);
       }
@@ -152,7 +146,13 @@ public class HomeFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
           @Override
           public void run() {
-
+            Fragment fragment = new CultivationFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
           }
         },300);
       }

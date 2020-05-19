@@ -3,12 +3,12 @@ package com.example.farmersapp;
 public class productsListOfMarketFirestore  {
 
     String productArea,productCategory,productCondition,productDescription;
-    String productId,productOwner,productPrice,productRegion,productTitle;
+    String productId,productOwner,productPrice,productRegion,productTitle,productUploadedTime,productSoldStatus;
 
     public productsListOfMarketFirestore() {
     }
 
-    public productsListOfMarketFirestore(String productArea, String productCategory, String productCondition, String productDescription, String productId, String productOwner, String productPrice, String productRegion, String productTitle) {
+    public productsListOfMarketFirestore(String productArea, String productCategory, String productCondition, String productDescription, String productId, String productOwner, String productPrice, String productRegion, String productTitle,String productUploadedTime,String productSoldStatus) {
         this.productArea = productArea;
         this.productCategory = productCategory;
         this.productCondition = productCondition;
@@ -18,6 +18,8 @@ public class productsListOfMarketFirestore  {
         this.productPrice = productPrice;
         this.productRegion = productRegion;
         this.productTitle = productTitle;
+        this.productUploadedTime = productUploadedTime;
+        this.productSoldStatus = productSoldStatus;
     }
 
     public String getProductArea() {
@@ -54,5 +56,13 @@ public class productsListOfMarketFirestore  {
 
     public String getProductTitle() {
         return productTitle;
+    }
+
+    public String getProductUploadedTime() {
+        return productUploadedTime;
+    }
+
+    public String getProductSoldStatus() {
+        return productSoldStatus;
     }
 }
