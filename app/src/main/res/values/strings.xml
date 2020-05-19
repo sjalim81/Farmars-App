@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">FarmersApp</string>
+    <string name="your_name">নাম:</string>
+    <string name="your_phoneno">মোবাইল নম্বর:</string>
     <string name="login_as_farmerText">কৃষিজীবী হিসেবে লগ ইন করুন</string>
     <string name="login_as_buyerText">ক্রেতা হিসেবে লগ ইন করুন</string>
     <string name="enter_phoneText">মোবাইল নম্বর দিন</string>
@@ -36,7 +38,7 @@
     <string name="vehicle_tracking">যন্ত্রপাতি খুঁজুন</string>
     <string name="more">আরও</string>
 
-<!--    String names for HomeFragment-->
+    <!--    String names for HomeFragment-->
     <string name="categories">ক্যাটেগরিস্</string>
     <string name="information">শস্যের তালিকা</string>
     <string name="cultivation">চাষাবাদের নিয়ম</string>
@@ -173,6 +175,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="give_rent">সরঞ্জাম ভাড়া দিয়েছেন:</string>
+    <string name="take_rent">সরঞ্জাম ভাড়া নিয়েছেন:</string>
+    <string name="edit_profile">সম্পাদনা করুন</string>
+    <string name="list_of_selling_text">আপনার বিক্রয়ের তালিকাঃ</string>
+    <string name="no_sell_post">আপনি একটিও বিক্রয়ের পোস্ট দেননি</string>
 
 
     <string-array name="region">
