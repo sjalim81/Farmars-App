@@ -26,7 +26,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class otpActivity extends AppCompatActivity {
 
@@ -55,6 +54,7 @@ public class otpActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         mAuthVerificationId = getIntent().getStringExtra("AuthCredentials");
+        phoneNumber = getIntent().getExtras().getString("phone");
 
         mVerifybtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,7 @@ public class otpActivity extends AppCompatActivity {
         Intent homeIntent = new Intent(otpActivity.this, ExploreActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        phoneNumber = getIntent().getExtras().getString("phone");
+
         homeIntent.putExtra("phone", phoneNumber);
         startActivity(homeIntent);
         finish();
@@ -122,7 +122,7 @@ public class otpActivity extends AppCompatActivity {
         Intent HomeiNtent = new Intent(otpActivity.this, RegistrationActivity.class);
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        phoneNumber = getIntent().getExtras().getString("phone");
+
         Log.d("checked","otp activity"+phoneNumber+"  ");
         HomeiNtent.putExtra("phone", phoneNumber);
         startActivity(HomeiNtent);
@@ -131,14 +131,14 @@ public class otpActivity extends AppCompatActivity {
 
     private void numberExistenceCheck() {
 
-        Log.d("checked","start number check");
+        Log.d("checked","start number check "+ phoneNumber);
 
         final DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                DocumentSnapshot documentSnapshot = task.getResult();
-                if(task.isSuccessful())
+                if(documentSnapshot.exists())
                 {
 
                     Log.d("checked",phoneNumber+ " document is found!");
@@ -148,8 +148,9 @@ public class otpActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    registerPage();
+
                     Log.d("checked","otp check document existence not found");
+                    registerPage();
                 }
 
             }
