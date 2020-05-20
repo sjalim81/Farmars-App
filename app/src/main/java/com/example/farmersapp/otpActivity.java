@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -37,7 +39,7 @@ public class otpActivity extends AppCompatActivity {
 
     private ProgressBar verifyProgressBar;
     private String mAuthVerificationId, phoneNumber;
-    private CollectionReference farmersCollectionRef = FirebaseFirestore.getInstance().collection("users");
+    private CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
     @Override
@@ -130,25 +132,51 @@ public class otpActivity extends AppCompatActivity {
     private void numberExistenceCheck() {
 
         Log.d("cheched","start number check");
-        farmersCollectionRef.whereEqualTo("logedInPhoneNumber", phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    Log.d("checked", "number found");
-
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+               DocumentSnapshot documentSnapshot = task.getResult();
+                if(task.isSuccessful())
+                {
                     senduserHome();
-                } else {
-                    registerPage();
-                    Log.d("checked", "number not found");
-
+                    Log.d("checked",phoneNumber+ " document is found!");
                 }
+                else
+                {
+                    registerPage();
+                    Log.d("checked","otp check document existence not found");
+                }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("checked", "not number found");
+                Log.d("checked","otp generation failed!");
             }
         });
+
+
+//        usersCollectionRef.whereEqualTo("logedInPhoneNumber", phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    Log.d("checked", "number found");
+//
+//                    senduserHome();
+//                } else {
+//                    registerPage();
+//                    Log.d("checked", "number not found");
+//
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("checked", "not number found");
+//            }
+//        });
     }
 
 }

@@ -667,11 +667,13 @@ return dateTime;
 
                 {
                     imageUri = data.getData();
+                    Log.d("checked",data.getData().toString());
                     imageView1.setImageURI(imageUri);
                 }
                 else if(calledChoose == 2)
                 {
                     imageUri1 = data.getData();
+                    Log.d("checked",data.getData().toString());
                     imageView2.setImageURI(imageUri1);
 
                 }

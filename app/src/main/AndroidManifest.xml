@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ExploreActivity" />
-        <activity android:name=".UserProfileActivity" />
+
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".FarmerLoginActivity" />
         <activity android:name=".otpActivity" />
