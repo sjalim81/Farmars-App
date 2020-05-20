@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -40,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String sourceActivity;
 
     private FirebaseFirestore db;
+    private FirebaseUser mUser;
 
     private String division_name[], district_name_barisal[], union_name_barisal[], subDivision_name_barisal[], village_name_barisal[], thana_name_barisal[];
     private String date[], month[], year[];
@@ -51,6 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         db = FirebaseFirestore.getInstance();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         enterNameText = findViewById(R.id.regActivity_name);
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
@@ -128,6 +132,7 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("occupation", occupationText.getText().toString());
         user.put("thana", thanaText.getSelectedItem().toString());
         user.put("logedInPhoneNumber", phoneNumber);
+       // user.put("userId",mUser.toString());
         Log.d("checked","register activity"+phoneNumber+"  ");
 
         db.collection("users").document(phoneNumber).set(user)

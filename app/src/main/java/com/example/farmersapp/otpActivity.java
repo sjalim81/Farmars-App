@@ -23,8 +23,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class otpActivity extends AppCompatActivity {
 
@@ -37,7 +38,7 @@ public class otpActivity extends AppCompatActivity {
 
     private ProgressBar verifyProgressBar;
     private String mAuthVerificationId, phoneNumber;
-    private CollectionReference farmersCollectionRef = FirebaseFirestore.getInstance().collection("users");
+    private CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
     @Override
@@ -53,6 +54,7 @@ public class otpActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         mAuthVerificationId = getIntent().getStringExtra("AuthCredentials");
+        phoneNumber = getIntent().getExtras().getString("phone");
 
         mVerifybtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +110,7 @@ public class otpActivity extends AppCompatActivity {
         Intent homeIntent = new Intent(otpActivity.this, ExploreActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        phoneNumber = getIntent().getExtras().getString("phone");
+
         homeIntent.putExtra("phone", phoneNumber);
         startActivity(homeIntent);
         finish();
@@ -120,7 +122,7 @@ public class otpActivity extends AppCompatActivity {
         Intent HomeiNtent = new Intent(otpActivity.this, RegistrationActivity.class);
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        phoneNumber = getIntent().getExtras().getString("phone");
+
         Log.d("checked","otp activity"+phoneNumber+"  ");
         HomeiNtent.putExtra("phone", phoneNumber);
         startActivity(HomeiNtent);
@@ -129,26 +131,56 @@ public class otpActivity extends AppCompatActivity {
 
     private void numberExistenceCheck() {
 
-        Log.d("cheched","start number check");
-        farmersCollectionRef.whereEqualTo("logedInPhoneNumber", phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Log.d("checked","start number check "+ phoneNumber);
+
+        final DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    Log.d("checked", "number found");
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+               DocumentSnapshot documentSnapshot = task.getResult();
+                if(documentSnapshot.exists())
+                {
 
+                    Log.d("checked",phoneNumber+ " document is found!");
+                    Log.d("checked",documentSnapshot.getId()+" this is id");
+                    Log.d("checked",documentSnapshot.getString("logedInPhoneNumber"));
                     senduserHome();
-                } else {
-                    registerPage();
-                    Log.d("checked", "number not found");
-
                 }
+                else
+                {
+
+                    Log.d("checked","otp check document existence not found");
+                    registerPage();
+                }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("checked", "not number found");
+                Log.d("checked","otp generation failed!");
             }
         });
+
+
+//        usersCollectionRef.whereEqualTo("logedInPhoneNumber", phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    Log.d("checked", "number found");
+//
+//                    senduserHome();
+//                } else {
+//                    registerPage();
+//                    Log.d("checked", "number not found");
+//
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("checked", "not number found");
+//            }
+//        });
     }
 
 }

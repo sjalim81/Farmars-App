@@ -176,7 +176,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
             public void run() {
                 //dialog.dismiss();
                 Intent registerIntent = new Intent(FarmerLoginActivity.this, RegistrationActivity.class);
-                registerIntent.putExtra("phoneNumber", phoneNumberText.getText().toString());
+                registerIntent.putExtra("phone", phoneNumberText.getText().toString());
                 registerIntent.putExtra("activity", "Farmer");
                 startActivity(registerIntent);
                 finish();
