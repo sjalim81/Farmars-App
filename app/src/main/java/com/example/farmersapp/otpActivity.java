@@ -131,17 +131,20 @@ public class otpActivity extends AppCompatActivity {
 
     private void numberExistenceCheck() {
 
-        Log.d("cheched","start number check");
+        Log.d("checked","start number check");
 
-        DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
+        final DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                DocumentSnapshot documentSnapshot = task.getResult();
                 if(task.isSuccessful())
                 {
-                    senduserHome();
+
                     Log.d("checked",phoneNumber+ " document is found!");
+                    Log.d("checked",documentSnapshot.getId()+" this is id");
+                    Log.d("checked",documentSnapshot.getString("logedInPhoneNumber"));
+                    senduserHome();
                 }
                 else
                 {
