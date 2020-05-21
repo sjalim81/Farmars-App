@@ -46,21 +46,28 @@ public class ViewPagerImageAdapterMarketDetails extends PagerAdapter {
 
        final ImageView imageView = new ImageView(context);
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imageUrls[position]);
-        storageReference.getBytes(1024*1024)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                        imageView.setImageBitmap(bitmap);
-                        Log.d("checked","load ok");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                    Log.d("checked",e.toString()) ;
-            }
-        });
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/").child(imageUrls[position]);
+        Log.d("checkedimage",storageReference.toString());
+        GlideApp.with(imageView.getContext())
+                .load(storageReference)
+                .into(imageView);
+
+//        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imageUrls[position]);
+//        storageReference.getBytes(1024*1024)
+//                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                    @Override
+//                    public void onSuccess(byte[] bytes) {
+//                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+//                        imageView.setImageBitmap(bitmap);
+//                        Log.d("checked","load ok");
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("checked",e.toString()) ;
+//            }
+//        });
         container.addView(imageView);
 
         return imageView;

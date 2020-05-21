@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +39,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,73 +46,54 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddNewItemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddNewItemFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    Spinner spinnerRegion, spinnerArea, spinnerCatagory;
-    RadioButton radioButton;
-    RadioGroup radioGroup;
-    EditText editTextTitle, editTextDescription, editTextPrice;
-    Button buttonSubmit, buttonPreview;
-    String region[], dhaka[], sylhet[],category[];
-    int pos;
-    String userId;
+    private Spinner spinnerRegion, spinnerArea, spinnerCatagory;
+    private RadioButton radioButtonUsed, radioButtonNew, radioButtonBoth, radioButton;
+    private RadioGroup radioGroup;
+    private TextView textViewErrorMessage;
+    private EditText editTextTitle, editTextDescription, editTextPrice;
+    private Button buttonSubmit, buttonPreview;
+    private String region[], dhaka[], sylhet[], category[];
+    private int pos;
+    private String userId;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
-    private Bitmap compressed1,compressed2;
-    private Uri imageUri1 = null,imageUri = null;
+    private Bitmap compressed1, compressed2;
+    private Uri imageUri1 = null, imageUri = null;
     private ProgressBar progressBar;
-    private ImageView imageView1,imageView2;
+    private ImageView imageView1, imageView2;
     private StorageReference storageReference;
     private DocumentReference databaseReferenceId;
-    boolean ch= false ,ch1 =false;
+    private boolean ch = false, ch1 = false;
 
-    int IMAGE_PICKER_SELECT = 0;
-    int calledChoose ;
+    private int IMAGE_PICKER_SELECT = 0;
+    private int calledChoose;
 
-    int productId ;
+    private int productId;
 
     private String productIdString;
     private String imageUriString;
     private String imageUriString1;
 
+    String productCondition;
 
 
-
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddNewItemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AddNewItemFragment newInstance(String param1, String param2) {
         AddNewItemFragment fragment = new AddNewItemFragment();
         Bundle args = new Bundle();
@@ -123,7 +104,6 @@ public class AddNewItemFragment extends Fragment {
     }
 
     public AddNewItemFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -138,7 +118,6 @@ public class AddNewItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         final View contentView = inflater.inflate(R.layout.fragment_add_new_item, container, false);
 
@@ -146,11 +125,17 @@ public class AddNewItemFragment extends Fragment {
         spinnerRegion = contentView.findViewById(R.id.spinner_region);
         spinnerCatagory = contentView.findViewById(R.id.spinner_category);
         radioGroup = contentView.findViewById(R.id.radio_group);
+        radioButtonNew = contentView.findViewById(R.id.radioButton_new);
+        radioButtonUsed = contentView.findViewById(R.id.radioButton_used);
+        radioButtonBoth = contentView.findViewById(R.id.radioButton_both);
+
 
         buttonPreview = contentView.findViewById(R.id.button_preview);
         buttonSubmit = contentView.findViewById(R.id.button_submit);
         imageView1 = contentView.findViewById(R.id.imageView_demopic1);
         imageView2 = contentView.findViewById(R.id.imageView_demopic2);
+
+        textViewErrorMessage = contentView.findViewById(R.id.textView_error_message);
 
         editTextTitle = contentView.findViewById(R.id.editText_title);
         editTextPrice = contentView.findViewById(R.id.editText_price);
@@ -159,7 +144,7 @@ public class AddNewItemFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        userId = firebaseAuth.getCurrentUser().getUid();
+        userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -170,7 +155,7 @@ public class AddNewItemFragment extends Fragment {
         databaseReferenceId.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                productId = Integer.parseInt(documentSnapshot.getString("id"));
+                productId = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("id")));
 
                 productIdString = Integer.toString(productId);
                 Log.d("checked", productIdString);
@@ -187,9 +172,9 @@ public class AddNewItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
                     } else {
                         choseImage();
@@ -207,9 +192,9 @@ public class AddNewItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
                     } else {
                         choseImage();
@@ -232,15 +217,40 @@ public class AddNewItemFragment extends Fragment {
         category = getResources().getStringArray(R.array.category);
 
 
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, region);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerRegion.setAdapter(adapter);
+        ArrayAdapter<String> adapterRegion = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, region);
+        adapterRegion.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerRegion.setAdapter(adapterRegion);
+
+        ArrayAdapter<String> adapterDhaka = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, dhaka);
+
+        adapterDhaka.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerArea.setAdapter(adapterDhaka);
 
         spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), region[position], Toast.LENGTH_SHORT);
-                pos = position;
+                Toast.makeText(getContext(), region[position], Toast.LENGTH_SHORT).show();
+                if (position == 0) {
+                    Log.d("checked", "spinner at dhaka");
+
+                    ArrayAdapter<String> adapterDhaka = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, dhaka);
+
+                    adapterDhaka.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    spinnerArea.setAdapter(adapterDhaka);
+
+                } else {
+                    Log.d("checked", "spinner at sylhet");
+
+                    ArrayAdapter<String> adapterSylhet = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, sylhet);
+
+                    adapterSylhet.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    spinnerArea.setAdapter(adapterSylhet);
+
+
+                }
+
+
+                Log.d("checked", String.valueOf(position));
             }
 
             @Override
@@ -250,142 +260,65 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-        if (pos == 0) {
-            ArrayAdapter adapter1 = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, dhaka);
+        ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, category);
 
-            adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            spinnerArea.setAdapter(adapter1);
+        adapterCategory.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerCatagory.setAdapter(adapterCategory);
 
-        } else {
-            ArrayAdapter adapter1 = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, sylhet);
-
-            adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            spinnerArea.setAdapter(adapter1);
-
-
-        }
-
-        ArrayAdapter adapter1 = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, category);
-
-        adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerCatagory.setAdapter(adapter1);
-
-
-        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+        spinnerCatagory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                final String productRegion = spinnerRegion.getSelectedItem().toString();
-                final String productArea = spinnerArea.getSelectedItem().toString();
-                final String productCategory = spinnerCatagory.getSelectedItem().toString();
-                final String productTitle = editTextTitle.getText().toString();
-                final String productDescription = editTextDescription.getText().toString();
-                final String productPrice = editTextPrice.getText().toString();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0)//Pesticides
+                {
+
+                    radioButtonNew.setText("Retail");
+                    radioButtonUsed.setText("Wholesale");
+                    radioButtonBoth.setVisibility(View.VISIBLE);
+
+                } else if (position == 1)//crops
+                {
+                    radioButtonNew.setText("Retail");
+                    radioButtonUsed.setText("Wholesale");
+                    radioButtonBoth.setVisibility(View.VISIBLE);
+                } else if (position == 2)//Instrument
+                {
+                    radioButtonNew.setText("New");
+                    radioButtonUsed.setText("Used");
+                    radioButtonBoth.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        final String productRegion = spinnerRegion.getSelectedItem().toString();
+        final String productArea = spinnerArea.getSelectedItem().toString();
+        final String productCategory = spinnerCatagory.getSelectedItem().toString();
+        final String productTitle = editTextTitle.getText().toString();
+        final String productDescription = editTextDescription.getText().toString();
+        final String productPrice = editTextPrice.getText().toString();
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int seleted = radioGroup.getCheckedRadioButtonId();
                 radioButton = contentView.findViewById(seleted);
-                final String productCondition = radioButton.getText().toString();
+                productCondition = radioButton.getText().toString();
+            }
+        });
 
 
-//                    if(!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion)&& !TextUtils.isEmpty(productCategory)&& !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription)&&!TextUtils.isEmpty(productPrice) &&!TextUtils.isEmpty(productTitle))
-//                    {
-//                        File imageFile1 = new File(imageUri.getPath());
-//                        File imageFile2 = new File(imageUri1.getPath());
-//
-//                        Log.d("checked","ok at compress");
-//                        try {
-//                            compressed1 = new Compressor(getContext())
-//                                    .setMaxHeight(140)
-//                                    .setMaxWidth(140)
-//                                    .setQuality(50)
-//                                    .compressToBitmap(imageFile1);
-//
-//                            compressed2 = new Compressor(getContext())
-//                                    .setMaxHeight(140)
-//                                    .setMaxWidth(140)
-//                                    .setQuality(50)
-//                                    .compressToBitmap(imageFile2);
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(getContext(),"Input Invalid",Toast.LENGTH_SHORT);
-//                        Log.d("error","Add new item invalid");
-//
-//                    }
-//
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                    compressed1.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-//                    byte[] thumbData1 = byteArrayOutputStream.toByteArray();
-//
-//                    UploadTask image_path = storageReference.child("user_image1").child(productIdString+".jpg").putBytes(thumbData1);
-//                    image_path.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                            if(task.isSuccessful())
-//                            {
-//                                Toast.makeText(getContext(),"pic 1 is selected",Toast.LENGTH_SHORT);
-//                                Log.d("checked","image1 done");
-//                                imageUriString= task.getResult().getMetadata().getReference().getDownloadUrl().toString();
-//                            Log.d("checked","imageUriString "+ imageUriString);
-//                                ch = true;
-//                                if(ch1)
-//                                {
-//                                    storeData(productRegion , productArea, productCategory ,productTitle,productDescription,productPrice,productCondition);
-//                                }
-//
-//                            }
-//                            else
-//                            {
-//                                Toast.makeText(getContext(),"problem with pic 1",Toast.LENGTH_SHORT);
-//                                Log.d("error","error with first pic upload");
-//
-//                            }
-//                        }
-//                    });
-//                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
-//                    compressed2.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream1);
-//                    byte[] thumbData2 = byteArrayOutputStream1.toByteArray();
-//
-//                    UploadTask image_path2 = storageReference.child("user_image2").child(productIdString+".jpg").putBytes(thumbData2);
-//                    image_path2.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//
-//                        @Override
-//                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                            if(task.isSuccessful())
-//                            {
-//                                Toast.makeText(getContext(),"pic 2 is selected",Toast.LENGTH_SHORT).show();
-//                                ch1 = true;
-//                                Log.d("checked","image2 done");
-//                                imageUriString1 = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
-//                                Log.d("checked","imageUriString "+ imageUriString1);
-//                                if(ch) {
-//
-//
-//                                    storeData(productRegion, productArea, productCategory, productTitle, productDescription, productPrice, productCondition);
-//                                }
-//                            }
-//                            else
-//                            {
-//                                Toast.makeText(getContext(),"problem with pic 2",Toast.LENGTH_SHORT).show();
-//                                Log.d("error","error with second pic upload");
-//                            }
-//                        }
-//                    });
-//                    if(ch && ch1)
-//                    {
-//                        Log.d("checked","store called");
-//                        storeData(productRegion,productArea,productCategory,productTitle,productDescription,productPrice,productCondition);
-//                    }
-//                    else
-//                    {
-//                        Log.d("checked","error store called " +ch +" "+ch1);
-//
-//                    }
 
-                if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle)) {
+
+            buttonSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle)) {
+
 
                     final StorageReference riversRef = storageReference.child("user_image1/" + productId + ".jpg");
                     UploadTask uploadTask = riversRef.putFile(imageUri);
@@ -393,7 +326,7 @@ public class AddNewItemFragment extends Fragment {
                     uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageUriString = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                            imageUriString = Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString();
                             Log.d("checked 1", imageUriString);
 
                             Log.d("checked", "image1 upload task ok");
@@ -430,7 +363,7 @@ public class AddNewItemFragment extends Fragment {
                         @Override
                         public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                             if (!task.isSuccessful()) {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             }
                             return riversRef.getDownloadUrl();
                         }
@@ -457,7 +390,7 @@ public class AddNewItemFragment extends Fragment {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("checked",e.toString());
+                            Log.d("checked", e.toString());
                         }
                     });
 
@@ -465,7 +398,7 @@ public class AddNewItemFragment extends Fragment {
                         @Override
                         public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                             if (!task.isSuccessful()) {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             }
                             return riversRef1.getDownloadUrl();
                         }
@@ -476,12 +409,12 @@ public class AddNewItemFragment extends Fragment {
                                 Uri downloadUri = task.getResult();
 
 
+                                assert downloadUri != null;
                                 imageUriString1 = downloadUri.toString();
                                 ch1 = true;
 
 
-                                if(ch)
-                                {
+                                if (ch) {
                                     storeData(productRegion, productArea, productCategory, productTitle, productDescription, productPrice, productCondition);
                                 }
                                 Log.d("checked 2", downloadUri.toString());
@@ -491,22 +424,28 @@ public class AddNewItemFragment extends Fragment {
                             }
                         }
                     });
-                }
-                else
-                {
+
+                } else {
+                    if (TextUtils.isEmpty(productCondition)) {
+                        textViewErrorMessage.setText("Fill the Condition/Type!!!!");
+                    } else if (TextUtils.isEmpty(productDescription)) {
+                        textViewErrorMessage.setText("Description!!!!");
+                    } else if (TextUtils.isEmpty(productPrice)) {
+                        textViewErrorMessage.setText("Price!!!!");
+                    } else if (TextUtils.isEmpty(productTitle)) {
+                        textViewErrorMessage.setText("Title!!!!");
+                    } else {
+                        textViewErrorMessage.setText("Check all the fields Again!!!!");
+                    }
+
 
                 }
 
-
-
-            }
-        });
-
-
-
+                }
+            });
 
         return contentView;
-        }
+    }
 
     private void storeData(String productRegion, String productArea, String productCategory, String productTitle, String productDescription, String productPrice, String productCondition) {
 
@@ -516,129 +455,142 @@ public class AddNewItemFragment extends Fragment {
         String banglaDateTime = banglaDateTimeMaker(dateText);
 
 
-        Map<String,String> productData = new HashMap<>();
-        productData.put("productOwner",userId);
-        productData.put("productId",productIdString);
-        productData.put("productRegion",productRegion);
-        productData.put("productArea",productArea);
-        productData.put("productCategory",productCategory);
-        productData.put("productTitle",productTitle);
-        productData.put("productDescription",productDescription);
-        productData.put("productPrice",productPrice);
-        productData.put("productCondition",productCondition);
+        Map<String, String> productData = new HashMap<>();
+        productData.put("productOwner", userId);
+        productData.put("productId", productIdString);
+        productData.put("productRegion", productRegion);
+        productData.put("productArea", productArea);
+        productData.put("productCategory", productCategory);
+        productData.put("productTitle", productTitle);
+        productData.put("productDescription", productDescription);
+        productData.put("productPrice", productPrice);
+        productData.put("productCondition", productCondition);
         productData.put("productUploadedTime", banglaDateTime);
-        productData.put("productSoldStatus","no");
+        productData.put("productSoldStatus", "no");
 
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
-                    Toast.makeText(getContext(),"product is uploaded successfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "product is uploaded successfully", Toast.LENGTH_SHORT).show();
 
-                }
+            }
 
         })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
         productId++;
 
         productIdString = Integer.toString(productId);
-                Map<String,String> mp = new HashMap<>();
-                mp.put("id",productIdString);
+        Map<String, String> mp = new HashMap<>();
+        mp.put("id", productIdString);
         databaseReferenceId.set(mp);
-
 
 
     }
 
     private String banglaDateTimeMaker(String dateText) {
-        String dateTime="";
+        StringBuilder dateTime = new StringBuilder();
 
         String[] tokens = dateText.split(" ");
 
 
         for (int i = 0; i < tokens.length; i++) {
-            String temp="";
+            StringBuilder temp = new StringBuilder();
 
             if (i == 1 || i == 4) {
-                if (tokens[i].equals("January")) {
-                    temp = "জানু";
+                switch (tokens[i]) {
+                    case "January":
+                        temp = new StringBuilder("জানু");
 
-                } else if (tokens[i].equals("February")) {
-                    temp = "ফেব্রু";
+                        break;
+                    case "February":
+                        temp = new StringBuilder("ফেব্রু");
 
-                } else if (tokens[i].equals("March")) {
-                    temp = "মার্চ";
+                        break;
+                    case "March":
+                        temp = new StringBuilder("মার্চ");
 
-                } else if (tokens[i].equals("April")) {
-                    temp = "এপ্রিল";
-                } else if (tokens[i].equals("May")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("June")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("July")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("August")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("September")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("October")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("November")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("December")) {
-                    temp = "মে";
-                } else if (tokens[i].equals("am")) {
-                    temp = "সকাল";
-                } else if (tokens[i].equals("pm")) {
-                    temp = "রাত";
+                        break;
+                    case "April":
+                        temp = new StringBuilder("এপ্রিল");
+                        break;
+                    case "May":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "June":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "July":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "August":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "September":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "October":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "November":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "December":
+                        temp = new StringBuilder("মে");
+                        break;
+                    case "am":
+                        temp = new StringBuilder("সকাল");
+                        break;
+                    case "pm":
+                        temp = new StringBuilder("রাত");
+                        break;
                 }
             } else {
-                temp ="";
+                temp = new StringBuilder();
                 for (int j = 0; j < tokens[i].length(); j++) {
                     if ('0' <= tokens[i].charAt(j) && tokens[i].charAt(j) <= '9') {
                         if (tokens[i].charAt(j) == '0') {
-                            temp += "০";
+                            temp.append("০");
 
                         } else if (tokens[i].charAt(j) == '1') {
-                            temp += "১";
+                            temp.append("১");
 
                         } else if (tokens[i].charAt(j) == '2') {
-                            temp += "২";
+                            temp.append("২");
                         } else if (tokens[i].charAt(j) == '3') {
-                            temp += "৩";
+                            temp.append("৩");
                         } else if (tokens[i].charAt(j) == '4') {
-                            temp += "৪";
+                            temp.append("৪");
                         } else if (tokens[i].charAt(j) == '5') {
-                            temp += "৫";
+                            temp.append("৫");
                         } else if (tokens[i].charAt(j) == '6') {
-                            temp += "৬";
+                            temp.append("৬");
                         } else if (tokens[i].charAt(j) == '7') {
-                            temp += "৭";
+                            temp.append("৭");
                         } else if (tokens[i].charAt(j) == '8') {
-                            temp += "৮";
+                            temp.append("৮");
                         } else if (tokens[i].charAt(j) == '9') {
-                            temp += "৯";
+                            temp.append("৯");
                         }
                     } else {
-                        temp += ":";
+                        temp.append(":");
                     }
                 }
 
             }
-            tokens[i] = temp;
+            tokens[i] = temp.toString();
         }
-        for(String str:tokens)
-        {
-            dateTime += str+" ";
+        for (String str : tokens) {
+            dateTime.append(str).append(" ");
         }
-        Log.d("checked",dateTime);
-return dateTime;
+        Log.d("checked", dateTime.toString());
+        return dateTime.toString();
 
     }
 
@@ -659,45 +611,40 @@ return dateTime;
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_PICKER_SELECT
                 && resultCode == Activity.RESULT_OK) {
-            String path = getPathFromCameraData(data, this.getActivity());
+            String path = getPathFromCameraData(data, this.requireActivity());
             Log.i("PICTURE", "Path: " + path);
             if (path != null) {
 
-                if(calledChoose==1)
-
-                {
+                if (calledChoose == 1) {
                     imageUri = data.getData();
-                    Log.d("checked",data.getData().toString());
+                    Log.d("checked", Objects.requireNonNull(data.getData()).toString());
                     imageView1.setImageURI(imageUri);
-                }
-                else if(calledChoose == 2)
-                {
+                } else if (calledChoose == 2) {
                     imageUri1 = data.getData();
-                    Log.d("checked",data.getData().toString());
+                    Log.d("checked", Objects.requireNonNull(data.getData()).toString());
                     imageView2.setImageURI(imageUri1);
 
-                }
-                else
-                {
-                    Log.d("checker","onActivity result error");
+                } else {
+                    Log.d("checker", "onActivity result error");
                 }
             }
         }
 
     }
-    public static String getPathFromCameraData(Intent data, Context context) {
+
+    private static String getPathFromCameraData(Intent data, Context context) {
         Uri selectedImage = data.getData();
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        assert selectedImage != null;
         Cursor cursor = context.getContentResolver().query(selectedImage,
                 filePathColumn, null, null, null);
+        assert cursor != null;
         cursor.moveToFirst();
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
         cursor.close();
         return picturePath;
     }
-
-
 
 
 }
