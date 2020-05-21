@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.smarteist.autoimageslider.SliderView;
 
 
 public class MarketItemDetails extends Fragment {
@@ -30,6 +31,7 @@ public class MarketItemDetails extends Fragment {
     private TextView textViewProductTitle, textViewProductPrice, textViewProductLoctaion, textViewProductConditionType, textViewProductCategory, textViewProductTime;
     private TextView textViewOwnerNumber, textViewProductDescription, TextViewProductConditionTypeLebel;
     private Context mContext;
+    private SliderView sliderView;
 
     ViewPagerImageAdapterMarketDetails viewPagerImageAdapter;
 
@@ -59,7 +61,7 @@ public class MarketItemDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View contextView = inflater.inflate(R.layout.fragment_market_item_details, container, false);
+        View contextView = inflater.inflate(R.layout.fragment_market_item_details_imageslider, container, false);
         mContext = contextView.getContext();
 
         final String productRegion;
@@ -80,8 +82,8 @@ public class MarketItemDetails extends Fragment {
         textViewProductTime = contextView.findViewById(R.id.textView_productTime);
         textViewProductTitle = contextView.findViewById(R.id.textView_productitle);
         TextViewProductConditionTypeLebel = contextView.findViewById(R.id.textView_condition_type_lebel);
-        viewPager = contextView.findViewById(R.id.viewPage_productsImage);
-
+//        viewPager = contextView.findViewById(R.id.viewPage_productsImage);
+            sliderView = contextView.findViewById(R.id.imageSlider);
         if (!textViewProductCategory.getText().equals("Instrument")) {
             textViewProductConditionType.setText("Type:");
         } else {
@@ -105,11 +107,13 @@ public class MarketItemDetails extends Fragment {
                 };
 
 
-                viewPagerImageAdapter = new ViewPagerImageAdapterMarketDetails(mContext, images);
-                viewPager.setAdapter(viewPagerImageAdapter);
+//                viewPagerImageAdapter = new ViewPagerImageAdapterMarketDetails(mContext, images);
+//                viewPager.setAdapter(viewPagerImageAdapter);
+                SliderAdapterExample adapter = new SliderAdapterExample(getContext(),images);
 
+                sliderView.setSliderAdapter(adapter);
 
-//                textViewOwnerNumber.setText(documentSnapshot.getString());
+//                textViewOwnerNumber.setText(documentSnapshot.getString("phone"));
                 textViewProductCategory.setText(documentSnapshot.getString("productCategory"));
                 textViewProductConditionType.setText(documentSnapshot.getString("productCondition"));
                 textViewProductDescription.setText(documentSnapshot.getString("productDescription"));
