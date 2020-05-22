@@ -2,21 +2,29 @@ package com.example.farmersapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.smarteist.autoimageslider.SliderView;
 
 
 public class MarketItemDetails extends Fragment {
@@ -30,8 +38,10 @@ public class MarketItemDetails extends Fragment {
     private TextView textViewProductTitle, textViewProductPrice, textViewProductLoctaion, textViewProductConditionType, textViewProductCategory, textViewProductTime;
     private TextView textViewOwnerNumber, textViewProductDescription, TextViewProductConditionTypeLebel;
     private Context mContext;
-
+    private SliderView sliderView;
+private ImageButton imageButton;
     ViewPagerImageAdapterMarketDetails viewPagerImageAdapter;
+    String phoneNumner;
 
 
     public MarketItemDetails() {
@@ -59,7 +69,7 @@ public class MarketItemDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View contextView = inflater.inflate(R.layout.fragment_market_item_details, container, false);
+        View contextView = inflater.inflate(R.layout.fragment_market_item_details_imageslider, container, false);
         mContext = contextView.getContext();
 
         final String productRegion;
@@ -80,8 +90,10 @@ public class MarketItemDetails extends Fragment {
         textViewProductTime = contextView.findViewById(R.id.textView_productTime);
         textViewProductTitle = contextView.findViewById(R.id.textView_productitle);
         TextViewProductConditionTypeLebel = contextView.findViewById(R.id.textView_condition_type_lebel);
-        viewPager = contextView.findViewById(R.id.viewPage_productsImage);
+        imageButton = contextView.findViewById(R.id.imageButton_call);
 
+//        viewPager = contextView.findViewById(R.id.viewPage_productsImage);
+            sliderView = contextView.findViewById(R.id.imageSlider);
         if (!textViewProductCategory.getText().equals("Instrument")) {
             textViewProductConditionType.setText("Type:");
         } else {
@@ -91,6 +103,7 @@ public class MarketItemDetails extends Fragment {
 
         final String productId = getArguments().getString("productId");
         DocumentReference productCollectionRef = FirebaseFirestore.getInstance().document("products_of_market/" + productId);
+        final CollectionReference usesCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
         productCollectionRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -105,19 +118,49 @@ public class MarketItemDetails extends Fragment {
                 };
 
 
-                viewPagerImageAdapter = new ViewPagerImageAdapterMarketDetails(mContext, images);
-                viewPager.setAdapter(viewPagerImageAdapter);
+//                viewPagerImageAdapter = new ViewPagerImageAdapterMarketDetails(mContext, images);
+//                viewPager.setAdapter(viewPagerImageAdapter);
+                SliderAdapterExample adapter = new SliderAdapterExample(getContext(),images);
+
+                sliderView.setSliderAdapter(adapter);
+
+                usesCollectionRef.document(documentSnapshot.getString("productOwner")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            DocumentSnapshot document = task.getResult();
+                            phoneNumner = document.getString("phone");
+                            textViewOwnerNumber.setText(phoneNumner);
+                        }
+                        else
+                        {
+
+                        }
 
 
-//                textViewOwnerNumber.setText(documentSnapshot.getString());
+                    }
+                }) ;
+
+
                 textViewProductCategory.setText(documentSnapshot.getString("productCategory"));
                 textViewProductConditionType.setText(documentSnapshot.getString("productCondition"));
                 textViewProductDescription.setText(documentSnapshot.getString("productDescription"));
                 textViewProductLoctaion.setText(documentSnapshot.getString("productArea") + ", " + documentSnapshot.getString("productRegion"));
 
                 textViewProductPrice.setText("৳" + documentSnapshot.getString("productPrice"));
-//                textViewProductTime.setText(documentSnapshot.getString());
+                textViewProductTime.setText(documentSnapshot.getString("productUploadedTime"));
                 textViewProductTitle.setText(documentSnapshot.getString("productTitle"));
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String call = "tel:" + phoneNumner;
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse(call));
+                        startActivity(intent);
+
+                    }
+                });
 
 
 //                Log.d("checked", productsDetails.getProductTitle());

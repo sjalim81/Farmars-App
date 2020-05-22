@@ -1,7 +1,9 @@
 package com.example.farmersapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -83,13 +86,19 @@ public class AddNewItemFragment extends Fragment {
     private int calledChoose;
 
     private int productId;
+    private TextView textViewProductTitle, textViewProductPrice, textViewProductLoctaion, textViewProductConditionType, textViewProductCategory, textViewProductTime;
+    private TextView textViewOwnerNumber, textViewProductDescription, TextViewProductConditionTypeLebel;
+
 
     private String productIdString;
     private String imageUriString;
     private String imageUriString1;
 
+    private SliderView sliderView;
+
     String productCondition;
 
+    private AlertDialog dialog;
 
     private String mParam1;
     private String mParam2;
@@ -312,12 +321,10 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-
-
-            buttonSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle)) {
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle) && imageUri != null && imageUri1 != null) {
 
 
                     final StorageReference riversRef = storageReference.child("user_image1/" + productId + ".jpg");
@@ -434,6 +441,9 @@ public class AddNewItemFragment extends Fragment {
                         textViewErrorMessage.setText("Price!!!!");
                     } else if (TextUtils.isEmpty(productTitle)) {
                         textViewErrorMessage.setText("Title!!!!");
+                    } else if (imageUri1 == null || imageUri == null) {
+                        textViewErrorMessage.setText("Select images!!!!");
+
                     } else {
                         textViewErrorMessage.setText("Check all the fields Again!!!!");
                     }
@@ -441,10 +451,64 @@ public class AddNewItemFragment extends Fragment {
 
                 }
 
-                }
-            });
+            }
+        });
+
+
+        buttonPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                createOTPpopupDialog();
+            }
+        });
 
         return contentView;
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void createOTPpopupDialog() {
+
+
+
+        Uri images[] = new Uri[]{imageUri, imageUri1};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        View contextView = getLayoutInflater().inflate(R.layout.fragment_market_item_details_imageslider, null);
+        textViewOwnerNumber = contextView.findViewById(R.id.textView_number);
+        textViewProductCategory = contextView.findViewById(R.id.textView_productCategory);
+        textViewProductConditionType = contextView.findViewById(R.id.textView_productConditonType);
+        textViewProductDescription = contextView.findViewById(R.id.textView_productDescripation);
+        textViewProductLoctaion = contextView.findViewById(R.id.textView_productLocation);
+        textViewProductPrice = contextView.findViewById(R.id.textView_productPrice);
+        textViewProductTime = contextView.findViewById(R.id.textView_productTime);
+        textViewProductTitle = contextView.findViewById(R.id.textView_productitle);
+        sliderView = contextView.findViewById(R.id.imageSlider);
+
+
+        SliderAdapterForPopup adapter = new SliderAdapterForPopup(getContext(), images);
+
+        sliderView.setSliderAdapter(adapter);
+
+
+//                textViewOwnerNumber.setText(documentSnapshot.getString());
+        textViewProductCategory.setText(spinnerCatagory.getSelectedItem().toString());
+        textViewProductConditionType.setText(productCondition);
+        textViewProductDescription.setText(editTextDescription.getText().toString());
+        textViewProductLoctaion.setText(spinnerArea.getSelectedItem().toString() + ", " + spinnerRegion.getSelectedItem().toString());
+
+        textViewProductPrice.setText("৳" + editTextPrice.getText().toString());
+//                textViewProductTime.setText(documentSnapshot.getString());
+        textViewProductTitle.setText(editTextTitle.getText().toString());
+
+        builder.setView(contextView);
+        dialog = builder.create();
+        dialog.show();
+
+
     }
 
     private void storeData(String productRegion, String productArea, String productCategory, String productTitle, String productDescription, String productPrice, String productCondition) {
@@ -617,11 +681,11 @@ public class AddNewItemFragment extends Fragment {
 
                 if (calledChoose == 1) {
                     imageUri = data.getData();
-                    Log.d("checked", Objects.requireNonNull(data.getData()).toString());
+                    Log.d("checkeduri", Objects.requireNonNull(data.getData()).toString());
                     imageView1.setImageURI(imageUri);
                 } else if (calledChoose == 2) {
                     imageUri1 = data.getData();
-                    Log.d("checked", Objects.requireNonNull(data.getData()).toString());
+                    Log.d("checkeduri", Objects.requireNonNull(data.getData()).toString());
                     imageView2.setImageURI(imageUri1);
 
                 } else {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MarketItemDetails">
 
     <ScrollView
@@ -14,15 +15,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPage_productsImage"
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="6dp"
+                android:layout_margin="16dp"
                 android:layout_width="match_parent"
-                android:scrollIndicators="top"
+                android:layout_height="wrap_content">
 
-                android:layout_height="300dp">
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#d8ebb5"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true" />
 
-            </androidx.viewpager.widget.ViewPager>
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/textView_productitle"
@@ -157,6 +174,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="Contact number:"
                     android:textColor="#000000"
@@ -166,15 +184,18 @@
                     android:id="@+id/textView_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="TextView"
                     android:textColor="#000000" />
 
-                <Button
-                    android:id="@+id/button"
+                <ImageButton
+                    android:id="@+id/imageButton_call"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:src="@drawable/ic_call_black_24dp"
+                    android:background="@drawable/bg_call_button"/>
+
             </LinearLayout>
 
 
