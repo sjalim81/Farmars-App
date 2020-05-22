@@ -43,6 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private FirebaseUser mUser;
+    private String mUid;
 
     private String division_name[], district_name_barisal[], union_name_barisal[], subDivision_name_barisal[], village_name_barisal[], thana_name_barisal[];
     private String date[], month[], year[];
@@ -55,7 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        mUid = mUser.getUid();
         enterNameText = findViewById(R.id.regActivity_name);
         phoneNoText = findViewById(R.id.regActivity_phoneNo);
         occupationText = findViewById(R.id.regActivity_occupation);
@@ -132,10 +133,11 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("occupation", occupationText.getText().toString());
         user.put("thana", thanaText.getSelectedItem().toString());
         user.put("logedInPhoneNumber", phoneNumber);
+        user.put("userUId",mUid);
        // user.put("userId",mUser.toString());
         Log.d("checked","register activity"+phoneNumber+"  ");
 
-        db.collection("users").document(phoneNumber).set(user)
+        db.collection("users").document(mUid).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

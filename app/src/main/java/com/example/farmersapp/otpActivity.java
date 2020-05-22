@@ -26,6 +26,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Objects;
 
 public class otpActivity extends AppCompatActivity {
 
@@ -123,7 +127,7 @@ public class otpActivity extends AppCompatActivity {
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         HomeiNtent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        Log.d("checked","otp activity"+phoneNumber+"  ");
+        Log.d("checked", "otp activity" + phoneNumber + "  ");
         HomeiNtent.putExtra("phone", phoneNumber);
         startActivity(HomeiNtent);
         finish();
@@ -131,56 +135,43 @@ public class otpActivity extends AppCompatActivity {
 
     private void numberExistenceCheck() {
 
-        Log.d("checked","start number check "+ phoneNumber);
+        Log.d("checked", "start number check " + phoneNumber);
 
-        final DocumentReference docIdRef = usersCollectionRef.document(phoneNumber);
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        usersCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            boolean check = false;
+
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-               DocumentSnapshot documentSnapshot = task.getResult();
-                if(documentSnapshot.exists())
-                {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
 
-                    Log.d("checked",phoneNumber+ " document is found!");
-                    Log.d("checked",documentSnapshot.getId()+" this is id");
-                    Log.d("checked",documentSnapshot.getString("logedInPhoneNumber"));
-                    senduserHome();
-                }
-                else
-                {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Log.d("checkedout", Objects.requireNonNull(document.getString("logedInPhoneNumber"))+" "+check);
 
-                    Log.d("checked","otp check document existence not found");
+                        if (Objects.equals(document.getString("logedInPhoneNumber"), phoneNumber)) {
+                            Log.d("checked", "number found");
+
+                            Log.d("checked", Objects.requireNonNull(document.getString("logedInPhoneNumber")));
+                            senduserHome();
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (!check) {
+                        registerPage();
+                    }
+
+                } else {
                     registerPage();
-                }
+                    Log.d("checked", "number not found");
 
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("checked","otp generation failed!");
+                Log.d("checked", "not number found");
             }
         });
-
-
-//        usersCollectionRef.whereEqualTo("logedInPhoneNumber", phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    Log.d("checked", "number found");
-//
-//                    senduserHome();
-//                } else {
-//                    registerPage();
-//                    Log.d("checked", "number not found");
-//
-//                }
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d("checked", "not number found");
-//            }
-//        });
     }
 
 }

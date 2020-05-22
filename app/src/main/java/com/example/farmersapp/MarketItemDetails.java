@@ -2,18 +2,25 @@ package com.example.farmersapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,8 +39,9 @@ public class MarketItemDetails extends Fragment {
     private TextView textViewOwnerNumber, textViewProductDescription, TextViewProductConditionTypeLebel;
     private Context mContext;
     private SliderView sliderView;
-
+private ImageButton imageButton;
     ViewPagerImageAdapterMarketDetails viewPagerImageAdapter;
+    String phoneNumner;
 
 
     public MarketItemDetails() {
@@ -82,6 +90,8 @@ public class MarketItemDetails extends Fragment {
         textViewProductTime = contextView.findViewById(R.id.textView_productTime);
         textViewProductTitle = contextView.findViewById(R.id.textView_productitle);
         TextViewProductConditionTypeLebel = contextView.findViewById(R.id.textView_condition_type_lebel);
+        imageButton = contextView.findViewById(R.id.imageButton_call);
+
 //        viewPager = contextView.findViewById(R.id.viewPage_productsImage);
             sliderView = contextView.findViewById(R.id.imageSlider);
         if (!textViewProductCategory.getText().equals("Instrument")) {
@@ -93,6 +103,7 @@ public class MarketItemDetails extends Fragment {
 
         final String productId = getArguments().getString("productId");
         DocumentReference productCollectionRef = FirebaseFirestore.getInstance().document("products_of_market/" + productId);
+        final CollectionReference usesCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
         productCollectionRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -113,15 +124,43 @@ public class MarketItemDetails extends Fragment {
 
                 sliderView.setSliderAdapter(adapter);
 
-//                textViewOwnerNumber.setText(documentSnapshot.getString("phone"));
+                usesCollectionRef.document(documentSnapshot.getString("productOwner")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            DocumentSnapshot document = task.getResult();
+                            phoneNumner = document.getString("phone");
+                            textViewOwnerNumber.setText(phoneNumner);
+                        }
+                        else
+                        {
+
+                        }
+
+
+                    }
+                }) ;
+
+
                 textViewProductCategory.setText(documentSnapshot.getString("productCategory"));
                 textViewProductConditionType.setText(documentSnapshot.getString("productCondition"));
                 textViewProductDescription.setText(documentSnapshot.getString("productDescription"));
                 textViewProductLoctaion.setText(documentSnapshot.getString("productArea") + ", " + documentSnapshot.getString("productRegion"));
 
                 textViewProductPrice.setText("৳" + documentSnapshot.getString("productPrice"));
-//                textViewProductTime.setText(documentSnapshot.getString());
+                textViewProductTime.setText(documentSnapshot.getString("productUploadedTime"));
                 textViewProductTitle.setText(documentSnapshot.getString("productTitle"));
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String call = "tel:" + phoneNumner;
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse(call));
+                        startActivity(intent);
+
+                    }
+                });
 
 
 //                Log.d("checked", productsDetails.getProductTitle());
