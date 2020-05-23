@@ -36,7 +36,7 @@
                         android:layout_margin="5dp"/>
 
                     <TextView
-                        android:id="@+id/display_name"
+                        android:id="@+id/textView_display_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fahim Shahriyar"
@@ -52,7 +52,7 @@
                         android:textStyle="bold"/>
 
                     <Button
-                        android:id="@+id/profileEditButton"
+                        android:id="@+id/button_profile_edit"
                         android:background="@drawable/ic_edit_black_24dp"
                         android:foreground="?attr/selectableItemBackground"
                         android:layout_width="20dp"
@@ -73,7 +73,7 @@
                         android:layout_margin="5dp"/>
 
                     <TextView
-                        android:id="@+id/display_phoneno"
+                        android:id="@+id/textView_display_phone_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0166666666"
@@ -105,7 +105,7 @@
                                 android:text="@string/division"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_division"
+                                android:id="@+id/textView_dsiplay_division"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                                 android:text="@string/district"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_district"
+                                android:id="@+id/textView_dsiplay_district"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                                 android:text="@string/subDistrict"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_subDistrict"
+                                android:id="@+id/textView_dsiplay_subDistrict"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                                 android:text="@string/union"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_union"
+                                android:id="@+id/textView_dsiplay_union"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                                 android:text="@string/thana"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_thana"
+                                android:id="@+id/textView_dsiplay_thana"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                                 android:text="@string/village"/>
 
                             <TextView
-                                android:id="@+id/dsiplay_village"
+                                android:id="@+id/textView_dsiplay_village"
                                 android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                             android:src="@drawable/give_rent"/>
 
                         <TextView
-                            android:id="@+id/totalRentGiven"
+                            android:id="@+id/textView_total_rent_given"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15"
@@ -279,7 +279,7 @@
                             android:src="@drawable/take_rent"/>
 
                         <TextView
-                            android:id="@+id/totalRentTaken"
+                            android:id="@+id/textView_total_rent_taken"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15"
@@ -335,7 +335,8 @@
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0">
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:listitem="@layout/list_myselling_items">
 
 
                     </androidx.recyclerview.widget.RecyclerView>
