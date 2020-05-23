@@ -21,8 +21,8 @@ public class UserProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    TextView no_sellingPost_hint;
-    Button profileEditButton;
+    TextView noSellingPostHint;
+    Button buttonProfileEdit ;
 
     private RecyclerView recyclerView_mySelling_items;
     private ListMySellingItems_Adapter listMySellingItemsAdapter;
@@ -58,8 +58,8 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        no_sellingPost_hint = view.findViewById(R.id.no_sellingPost_hint);
-        profileEditButton = view.findViewById(R.id.profileEditButton);
+        noSellingPostHint = view.findViewById(R.id.no_sellingPost_hint);
+        buttonProfileEdit = view.findViewById(R.id.button_profile_edit);
 
         recyclerView_mySelling_items = view.findViewById(R.id.recyclerView_mySelling_items);
         recyclerView_mySelling_items.setHasFixedSize(true);
