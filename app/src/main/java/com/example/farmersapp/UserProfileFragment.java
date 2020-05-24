@@ -2,10 +2,12 @@ package com.example.farmersapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.farmersapp.adapter.ListMySellingItems_Adapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class UserProfileFragment extends Fragment {
 
@@ -20,13 +37,25 @@ public class UserProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    public static final String TAG = "checked";
+
 
     TextView noSellingPostHint;
-    Button buttonProfileEdit ;
+    Button buttonProfileEdit;
+    List<productsListOfMarketFirestore> mData;
+    List<String> addedProductsIdList;
 
     private RecyclerView recyclerView_mySelling_items;
     private ListMySellingItems_Adapter listMySellingItemsAdapter;
+    private TextView textViewDisplayName, textViewDisplayPhoneNo, textViewDisplayDivision, textViewDisplayDistrict, textViewDisplaySubDistrict;
+    private TextView textViewDisplayUnion, textViewDisplayThana, textViewDisplayVillage;
+    private TextView textViewTotalGivenRent, textViewTotalTakenRent;
+    private CollectionReference productsOfMarketCollectionRef = FirebaseFirestore.getInstance().collection("products_of_market");
 
+
+    String mUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference usersCollectionRef = db.collection("users");
 
 
     public UserProfileFragment() {
@@ -58,13 +87,108 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
+        mData = new ArrayList<>();
+
         noSellingPostHint = view.findViewById(R.id.no_sellingPost_hint);
         buttonProfileEdit = view.findViewById(R.id.button_profile_edit);
+
+        textViewDisplayDistrict = view.findViewById(R.id.textView_dsiplay_district);
+        textViewDisplayDivision = view.findViewById(R.id.textView_dsiplay_division);
+        textViewDisplayName = view.findViewById(R.id.textView_display_name);
+        textViewDisplayPhoneNo = view.findViewById(R.id.textView_display_phone_no);
+        textViewDisplaySubDistrict = view.findViewById(R.id.textView_dsiplay_subDistrict);
+        textViewDisplayThana = view.findViewById(R.id.textView_dsiplay_thana);
+        textViewDisplayVillage = view.findViewById(R.id.textView_dsiplay_village);
+        textViewDisplayUnion = view.findViewById(R.id.textView_dsiplay_union);
+        textViewTotalGivenRent = view.findViewById(R.id.textView_total_rent_given);
+        textViewTotalTakenRent = view.findViewById(R.id.textView_total_rent_taken);
+
 
         recyclerView_mySelling_items = view.findViewById(R.id.recyclerView_mySelling_items);
         recyclerView_mySelling_items.setHasFixedSize(true);
         recyclerView_mySelling_items.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        setUpRecyclerViewManual();
+        getDataToArray();
+
+
         return view;
     }
+
+
+    private void getDataToArray() {
+
+        DocumentReference docRef = usersCollectionRef.document(mUserId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        addedProductsIdList = (List<String>) document.get("marketProductList");
+                        Log.d(TAG, String.valueOf(addedProductsIdList));
+
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+        productsOfMarketCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()) {
+                    Log.d("checked", "database is empty");
+                } else {
+                    List<productsListOfMarketFirestore> data = queryDocumentSnapshots.toObjects(productsListOfMarketFirestore.class);
+                    listMySellingItemsAdapter = new ListMySellingItems_Adapter(mData, getContext());
+                    recyclerView_mySelling_items.setAdapter(listMySellingItemsAdapter);
+
+
+                    for (productsListOfMarketFirestore currentData : data) {
+                        Log.d(TAG,currentData.getProductId());
+                        if (addedProductsIdList.contains(currentData.getProductId())) {
+                            mData.add(currentData);
+                        }
+                        else
+                        {
+                            Log.d(TAG,"ki jani hoise");
+                        }
+                    }
+
+//                    mData.addAll(data);
+                    Log.d("checked success:", "ok " + mData);
+                }
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("checked", "data load failed");
+            }
+        });
+
+
+    }
+
+    private void setUpRecyclerViewManual() {
+        recyclerView_mySelling_items.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+//    adapter = new AlternateListAdapter_Market(mData,this.getContext());
+//    marketRecyleView.setAdapter(adapter);
+        Log.d("checked", "adapter called");
+
+        recyclerView_mySelling_items.setLayoutManager(layoutManager);
+
+
+    }
+
 }

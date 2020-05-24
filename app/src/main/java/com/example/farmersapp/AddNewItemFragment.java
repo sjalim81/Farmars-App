@@ -41,8 +41,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -81,6 +83,7 @@ public class AddNewItemFragment extends Fragment {
     private StorageReference storageReference;
     private DocumentReference databaseReferenceId;
     private boolean ch = false, ch1 = false;
+    private CollectionReference userCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
     private int IMAGE_PICKER_SELECT = 0;
     private int calledChoose;
@@ -472,7 +475,6 @@ public class AddNewItemFragment extends Fragment {
     private void createOTPpopupDialog() {
 
 
-
         Uri images[] = new Uri[]{imageUri, imageUri1};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -536,6 +538,13 @@ public class AddNewItemFragment extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
 
+
+                DocumentReference userDocRef = userCollectionRef.document(userId);
+
+                userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
+
+
+
                 Toast.makeText(getContext(), "product is uploaded successfully", Toast.LENGTH_SHORT).show();
 
             }
@@ -547,6 +556,7 @@ public class AddNewItemFragment extends Fragment {
                         Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+
 
         productId++;
 
