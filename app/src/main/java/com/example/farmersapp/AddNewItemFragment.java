@@ -41,8 +41,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -81,6 +83,7 @@ public class AddNewItemFragment extends Fragment {
     private StorageReference storageReference;
     private DocumentReference databaseReferenceId;
     private boolean ch = false, ch1 = false;
+    private CollectionReference userCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
     private int IMAGE_PICKER_SELECT = 0;
     private int calledChoose;
@@ -304,12 +307,6 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-        final String productRegion = spinnerRegion.getSelectedItem().toString();
-        final String productArea = spinnerArea.getSelectedItem().toString();
-        final String productCategory = spinnerCatagory.getSelectedItem().toString();
-        final String productTitle = editTextTitle.getText().toString();
-        final String productDescription = editTextDescription.getText().toString();
-        final String productPrice = editTextPrice.getText().toString();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -324,6 +321,14 @@ public class AddNewItemFragment extends Fragment {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String productRegion = spinnerRegion.getSelectedItem().toString();
+                final String productArea = spinnerArea.getSelectedItem().toString();
+                final String productCategory = spinnerCatagory.getSelectedItem().toString();
+                final String productTitle = editTextTitle.getText().toString();
+                final String productDescription = editTextDescription.getText().toString();
+                final String productPrice = editTextPrice.getText().toString();
+
+                Log.d("checkedDes",productDescription);
                 if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle) && imageUri != null && imageUri1 != null) {
 
 
@@ -436,6 +441,7 @@ public class AddNewItemFragment extends Fragment {
                     if (TextUtils.isEmpty(productCondition)) {
                         textViewErrorMessage.setText("Fill the Condition/Type!!!!");
                     } else if (TextUtils.isEmpty(productDescription)) {
+                        Log.d("checked",productDescription);
                         textViewErrorMessage.setText("Description!!!!");
                     } else if (TextUtils.isEmpty(productPrice)) {
                         textViewErrorMessage.setText("Price!!!!");
@@ -470,7 +476,6 @@ public class AddNewItemFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void createOTPpopupDialog() {
-
 
 
         Uri images[] = new Uri[]{imageUri, imageUri1};
@@ -532,9 +537,20 @@ public class AddNewItemFragment extends Fragment {
         productData.put("productUploadedTime", banglaDateTime);
         productData.put("productSoldStatus", "no");
 
+
+
+
+
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+
+
+                DocumentReference userDocRef = userCollectionRef.document(userId);
+
+                userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
+
+
 
                 Toast.makeText(getContext(), "product is uploaded successfully", Toast.LENGTH_SHORT).show();
 
@@ -547,6 +563,8 @@ public class AddNewItemFragment extends Fragment {
                         Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+
+
 
         productId++;
 
