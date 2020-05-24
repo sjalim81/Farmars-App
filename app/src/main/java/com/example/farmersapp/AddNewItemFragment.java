@@ -307,12 +307,6 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-        final String productRegion = spinnerRegion.getSelectedItem().toString();
-        final String productArea = spinnerArea.getSelectedItem().toString();
-        final String productCategory = spinnerCatagory.getSelectedItem().toString();
-        final String productTitle = editTextTitle.getText().toString();
-        final String productDescription = editTextDescription.getText().toString();
-        final String productPrice = editTextPrice.getText().toString();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -327,6 +321,14 @@ public class AddNewItemFragment extends Fragment {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String productRegion = spinnerRegion.getSelectedItem().toString();
+                final String productArea = spinnerArea.getSelectedItem().toString();
+                final String productCategory = spinnerCatagory.getSelectedItem().toString();
+                final String productTitle = editTextTitle.getText().toString();
+                final String productDescription = editTextDescription.getText().toString();
+                final String productPrice = editTextPrice.getText().toString();
+
+                Log.d("checkedDes",productDescription);
                 if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle) && imageUri != null && imageUri1 != null) {
 
 
@@ -439,6 +441,7 @@ public class AddNewItemFragment extends Fragment {
                     if (TextUtils.isEmpty(productCondition)) {
                         textViewErrorMessage.setText("Fill the Condition/Type!!!!");
                     } else if (TextUtils.isEmpty(productDescription)) {
+                        Log.d("checked",productDescription);
                         textViewErrorMessage.setText("Description!!!!");
                     } else if (TextUtils.isEmpty(productPrice)) {
                         textViewErrorMessage.setText("Price!!!!");
@@ -534,6 +537,10 @@ public class AddNewItemFragment extends Fragment {
         productData.put("productUploadedTime", banglaDateTime);
         productData.put("productSoldStatus", "no");
 
+
+
+
+
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -556,6 +563,7 @@ public class AddNewItemFragment extends Fragment {
                         Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+
 
 
         productId++;

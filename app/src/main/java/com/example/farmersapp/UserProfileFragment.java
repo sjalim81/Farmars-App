@@ -109,37 +109,15 @@ public class UserProfileFragment extends Fragment {
         recyclerView_mySelling_items.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         setUpRecyclerViewManual();
-        getDataToArray();
+
+        getDataToArrayFromUsers();
+
 
 
         return view;
     }
 
-
-    private void getDataToArray() {
-
-        DocumentReference docRef = usersCollectionRef.document(mUserId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-
-                        addedProductsIdList = (List<String>) document.get("marketProductList");
-                        Log.d(TAG, String.valueOf(addedProductsIdList));
-
-
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-
+    private void getDataToArrayFromProductOfFarmer(final List<String>tempList) {
 
         productsOfMarketCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -153,13 +131,11 @@ public class UserProfileFragment extends Fragment {
 
 
                     for (productsListOfMarketFirestore currentData : data) {
-                        Log.d(TAG,currentData.getProductId());
-                        if (addedProductsIdList.contains(currentData.getProductId())) {
+                        Log.d(TAG, currentData.getProductId());
+                        if (tempList.contains(currentData.getProductId())) {
                             mData.add(currentData);
-                        }
-                        else
-                        {
-                            Log.d(TAG,"ki jani hoise");
+                        } else {
+                            Log.d(TAG, "ki jani hoise");
                         }
                     }
 
@@ -175,6 +151,47 @@ public class UserProfileFragment extends Fragment {
                 Log.d("checked", "data load failed");
             }
         });
+    }
+
+
+    private void getDataToArrayFromUsers() {
+
+        DocumentReference docRef = usersCollectionRef.document(mUserId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        textViewDisplayDistrict.setText(document.getString("district"));
+                        textViewDisplayDivision.setText(document.getString("division"));
+                        textViewDisplayName.setText(document.getString("name"));
+                        textViewDisplayPhoneNo.setText(document.getString("phone"));
+                        textViewDisplaySubDistrict.setText(document.getString("subDivision"));
+                        textViewDisplayThana.setText(document.getString("thana"));
+                        textViewDisplayVillage.setText(document.getString("village"));
+                        textViewDisplayUnion.setText(document.getString("union"));
+                        textViewTotalGivenRent.setText("12");
+                        textViewTotalTakenRent.setText("5645");
+
+                        addedProductsIdList = (List<String>) document.get("marketProductList");
+                        Log.d(TAG, String.valueOf(addedProductsIdList));
+                        getDataToArrayFromProductOfFarmer(addedProductsIdList);
+
+
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
 
 
     }

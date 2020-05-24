@@ -63,7 +63,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:text="TextView" />
+                android:text="Selling Status" />
 
             <TextView
                 android:id="@+id/textView_sold_unsold"
