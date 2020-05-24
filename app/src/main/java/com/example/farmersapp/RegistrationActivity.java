@@ -22,7 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -125,6 +127,7 @@ public class RegistrationActivity extends AppCompatActivity {
         currentUserApi.setUserId(mUid);
 
         Map<String, Object> user = new HashMap<>();
+        List<String> list = new ArrayList<>();
         user.put("name", enterNameText.getText().toString());
         user.put("phone", phoneNoText.getText().toString());
         user.put("dayOfBirth", birth_dayText.getSelectedItem().toString());
@@ -139,6 +142,7 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("thana", thanaText.getSelectedItem().toString());
         user.put("logedInPhoneNumber", phoneNumber);
         user.put("userUId",mUid);
+        user.put("marketProductList",list);
        // user.put("userId",mUser.toString());
         Log.d("checked","register activity"+phoneNumber+"  ");
 

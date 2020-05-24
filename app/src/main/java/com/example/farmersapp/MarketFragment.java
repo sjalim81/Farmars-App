@@ -31,106 +31,106 @@ import java.util.List;
 
 public class MarketFragment extends Fragment {
 
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
-  private FloatingActionButton floatingAddNewItemButton;
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private FloatingActionButton floatingAddNewItemButton;
 
-  private String mParam1;
-  private String mParam2;
+    private String mParam1;
+    private String mParam2;
 
-  RecyclerView marketRecyleView;
-  ListAdapter_Market marketListAdapter;
-  ArrayList<productsListOfMarketFirestore> mData;
-  ConstraintLayout rootLayout;
-  EditText searchInput;
-  CharSequence search = "";
-  FirestoreRecyclerOptions<productsListOfMarketFirestore> options;
+    RecyclerView marketRecyleView;
+    ListAdapter_Market marketListAdapter;
+    ArrayList<productsListOfMarketFirestore> mData;
+    ConstraintLayout rootLayout;
+    EditText searchInput;
+    CharSequence search = "";
+    FirestoreRecyclerOptions<productsListOfMarketFirestore> options;
 
-  AlternateListAdapter_Market adapter;
+    AlternateListAdapter_Market adapter;
 
-  private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-  private CollectionReference productsOfMarketCollectionRef = firebaseFirestore.collection("products_of_market");
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private CollectionReference productsOfMarketCollectionRef = firebaseFirestore.collection("products_of_market");
 
-  public MarketFragment() {
-  }
-
-  public static MarketFragment newInstance(String param1, String param2) {
-    MarketFragment fragment = new MarketFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
-    return fragment;
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
+    public MarketFragment() {
     }
-  }
-  productsListOfMarketFirestore[] item = new productsListOfMarketFirestore[100];
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    View contentView =inflater.inflate(R.layout.fragment_market, container, false);
+    public static MarketFragment newInstance(String param1, String param2) {
+        MarketFragment fragment = new MarketFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-    floatingAddNewItemButton = contentView.findViewById(R.id.floatingActionButton);
-    marketRecyleView = contentView.findViewById(R.id.market_rv);
-    rootLayout = contentView.findViewById(R.id.root_layout);
-    searchInput = contentView.findViewById(R.id.search_input);
-    mData = new ArrayList<>();
-
-
-    searchInput.setBackgroundResource(R.drawable.search_input_style);
-    rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
-
-      setUpRecyclerViewManual();
-   getDataToArray();
-
-    searchInput.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-     
-      }
-
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-          adapter.getFilter().filter(s);
-          search = s;
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
-
-
-      }
-    });
-
-      Log.d("checked","i am here");
-      floatingAddNewItemButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          Fragment fragment = new AddNewItemFragment();
-          FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-          FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-          fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-          fragmentTransaction.replace(R.id.container, fragment);
-          fragmentTransaction.addToBackStack(null);
-          fragmentTransaction.commit();
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-      });
-    return contentView;
-  }
+    }
 
+    productsListOfMarketFirestore[] item = new productsListOfMarketFirestore[100];
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View contentView = inflater.inflate(R.layout.fragment_market, container, false);
+
+        floatingAddNewItemButton = contentView.findViewById(R.id.floatingActionButton);
+        marketRecyleView = contentView.findViewById(R.id.market_rv);
+        rootLayout = contentView.findViewById(R.id.root_layout);
+        searchInput = contentView.findViewById(R.id.search_input);
+        mData = new ArrayList<>();
+
+
+        searchInput.setBackgroundResource(R.drawable.search_input_style);
+        rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+
+        setUpRecyclerViewManual();
+        getDataToArray();
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                adapter.getFilter().filter(s);
+                search = s;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+
+        Log.d("checked", "i am here");
+        floatingAddNewItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AddNewItemFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+        });
+        return contentView;
+    }
 
 
     @Override
@@ -144,41 +144,42 @@ public class MarketFragment extends Fragment {
         super.onStop();
     }
 
-  private void getDataToArray() {
-    productsOfMarketCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-      @Override
-      public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-        if (queryDocumentSnapshots.isEmpty()) {
-          Log.d("checked", "database is empty");
-        } else {
-          List<productsListOfMarketFirestore> data = queryDocumentSnapshots.toObjects(productsListOfMarketFirestore.class);
-            adapter = new AlternateListAdapter_Market(mData,getContext());
-            marketRecyleView.setAdapter(adapter);
-          mData.addAll(data);
-          Log.d("checked success:", "ok " + mData);
-        }
+    private void getDataToArray() {
+        productsOfMarketCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()) {
+                    Log.d("checked", "database is empty");
+                } else {
+                    List<productsListOfMarketFirestore> data = queryDocumentSnapshots.toObjects(productsListOfMarketFirestore.class);
+                    adapter = new AlternateListAdapter_Market(mData, getContext());
+                    marketRecyleView.setAdapter(adapter);
+                    mData.addAll(data);
+                    Log.d("checked success:", "ok " + mData);
+                }
 
 
-      }
-    }).addOnFailureListener(new OnFailureListener() {
-      @Override
-      public void onFailure(@NonNull Exception e) {
-        Log.d("checked", "data load failed");
-      }
-    });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("checked", "data load failed");
+            }
+        });
 
 
-  }
-  private void setUpRecyclerViewManual() {
-    marketRecyleView.setHasFixedSize(true);
-    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+    }
+
+    private void setUpRecyclerViewManual() {
+        marketRecyleView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
 //    adapter = new AlternateListAdapter_Market(mData,this.getContext());
 //    marketRecyleView.setAdapter(adapter);
-    Log.d("checked","adapter called");
+        Log.d("checked", "adapter called");
 
-    marketRecyleView.setLayoutManager(layoutManager);
+        marketRecyleView.setLayoutManager(layoutManager);
 
 
-  }
+    }
 
 }

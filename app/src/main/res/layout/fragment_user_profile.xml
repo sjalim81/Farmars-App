@@ -187,10 +187,10 @@
 
                             <TextView
                                 android:id="@+id/textView_dsiplay_thana"
-                                android:layout_marginStart="5dp"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dhaka"/>
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:text="Dhaka" />
 
                         </LinearLayout>
                         <LinearLayout
