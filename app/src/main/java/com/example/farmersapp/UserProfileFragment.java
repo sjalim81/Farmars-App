@@ -51,7 +51,7 @@ public class UserProfileFragment extends Fragment {
     private TextView textViewDisplayUnion, textViewDisplayThana, textViewDisplayVillage;
     private TextView textViewTotalGivenRent, textViewTotalTakenRent;
     private CollectionReference productsOfMarketCollectionRef = FirebaseFirestore.getInstance().collection("products_of_market");
-
+    boolean noSelling_status = false;
 
     String mUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -107,17 +107,19 @@ public class UserProfileFragment extends Fragment {
         recyclerView_mySelling_items = view.findViewById(R.id.recyclerView_mySelling_items);
         recyclerView_mySelling_items.setHasFixedSize(true);
         recyclerView_mySelling_items.setLayoutManager(new LinearLayoutManager(getActivity()));
+        noSellingPostHint.setVisibility(View.INVISIBLE);
 
         setUpRecyclerViewManual();
 
         getDataToArrayFromUsers();
 
 
-
         return view;
     }
 
-    private void getDataToArrayFromProductOfFarmer(final List<String>tempList) {
+    private void getDataToArrayFromProductOfFarmer(final List<String> tempList) {
+
+
 
         productsOfMarketCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -128,15 +130,27 @@ public class UserProfileFragment extends Fragment {
                     List<productsListOfMarketFirestore> data = queryDocumentSnapshots.toObjects(productsListOfMarketFirestore.class);
                     listMySellingItemsAdapter = new ListMySellingItems_Adapter(mData, getContext());
                     recyclerView_mySelling_items.setAdapter(listMySellingItemsAdapter);
-
+                    Log.d(TAG, String.valueOf(tempList));
 
                     for (productsListOfMarketFirestore currentData : data) {
                         Log.d(TAG, currentData.getProductId());
-                        if (tempList.contains(currentData.getProductId())) {
+
+                        if (currentData.getProductOwner().equals(mUserId)) {
+                            noSelling_status = true;
                             mData.add(currentData);
                         } else {
-                            Log.d(TAG, "ki jani hoise");
+                            Log.d(TAG, "Id is not is array");
+
                         }
+
+                    }
+                    if(noSelling_status)
+                    {
+                        noSellingPostHint.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        noSellingPostHint.setVisibility(View.VISIBLE);
                     }
 
 //                    mData.addAll(data);
@@ -181,7 +195,6 @@ public class UserProfileFragment extends Fragment {
                         getDataToArrayFromProductOfFarmer(addedProductsIdList);
 
 
-
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -190,8 +203,6 @@ public class UserProfileFragment extends Fragment {
                 }
             }
         });
-
-
 
 
     }
