@@ -538,6 +538,9 @@ public class AddNewItemFragment extends Fragment {
         productData.put("productSoldStatus", "no");
 
 
+        DocumentReference userDocRef = userCollectionRef.document(userId);
+
+        userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
 
 
 
@@ -546,9 +549,6 @@ public class AddNewItemFragment extends Fragment {
             public void onSuccess(Void aVoid) {
 
 
-                DocumentReference userDocRef = userCollectionRef.document(userId);
-
-                userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
 
 
 
