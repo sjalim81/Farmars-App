@@ -142,7 +142,6 @@ public class UserProfileFragment extends Fragment {
                             Log.d(TAG, "Id is not is array");
 
                         }
-
                     }
                     if(noSelling_status)
                     {
@@ -152,7 +151,6 @@ public class UserProfileFragment extends Fragment {
                     {
                         noSellingPostHint.setVisibility(View.VISIBLE);
                     }
-
 //                    mData.addAll(data);
                     Log.d("checked success:", "ok " + mData);
                 }
@@ -166,8 +164,6 @@ public class UserProfileFragment extends Fragment {
             }
         });
     }
-
-
     private void getDataToArrayFromUsers() {
 
         DocumentReference docRef = usersCollectionRef.document(mUserId);

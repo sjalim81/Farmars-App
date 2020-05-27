@@ -26,34 +26,39 @@
                 android:src="@drawable/test_success_story"/>
 
             <TextView
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@+id/productImage"
                 android:id="@+id/productTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/productImage"
                 android:text="Title"
+                android:textColor="#000000"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/productImage"
-                android:layout_marginStart="15dp"
-                android:layout_below="@+id/productTitle"
                 android:id="@+id/productId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/productTitle"
+                android:layout_marginStart="83dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/productImage"
                 android:text="Product Id"
-                android:textSize="15sp"
-                android:textStyle="italic"/>
+                android:textColor="#000000"
+                android:textSize="15sp" />
 
-            <Switch
-                android:id="@+id/switchButton"
+            <TextView
+                android:id="@+id/productId2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="5dp" />
+                android:layout_below="@+id/productTitle"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/productImage"
+                android:text="Product Id:"
+                android:textColor="#000000"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -61,20 +66,54 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="Selling Status" />
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="12dp"
+                android:text="Selling Status"
+                android:textColor="#000000" />
 
-            <TextView
-                android:id="@+id/textView_sold_unsold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <RadioGroup
+                android:id="@+id/radioGroup_toggle"
+                android:layout_width="93dp"
+                android:layout_height="41dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="5dp"
-                android:text="TextView" />
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="0dp"
 
+                android:checkedButton="@+id/calm"
+                android:orientation="horizontal"
+                android:scrollbarSize="2dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton_unsold"
+                    android:layout_width="47dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/control_switch_background_selector_middle"
+                    android:button="@null"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="Unsold"
+                    android:textColor="#FF0000"
+                    android:textSize="8sp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton_sold"
+                    android:layout_width="47dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/control_switch_background_selector_middle"
+                    android:button="@null"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="Sold"
+                    android:textColor="#06A12B"
+                    android:textSize="8sp" />
+
+            </RadioGroup>
         </RelativeLayout>
         
         
