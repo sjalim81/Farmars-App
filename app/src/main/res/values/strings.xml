@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">FarmersApp</string>
     <string name="your_name">নাম:</string>
     <string name="your_phoneno">মোবাইল নম্বর:</string>
@@ -180,7 +181,17 @@
     <string name="edit_profile">সম্পাদনা করুন</string>
     <string name="list_of_selling_text">আপনার বিক্রয়ের তালিকাঃ</string>
     <string name="no_sell_post">আপনি একটিও বিক্রয়ের পোস্ট দেননি</string>
+    <string name="per_hour_price">ঘন্টা প্রতি ভাড়াঃ</string>
+    <string name="register_instrument">সরঞ্জাম রেজিস্ট্রেশন</string>
+    <string name="upload_image_text">সরঞ্জামের একটি ছবি আপলোড করুন:</string>
+    <string name="select_location">লোকেশন সিলেক্ট করার জন্যে এখানে ট্যাপ করুন</string>
+    <string name="location">লোকেশন</string>
 
+    <string-array name="instrumentType">
+        <item>ধান রোপণ যন্ত্র</item>
+        <item>ট্র্যাক্টর</item>
+        <item>হাল চাষের মেশিন</item>
+    </string-array>
 
     <string-array name="region">
 
@@ -211,6 +222,21 @@
 
 
     </string-array>
+    <string name="title_activity_maps__adding__instrument">Map</string>
+    <string name="title_activity_maps__adding_instrument">Map</string>
+    <string name="confirm_location">আপনার লোকেশন নিশ্চিত করুন</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps__show_instrument">Map</string>
+    <string name="instrument_type">সরঞ্জাম ক্যাটেগরি</string>
+    <string name="select_category">সরঞ্জামের ক্যাটেগরি সিলেক্ট করুন</string>
+    <string name="contact_owner">যোগাযোগ করুন</string>
+    <string name="instrument_category">সরঞ্জাম ক্যাটেগরি</string>
+    <string name="hour_price_fordetails">ঘন্টা প্রতি ভাড়া</string>
+    <string name="name_fordetails">মালিকের নাম</string>
+    <string name="phone_fordetails">মালিকের ফোন নম্বর</string>
+    <string name="address_fordetails">সরঞ্জামের ঠিকানা</string>
+    <string name="more_fordetails">আরও...</string>
+    <string name="info_instrument">সরঞ্জামের তথ্য</string>
 
 
 </resources>
