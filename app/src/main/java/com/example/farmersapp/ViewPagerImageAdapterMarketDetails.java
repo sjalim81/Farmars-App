@@ -38,8 +38,8 @@ public class ViewPagerImageAdapterMarketDetails extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
-    }
 
+    }
     @NonNull
     @Override
     public Object instantiateItem(@NonNull  ViewGroup container, int position) {

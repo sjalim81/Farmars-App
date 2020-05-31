@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -120,6 +121,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void setDataAsFarmer() {
+        CurrentUserApi currentUserApi = CurrentUserApi.getInstance(); //Global Api
+        currentUserApi.setName(enterNameText.getText().toString());
+        currentUserApi.setPhoneNumber(phoneNumber);
+        currentUserApi.setUserId(mUid);
 
         Map<String, Object> user = new HashMap<>();
         List<String> list = new ArrayList<>();
@@ -157,9 +162,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     }
                 });
-
-
     }
+
     private void sendUserhome(){
         Log.d("Print","6");
         Intent homeIntent = new Intent(RegistrationActivity.this,ExploreActivity.class);

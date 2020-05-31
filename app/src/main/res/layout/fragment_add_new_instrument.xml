@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".AddNewInstrumentFragment"
+    android:background="#d8ebb5">
+
+    <TextView
+        android:id="@+id/title"
+        android:text="@string/register_instrument"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_below="@+id/title"
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/instrumentTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/per_hour_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_margin="10dp"/>
+
+            <EditText
+                android:id="@+id/perHourPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="10000"
+                android:inputType="number"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:text="@string/upload_image_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="10dp"/>
+
+        <ImageView
+            android:id="@+id/instrumentImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/upload_image_icon"
+            android:layout_margin="10dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/setLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"
+        android:layout_below="@id/layout1"
+        android:layout_centerInParent="true" />
+
+    <Button
+        android:id="@+id/confirmInstrument_reg_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirmRegistration"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_below="@id/progressBar"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
