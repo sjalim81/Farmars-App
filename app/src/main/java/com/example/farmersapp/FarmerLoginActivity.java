@@ -157,9 +157,8 @@ public class FarmerLoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
 
 
-
                                     numberExistenceCheck();
-                           
+
 
                                 }
                                 // mLoginProgress.setVisibility(View.VISIBLE);
@@ -231,14 +230,15 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onStart();
         Log.d("calls", "1");
 
+        if (mCurrentUser != null) {
+
 
             sendUserHome();
-
             db.collection("users").document(mCurrentUser.getUid())
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful() && task.getResult() != null) {
+                    if (task.isSuccessful() && task.getResult() != null) {
                         CurrentUserApi currentUserApi = CurrentUserApi.getInstance(); //Global Api
                         String name = task.getResult().getString("name");
                         String phoneNumber = task.getResult().getString("logedInPhoneNumber");
@@ -247,16 +247,15 @@ public class FarmerLoginActivity extends AppCompatActivity {
                         currentUserApi.setName(name);
                         currentUserApi.setPhoneNumber(phoneNumber);
                         currentUserApi.setUserId(userId);
-                     
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Document doesn't exist",
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Document doesn't exist",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
         }
+
     }
 
 
