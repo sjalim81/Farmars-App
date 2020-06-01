@@ -61,6 +61,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
 
     private String sentVerificationId, inputOtpCode;
     String phone_number;
+    private CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
     @Override
@@ -130,10 +131,10 @@ public class FarmerLoginActivity extends AppCompatActivity {
 //                Log.d("printId",s);
                 Log.d("calls", "4");
                 //createOTPpopupDialog();
-                Intent otpIntent = new Intent(FarmerLoginActivity.this,otpActivity.class);
-                otpIntent.putExtra("AuthCredentials",s);
-                otpIntent.putExtra("phone",phone_number);
-                Log.d("checked","farmerloginactivity "+phone_number+"  ");
+                Intent otpIntent = new Intent(FarmerLoginActivity.this, otpActivity.class);
+                otpIntent.putExtra("AuthCredentials", s);
+                otpIntent.putExtra("phone", phone_number);
+                Log.d("checked", "farmerloginactivity " + phone_number + "  ");
                 startActivity(otpIntent);
 
 
@@ -153,8 +154,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
 
 
-
-                                    registerPage();
+                                    numberExistenceCheck();
                                 }
                                 // mLoginProgress.setVisibility(View.VISIBLE);
                             }
@@ -226,12 +226,12 @@ public class FarmerLoginActivity extends AppCompatActivity {
         Log.d("calls", "1");
         if (mCurrentUser != null) {
 
-            sendUserhome();
+            sendUserHome();
         }
 
     }
 
-    private void sendUserhome() {
+    private void sendUserHome() {
 
 
         Intent homeIntent = new Intent(FarmerLoginActivity.this, ExploreActivity.class);
@@ -241,5 +241,43 @@ public class FarmerLoginActivity extends AppCompatActivity {
         finish();
     }
 
+    private void numberExistenceCheck() {
+
+        Log.d("checked", "start number check " + phone_number);
+
+        usersCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            boolean check = false;
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Log.d("checkedout", Objects.requireNonNull(document.getString("logedInPhoneNumber")) + " " + check);
+
+                        if (Objects.equals(document.getString("logedInPhoneNumber"), phone_number)) {
+                            Log.d("checked", "number found");
+
+                            Log.d("checked", Objects.requireNonNull(document.getString("logedInPhoneNumber")));
+                            sendUserHome();
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (!check) {
+                        registerPage();
+                    }
+                } else {
+                    registerPage();
+                    Log.d("checked", "number not found");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("checked", "not number found");
+            }
+        });
+    }
 
 }
