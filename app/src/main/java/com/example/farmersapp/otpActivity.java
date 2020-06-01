@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -151,6 +152,10 @@ public class otpActivity extends AppCompatActivity {
                             Log.d("checked", "number found");
 
                             Log.d("checked", Objects.requireNonNull(document.getString("logedInPhoneNumber")));
+                            CurrentUserApi currentUserApi = CurrentUserApi.getInstance();
+                            currentUserApi.setPhoneNumber(document.getString("logedInPhoneNumber"));
+                            currentUserApi.setName(document.getString("name"));
+                            currentUserApi.setUserId(document.getString("userUId"));
                             senduserHome();
                             check = true;
                             break;

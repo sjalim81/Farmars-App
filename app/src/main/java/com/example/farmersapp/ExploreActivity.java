@@ -10,9 +10,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +35,9 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_explore);
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
+        Log.d("Test", "Logged as "+CurrentUserApi.getInstance().getPhoneNumber()+"   "+
+                CurrentUserApi.getInstance().getName()+"    "+CurrentUserApi.getInstance().getUserId());
+
         bottomNavigation.setItemIconTintList(null);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance("", ""));
@@ -46,6 +51,9 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         animateNavigationDrawer();
+
+//        Log.d("Tag", CurrentUserApi.getInstance().getName()+"   "
+//                +CurrentUserApi.getInstance().getPhoneNumber()+"     "+CurrentUserApi.getInstance().getUserId());
     }
 
     private void animateNavigationDrawer() {
@@ -93,7 +101,6 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
                             openFragment(VehicleFragment.newInstance("", ""));
                             return true;
                         case R.id.more_bottomNavigation:
-//                            openFragment(MoreFragment.newInstance("", ""));
                             if(drawerLayout.isDrawerVisible(GravityCompat.START)) {
                                 drawerLayout.closeDrawer(GravityCompat.START);
                             } else {

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -54,7 +56,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
     private EditText otpPassText;
     private Button otpConfirmButton;
 
-
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks McallBack;
@@ -69,6 +71,9 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_login);
 
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
         phoneNumberText = findViewById(R.id.farLogActivity_enter_phoneText);
         //      pinNumberText = findViewById(R.id.farLogActivity_enter_pinText);
         //     forgotPinText = findViewById(R.id.farLogActivity_forgotPin);
@@ -76,8 +81,6 @@ public class FarmerLoginActivity extends AppCompatActivity {
         //      createAccount = findViewById(R.id.farLogActivity_createAccount);
 
         //       forgotPinText.setOnClickListener(this);
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = mAuth.getCurrentUser();
 
 
         Log.d("calls", "2");
@@ -154,7 +157,10 @@ public class FarmerLoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
 
 
+
                                     numberExistenceCheck();
+                           
+
                                 }
                                 // mLoginProgress.setVisibility(View.VISIBLE);
                             }
@@ -224,12 +230,35 @@ public class FarmerLoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d("calls", "1");
-        if (mCurrentUser != null) {
+
 
             sendUserHome();
-        }
 
+            db.collection("users").document(mCurrentUser.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful() && task.getResult() != null) {
+                        CurrentUserApi currentUserApi = CurrentUserApi.getInstance(); //Global Api
+                        String name = task.getResult().getString("name");
+                        String phoneNumber = task.getResult().getString("logedInPhoneNumber");
+                        String userId = task.getResult().getString("userUId");
+
+                        currentUserApi.setName(name);
+                        currentUserApi.setPhoneNumber(phoneNumber);
+                        currentUserApi.setUserId(userId);
+                     
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Document doesn't exist",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+        }
     }
+
 
     private void sendUserHome() {
 
