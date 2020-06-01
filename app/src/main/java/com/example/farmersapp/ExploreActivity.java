@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.view.View;
 import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ExploreActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -26,7 +28,7 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ConstraintLayout contentView;
-
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
         bottomNavigation.setItemIconTintList(null);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance("", ""));
-
+    firebaseAuth = FirebaseAuth.getInstance();
         //Side Navigation Menu Hooks
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
@@ -128,7 +130,18 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
                 openFragment(UserProfileFragment.newInstance("", ""));
                 break;
             case R.id.nav_aboutUs:
+
                 break;
+            case R.id.nav_signout:
+                firebaseAuth.getInstance().signOut();
+                Intent i = new Intent(getBaseContext(),
+                        MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                return true;
+
+
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
