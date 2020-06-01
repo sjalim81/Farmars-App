@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -56,13 +54,14 @@ public class FarmerLoginActivity extends AppCompatActivity {
     private EditText otpPassText;
     private Button otpConfirmButton;
 
-    private FirebaseFirestore db;
+
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks McallBack;
 
     private String sentVerificationId, inputOtpCode;
     String phone_number;
+    private CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
 
     @Override
@@ -70,9 +69,6 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_login);
 
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = mAuth.getCurrentUser();
         phoneNumberText = findViewById(R.id.farLogActivity_enter_phoneText);
         //      pinNumberText = findViewById(R.id.farLogActivity_enter_pinText);
         //     forgotPinText = findViewById(R.id.farLogActivity_forgotPin);
@@ -80,6 +76,8 @@ public class FarmerLoginActivity extends AppCompatActivity {
         //      createAccount = findViewById(R.id.farLogActivity_createAccount);
 
         //       forgotPinText.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
 
 
         Log.d("calls", "2");
@@ -133,10 +131,10 @@ public class FarmerLoginActivity extends AppCompatActivity {
 //                Log.d("printId",s);
                 Log.d("calls", "4");
                 //createOTPpopupDialog();
-                Intent otpIntent = new Intent(FarmerLoginActivity.this,otpActivity.class);
-                otpIntent.putExtra("AuthCredentials",s);
-                otpIntent.putExtra("phone",phone_number);
-                Log.d("checked","farmerloginactivity "+phone_number+"  ");
+                Intent otpIntent = new Intent(FarmerLoginActivity.this, otpActivity.class);
+                otpIntent.putExtra("AuthCredentials", s);
+                otpIntent.putExtra("phone", phone_number);
+                Log.d("checked", "farmerloginactivity " + phone_number + "  ");
                 startActivity(otpIntent);
 
 
@@ -155,7 +153,8 @@ public class FarmerLoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    registerPage();
+
+                                    numberExistenceCheck();
                                 }
                                 // mLoginProgress.setVisibility(View.VISIBLE);
                             }
@@ -226,31 +225,15 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onStart();
         Log.d("calls", "1");
         if (mCurrentUser != null) {
-            db.collection("users").document(mCurrentUser.getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful() && task.getResult() != null) {
-                        CurrentUserApi currentUserApi = CurrentUserApi.getInstance(); //Global Api
-                        String name = task.getResult().getString("name");
-                        String phoneNumber = task.getResult().getString("logedInPhoneNumber");
-                        String userId = task.getResult().getString("userUId");
 
-                        currentUserApi.setName(name);
-                        currentUserApi.setPhoneNumber(phoneNumber);
-                        currentUserApi.setUserId(userId);
-                        sendUserhome();
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Document doesn't exist",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            sendUserHome();
         }
+
     }
 
-    private void sendUserhome() {
+    private void sendUserHome() {
+
+
         Intent homeIntent = new Intent(FarmerLoginActivity.this, ExploreActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -258,5 +241,43 @@ public class FarmerLoginActivity extends AppCompatActivity {
         finish();
     }
 
+    private void numberExistenceCheck() {
+
+        Log.d("checked", "start number check " + phone_number);
+
+        usersCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            boolean check = false;
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Log.d("checkedout", Objects.requireNonNull(document.getString("logedInPhoneNumber")) + " " + check);
+
+                        if (Objects.equals(document.getString("logedInPhoneNumber"), phone_number)) {
+                            Log.d("checked", "number found");
+
+                            Log.d("checked", Objects.requireNonNull(document.getString("logedInPhoneNumber")));
+                            sendUserHome();
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (!check) {
+                        registerPage();
+                    }
+                } else {
+                    registerPage();
+                    Log.d("checked", "number not found");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("checked", "not number found");
+            }
+        });
+    }
 
 }
