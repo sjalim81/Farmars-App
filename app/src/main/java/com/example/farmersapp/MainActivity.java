@@ -7,6 +7,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissions = new ArrayList<>();
     private ArrayList<String> permissionsRejected = new ArrayList<>();
+
+    private FirebaseAuth firebaseAuth;
 
     //widgets
     private Button login_as_farmer;
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         login_as_farmer = findViewById(R.id.login_as_farmer);
         login_as_farmer.setOnClickListener(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firstTimeLunch();
     }
 
     @Override
@@ -154,10 +161,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.login_as_farmer) {
+
+
             startActivity(new Intent(MainActivity.this, FarmerLoginActivity.class));
             finish();
         }
 
+    }
+
+
+    void firstTimeLunch()
+    {
+        final String PREFS_NAME = "appLunched";
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if (settings.getBoolean("my_first_time", true)) {
+
+            Log.d("checked", "First time");
+
+            firebaseAuth.signOut();
+
+
+
+            settings.edit().putBoolean("my_first_time", false).apply();
+        }
     }
 
 }

@@ -230,10 +230,14 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onStart();
         Log.d("calls", "1");
 
+
+
         if (mCurrentUser != null) {
 
 
+        Log.d("checked","i broke");
             sendUserHome();
+
             db.collection("users").document(mCurrentUser.getUid())
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -257,6 +261,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
         }
 
     }
+
 
 
     private void sendUserHome() {
