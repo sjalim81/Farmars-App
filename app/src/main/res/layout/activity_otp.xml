@@ -4,48 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center|top"
     android:orientation="vertical"
     tools:context=".otpActivity">
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="379dp"
         android:layout_height="wrap_content"
-        android:text="Enter otp"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
-        />
-
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/otp_info_text"
+        android:textColor="@color/color_title_text_view"
+        android:textSize="18sp" />
 
     <EditText
+        android:id="@+id/verificattion_code_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="verification Code"
-        android:id="@+id/verificattion_code_et"
         android:layout_margin="40dp"
-        android:inputType="number"
-        android:textSize="20sp"
-        android:textColorHint="@android:color/black"
         android:backgroundTint="@android:color/black"
-        android:textColor="@android:color/black"/>
+        android:hint="@string/otp_hint"
+        android:inputType="number"
+        android:textColor="@color/color_title_text_view"
+        android:textColorHint="@color/content_text_color"
+        android:textSize="20sp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/Button_otp"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/black"
+        android:text="@string/otp_confirmText"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:text="submit"
-        android:padding="10dp"/>
+        android:textSize="20sp" />
+
 
     <ProgressBar
+        android:id="@+id/otp_progress_bar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginTop="20dp"
-        android:id="@+id/otp_progress_bar"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:indeterminateDrawable="@drawable/proressbardialog"
+        android:visibility="gone" />
 
 
 </LinearLayout>

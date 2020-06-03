@@ -27,6 +27,9 @@
     <color name="controlBackground">#ffffffff</color>
 
 
-
+    <color name="color_preloader_start">#000000</color>
+    <color name="color_preloader_center">#000000</color>
+    <color name="color_preloader_end">#ff56a9c7</color>
+    <color name="color_title_text_view">#545659</color>
 
 </resources>
