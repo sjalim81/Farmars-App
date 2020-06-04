@@ -4,11 +4,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,14 +20,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -98,10 +105,14 @@ public class AddNewItemFragment extends Fragment {
     private String imageUriString1;
 
     private SliderView sliderView;
+    private ScrollView scrollView;
+    private RelativeLayout relativeLayout;
 
     String productCondition;
 
     private AlertDialog dialog;
+    private ProgressDialog progressDialog;
+
 
     private String mParam1;
     private String mParam2;
@@ -152,6 +163,13 @@ public class AddNewItemFragment extends Fragment {
         editTextTitle = contentView.findViewById(R.id.editText_title);
         editTextPrice = contentView.findViewById(R.id.editText_price);
         editTextDescription = contentView.findViewById(R.id.editText_description);
+
+        scrollView = contentView.findViewById(R.id.scrollview_item_info);
+
+        progressDialog = new ProgressDialog(getContext());
+
+
+
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -307,7 +325,6 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -328,8 +345,15 @@ public class AddNewItemFragment extends Fragment {
                 final String productDescription = editTextDescription.getText().toString();
                 final String productPrice = editTextPrice.getText().toString();
 
-                Log.d("checkedDes",productDescription);
+                Log.d("checkedDes", productDescription);
                 if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle) && imageUri != null && imageUri1 != null) {
+
+                    progressDialog.show();
+                    progressDialog.setContentView(R.layout.progress_dialog);
+                    progressDialog.getWindow().setBackgroundDrawableResource(R.color.fui_transparent);
+                   progressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
 
 
                     final StorageReference riversRef = storageReference.child("user_image1/" + productId + ".jpg");
@@ -441,7 +465,7 @@ public class AddNewItemFragment extends Fragment {
                     if (TextUtils.isEmpty(productCondition)) {
                         textViewErrorMessage.setText("Fill the Condition/Type!!!!");
                     } else if (TextUtils.isEmpty(productDescription)) {
-                        Log.d("checked",productDescription);
+                        Log.d("checked", productDescription);
                         textViewErrorMessage.setText("Description!!!!");
                     } else if (TextUtils.isEmpty(productPrice)) {
                         textViewErrorMessage.setText("Price!!!!");
@@ -543,15 +567,13 @@ public class AddNewItemFragment extends Fragment {
         userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
 
 
-
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
 
-
-
-
+                progressDialog.dismiss();
+                progressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(getContext(), "product is uploaded successfully", Toast.LENGTH_SHORT).show();
 
             }
@@ -563,7 +585,6 @@ public class AddNewItemFragment extends Fragment {
                         Toast.makeText(getContext(), "(FIRESTORE Error) : " + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
-
 
 
         productId++;
