@@ -41,6 +41,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.farmersapp.adapter.SliderForPopup_Adapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -512,7 +513,7 @@ public class AddNewItemFragment extends Fragment {
         sliderView = contextView.findViewById(R.id.imageSlider);
 
 
-        SliderAdapterForPopup adapter = new SliderAdapterForPopup(getContext(), images);
+        SliderForPopup_Adapter adapter = new SliderForPopup_Adapter(getContext(), images);
 
         sliderView.setSliderAdapter(adapter);
 

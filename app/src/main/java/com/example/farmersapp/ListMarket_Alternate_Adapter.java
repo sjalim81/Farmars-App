@@ -1,8 +1,6 @@
 package com.example.farmersapp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,20 +20,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
+import com.example.farmersapp.model.productsListOfMarketFirestore;
+import com.example.farmersapp.util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateListAdapter_Market.AlternateListHolder_Market> implements Filterable {
+public class ListMarket_Alternate_Adapter extends RecyclerView.Adapter<ListMarket_Alternate_Adapter.AlternateListHolder_Market> implements Filterable {
 
     List<productsListOfMarketFirestore> filterList;
     List<productsListOfMarketFirestore> mainList;
@@ -190,7 +182,7 @@ public class AlternateListAdapter_Market extends RecyclerView.Adapter<AlternateL
         }
     }
 
-    AlternateListAdapter_Market(List<productsListOfMarketFirestore> exampleList, Context Context) {
+    ListMarket_Alternate_Adapter(List<productsListOfMarketFirestore> exampleList, Context Context) {
         this.filterList = exampleList;
         this.mainList = exampleList;
         this.mContext = Context;

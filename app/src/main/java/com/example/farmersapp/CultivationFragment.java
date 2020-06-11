@@ -16,13 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.farmersapp.adapter.ListCultivation_Adapter;
+import com.example.farmersapp.model.CustomListItem_Cultivation;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CultivationFragment extends Fragment {
 
     RecyclerView CultivationRecylerView;
-    ListAdapter_Cultivation cultivationListAdapterCultivation;
+    ListCultivation_Adapter cultivationListAdapterCultivation;
     List<CustomListItem_Cultivation> mData;
     ConstraintLayout rootLayout;
     EditText searchInput;
@@ -63,7 +66,7 @@ public class CultivationFragment extends Fragment {
         mData.add(new CustomListItem_Cultivation("Tomato",R.raw.tomato));
 
 
-        cultivationListAdapterCultivation = new ListAdapter_Cultivation(this.getContext(),mData);
+        cultivationListAdapterCultivation = new ListCultivation_Adapter(this.getContext(),mData);
         CultivationRecylerView.setAdapter(cultivationListAdapterCultivation);
         CultivationRecylerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.farmersapp.adapter.ListMarket_Adapter;
+import com.example.farmersapp.model.productsListOfMarketFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,14 +40,14 @@ public class MarketFragment extends Fragment {
     private String mParam2;
 
     RecyclerView marketRecyleView;
-    ListAdapter_Market marketListAdapter;
+    ListMarket_Adapter marketListAdapter;
     ArrayList<productsListOfMarketFirestore> mData;
     ConstraintLayout rootLayout;
     EditText searchInput;
     CharSequence search = "";
     FirestoreRecyclerOptions<productsListOfMarketFirestore> options;
 
-    AlternateListAdapter_Market adapter;
+    ListMarket_Alternate_Adapter adapter;
 
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference productsOfMarketCollectionRef = firebaseFirestore.collection("products_of_market");
@@ -151,7 +153,7 @@ public class MarketFragment extends Fragment {
                     Log.d("checked", "database is empty");
                 } else {
                     List<productsListOfMarketFirestore> data = queryDocumentSnapshots.toObjects(productsListOfMarketFirestore.class);
-                    adapter = new AlternateListAdapter_Market(mData, getContext());
+                    adapter = new ListMarket_Alternate_Adapter(mData, getContext());
                     marketRecyleView.setAdapter(adapter);
                     mData.addAll(data);
                     Log.d("checked success:", "ok " + mData);
@@ -172,7 +174,7 @@ public class MarketFragment extends Fragment {
     private void setUpRecyclerViewManual() {
         marketRecyleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-//    adapter = new AlternateListAdapter_Market(mData,this.getContext());
+//    adapter = new ListMarket_Alternate_Adapter(mData,this.getContext());
 //    marketRecyleView.setAdapter(adapter);
         Log.d("checked", "adapter called");
 

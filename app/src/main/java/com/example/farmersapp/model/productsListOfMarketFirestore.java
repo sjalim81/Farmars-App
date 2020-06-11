@@ -1,4 +1,4 @@
-package com.example.farmersapp;
+package com.example.farmersapp.model;
 
 public class productsListOfMarketFirestore  {
 

@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.farmersapp.GlideApp;
+import com.example.farmersapp.util.GlideApp;
 import com.example.farmersapp.R;
 
 import java.util.List;

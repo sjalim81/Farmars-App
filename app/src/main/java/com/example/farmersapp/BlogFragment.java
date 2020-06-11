@@ -163,7 +163,7 @@ public class BlogFragment extends Fragment {
     private void setUpRecyclerViewManual() {
         recyclerViewBlogItem.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-//    adapter = new AlternateListAdapter_Market(mData,this.getContext());
+//    adapter = new ListMarket_Alternate_Adapter(mData,this.getContext());
 //    marketRecyleView.setAdapter(adapter);
         Log.d("checked", "adapter called");
         recyclerViewBlogItem.setLayoutManager(layoutManager);

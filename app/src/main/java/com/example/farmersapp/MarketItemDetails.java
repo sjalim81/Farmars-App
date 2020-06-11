@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.farmersapp.adapter.ViewPagerImage_MarketDetails_Adapter;
+import com.example.farmersapp.model.productsListOfMarketFirestore;
+import com.example.farmersapp.adapter.Slider_Adapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +42,7 @@ public class MarketItemDetails extends Fragment {
     private Context mContext;
     private SliderView sliderView;
     private ImageButton imageButton;
-    ViewPagerImageAdapterMarketDetails viewPagerImageAdapter;
+    ViewPagerImage_MarketDetails_Adapter viewPagerImageAdapter;
     String phoneNumner;
 
 
@@ -117,9 +120,9 @@ public class MarketItemDetails extends Fragment {
                 };
 
 
-//                viewPagerImageAdapter = new ViewPagerImageAdapterMarketDetails(mContext, images);
+//                viewPagerImageAdapter = new ViewPagerImage_MarketDetails_Adapter(mContext, images);
 //                viewPager.setAdapter(viewPagerImageAdapter);
-                SliderAdapterExample adapter = new SliderAdapterExample(getContext(),images);
+                Slider_Adapter adapter = new Slider_Adapter(getContext(),images);
 
                 sliderView.setSliderAdapter(adapter);
 

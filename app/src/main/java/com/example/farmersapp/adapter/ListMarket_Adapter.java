@@ -1,4 +1,4 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
 
 import android.content.Context;
@@ -20,6 +20,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.farmersapp.model.CustomListItem_Market;
+import com.example.farmersapp.MarketItemDetails;
+import com.example.farmersapp.R;
+import com.example.farmersapp.model.productsListOfMarketFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,23 +36,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class ListAdapter_Market extends FirestoreRecyclerAdapter<productsListOfMarketFirestore, ListAdapter_Market.ListViewHolder> {
+public class ListMarket_Adapter extends FirestoreRecyclerAdapter<productsListOfMarketFirestore, ListMarket_Adapter.ListViewHolder> {
    ArrayList<CustomListItem_Market> mData;
    Context mContext;
 
-    public ListAdapter_Market(@NonNull FirestoreRecyclerOptions<productsListOfMarketFirestore> options) {
+    public ListMarket_Adapter(@NonNull FirestoreRecyclerOptions<productsListOfMarketFirestore> options) {
         super(options);
 
 
     }
 
-//    public ListAdapter_Market(@NonNull FirestoreRecyclerOptions<productsListOfMarketFirestore> options, ArrayList<CustomListItem_Market> mData) {
+//    public ListMarket_Adapter(@NonNull FirestoreRecyclerOptions<productsListOfMarketFirestore> options, ArrayList<CustomListItem_Market> mData) {
 //        super(options);
 //        this.mData = mData;
 //    }
 
     @Override
-    public ListAdapter_Market.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListMarket_Adapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View layout;
         mContext = parent.getContext();

@@ -1,28 +1,23 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.example.farmersapp.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SliderAdapterForPopup extends
-        SliderViewAdapter<SliderAdapterForPopup.SliderAdapterVH> {
+public class SliderForPopup_Adapter extends
+        SliderViewAdapter<SliderForPopup_Adapter.SliderAdapterVH> {
 
     private Context context;
     private Uri images[];
-    public SliderAdapterForPopup(Context context,Uri images[]) {
+    public SliderForPopup_Adapter(Context context, Uri images[]) {
         this.images = images;
         this.context = context;
     }
