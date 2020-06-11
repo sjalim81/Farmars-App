@@ -1,4 +1,4 @@
-package com.example.farmersapp.adapter;
+package com.example.farmersapp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,10 +20,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.farmersapp.GlideApp;
-import com.example.farmersapp.MarketItemDetails;
-import com.example.farmersapp.R;
 import com.example.farmersapp.model.productsListOfMarketFirestore;
+import com.example.farmersapp.util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersapp.adapter.ListMarket_Adapter;
-import com.example.farmersapp.adapter.ListMarket_Alternate_Adapter;
 import com.example.farmersapp.model.productsListOfMarketFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;

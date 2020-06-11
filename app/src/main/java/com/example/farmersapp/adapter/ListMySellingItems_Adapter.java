@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.farmersapp.GlideApp;
+import com.example.farmersapp.util.GlideApp;
 import com.example.farmersapp.R;
 import com.example.farmersapp.model.productsListOfMarketFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
