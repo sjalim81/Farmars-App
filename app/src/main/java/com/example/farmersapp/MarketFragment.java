@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class MarketFragment extends Fragment {
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_market, container, false);
 
-        floatingAddNewItemButton = contentView.findViewById(R.id.floatingActionButton);
+        floatingAddNewItemButton = contentView.findViewById(R.id.floatingActionButton_blog);
         marketRecyleView = contentView.findViewById(R.id.market_rv);
         rootLayout = contentView.findViewById(R.id.root_layout);
         searchInput = contentView.findViewById(R.id.search_input);

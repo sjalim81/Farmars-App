@@ -20,11 +20,17 @@ public class SliderAdapterExample extends
 
     private Context context;
     private String images[];
+    public static final String TAG = "checked";
     public SliderAdapterExample(Context context,String images[]) {
         this.images = images;
         this.context = context;
     }
 
+    public SliderAdapterExample(Context context,List<String>imagesList) {
+        this.images =  imagesList.toArray(new String[0]);
+        this.context = context;
+        Log.d(TAG,this.images.toString());
+    }
 
 
     @Override

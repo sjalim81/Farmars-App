@@ -25,11 +25,13 @@
     <color name="lightBlue">#ff6691c4</color>
     <color name="lighterBlue">#ffcdd8ec</color>
     <color name="controlBackground">#ffffffff</color>
-
+    <color name="icons_counter_color">#828181</color>
 
     <color name="color_preloader_start">#000000</color>
     <color name="color_preloader_center">#000000</color>
     <color name="color_preloader_end">#ff56a9c7</color>
     <color name="color_title_text_view">#545659</color>
+
+    <color name="placeholder_bg">#807D7D</color>
 
 </resources>

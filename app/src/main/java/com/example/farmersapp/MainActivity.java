@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
+
+
         permissionsToRequest = permissionsToRequest(permissions);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
