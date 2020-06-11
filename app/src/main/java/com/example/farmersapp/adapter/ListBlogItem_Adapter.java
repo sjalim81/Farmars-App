@@ -1,6 +1,5 @@
 package com.example.farmersapp.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,22 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 ;import com.example.farmersapp.R;
-import com.example.farmersapp.SliderAdapterExample;
 import com.example.farmersapp.model.BlogItem;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.smarteist.autoimageslider.SliderView;
-import com.squareup.okhttp.Cache;
-
-import org.w3c.dom.CDATASection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +93,7 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                     images.add("blog/" + items.get(position).getBlogId() + "/" + i+".jpg");
                 }
 
-                SliderAdapterExample sliderAdapter = new SliderAdapterExample(viewHolderPic.sliderView.getContext(), images);
+                Slider_Adapter sliderAdapter = new Slider_Adapter(viewHolderPic.sliderView.getContext(), images);
                 viewHolderPic.sliderView.setSliderAdapter(sliderAdapter);
 
                 viewHolderPic.likeTextView.setText(items.get(position).getLike());

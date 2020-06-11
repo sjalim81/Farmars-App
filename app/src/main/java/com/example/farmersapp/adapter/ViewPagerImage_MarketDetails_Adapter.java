@@ -1,4 +1,4 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,19 +12,20 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.farmersapp.GlideApp;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class ViewPagerImageAdapterMarketDetails extends PagerAdapter {
+public class ViewPagerImage_MarketDetails_Adapter extends PagerAdapter {
     private Context context;
     private String[] imageUrls;
     LayoutInflater inflater;
 //     ImageView imageView ;
 //     ViewGroup viewGroupContainer;
 
-    ViewPagerImageAdapterMarketDetails(Context context, String[] imageUrls) {
+    ViewPagerImage_MarketDetails_Adapter(Context context, String[] imageUrls) {
         this.context = context;
         this.imageUrls = imageUrls;
         inflater = LayoutInflater.from(context);

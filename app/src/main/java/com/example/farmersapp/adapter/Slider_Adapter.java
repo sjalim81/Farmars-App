@@ -1,4 +1,4 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,25 +8,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.farmersapp.GlideApp;
+import com.example.farmersapp.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SliderAdapterExample extends
-        SliderViewAdapter<SliderAdapterExample.SliderAdapterVH> {
+public class Slider_Adapter extends
+        SliderViewAdapter<Slider_Adapter.SliderAdapterVH> {
 
     private Context context;
     private String images[];
     public static final String TAG = "checked";
-    public SliderAdapterExample(Context context,String images[]) {
+    public Slider_Adapter(Context context, String images[]) {
         this.images = images;
         this.context = context;
     }
 
-    public SliderAdapterExample(Context context,List<String>imagesList) {
+    public Slider_Adapter(Context context, List<String>imagesList) {
         this.images =  imagesList.toArray(new String[0]);
         this.context = context;
         Log.d(TAG,this.images.toString());

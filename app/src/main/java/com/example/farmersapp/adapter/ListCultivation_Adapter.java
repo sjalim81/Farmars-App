@@ -1,4 +1,4 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,16 +20,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.farmersapp.CultivationItemDetails;
+import com.example.farmersapp.model.CustomListItem_Cultivation;
+import com.example.farmersapp.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAdapter_Cultivation extends RecyclerView.Adapter<ListAdapter_Cultivation.ListViewHolder> implements Filterable {
+public class ListCultivation_Adapter extends RecyclerView.Adapter<ListCultivation_Adapter.ListViewHolder> implements Filterable {
 
     Context mContext;
     List<CustomListItem_Cultivation> mData;
     List<CustomListItem_Cultivation> mDataFiltered;
 
-    public ListAdapter_Cultivation(Context mContext, List<CustomListItem_Cultivation> mData) {
+    public ListCultivation_Adapter(Context mContext, List<CustomListItem_Cultivation> mData) {
         this.mContext = mContext;
         this.mData = mData;
         this.mDataFiltered = mData;
@@ -86,7 +90,7 @@ public class ListAdapter_Cultivation extends RecyclerView.Adapter<ListAdapter_Cu
 
     @NonNull
     @Override
-    public ListAdapter_Cultivation.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListCultivation_Adapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
 
@@ -99,7 +103,7 @@ public class ListAdapter_Cultivation extends RecyclerView.Adapter<ListAdapter_Cu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListAdapter_Cultivation.ListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListCultivation_Adapter.ListViewHolder holder, int position) {
         holder.imageView.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_transition_animation));
         holder.itemContainer.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_scale_animation));
 

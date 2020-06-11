@@ -15,12 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.farmersapp.adapter.ListMySellingItems_Adapter;
+import com.example.farmersapp.model.productsListOfMarketFirestore;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -206,7 +206,7 @@ public class UserProfileFragment extends Fragment {
     private void setUpRecyclerViewManual() {
         recyclerView_mySelling_items.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-//    adapter = new AlternateListAdapter_Market(mData,this.getContext());
+//    adapter = new ListMarket_Alternate_Adapter(mData,this.getContext());
 //    marketRecyleView.setAdapter(adapter);
         Log.d("checked", "adapter called");
 
