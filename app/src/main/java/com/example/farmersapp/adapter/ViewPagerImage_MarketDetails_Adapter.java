@@ -3,6 +3,7 @@ package com.example.farmersapp.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.example.farmersapp.util.GlideOptions.bitmapTransform;
 
 public class ViewPagerImage_MarketDetails_Adapter extends PagerAdapter {
     private Context context;
@@ -52,6 +57,7 @@ public class ViewPagerImage_MarketDetails_Adapter extends PagerAdapter {
         Log.d("checkedimage",storageReference.toString());
         GlideApp.with(imageView.getContext())
                 .load(storageReference)
+                .transform(new BlurTransformation(25,2))
                 .into(imageView);
 
 //        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imageUrls[position]);

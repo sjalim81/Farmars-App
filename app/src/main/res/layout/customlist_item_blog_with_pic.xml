@@ -90,6 +90,8 @@
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:background="@drawable/blur"
             expandableTextView:sliderAnimationDuration="600"
             expandableTextView:sliderAutoCycleDirection="back_and_forth"
             expandableTextView:sliderAutoCycleEnabled="true"
