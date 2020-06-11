@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
     //Declaration for PopUp
     private EditText otpPassText;
     private Button otpConfirmButton;
+    private ProgressBar progressBar;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -83,6 +85,9 @@ public class FarmerLoginActivity extends AppCompatActivity {
         //       forgotPinText.setOnClickListener(this);
 
 
+        progressBar = findViewById(R.id.progressBarDialog);
+
+
         Log.d("calls", "2");
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -90,14 +95,19 @@ public class FarmerLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+
+
                 String country_code = "+88";
                 phone_number = phoneNumberText.getText().toString().trim();
                 String complete_phone_number = country_code + phone_number;
                 if (phone_number.isEmpty()) {
 
+
                     Toast.makeText(getApplicationContext(), "Please Fill", Toast.LENGTH_LONG).show();
                 } else {
-//                    mLoginProgress.setVisibility(View.VISIBLE);
+                     progressBar.setVisibility(View.VISIBLE);
                     Log.d("calls", "3");
 
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -230,10 +240,14 @@ public class FarmerLoginActivity extends AppCompatActivity {
         super.onStart();
         Log.d("calls", "1");
 
+        progressBar.setVisibility(View.INVISIBLE);
+
         if (mCurrentUser != null) {
 
 
+        Log.d("checked","i broke");
             sendUserHome();
+
             db.collection("users").document(mCurrentUser.getUid())
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -257,6 +271,7 @@ public class FarmerLoginActivity extends AppCompatActivity {
         }
 
     }
+
 
 
     private void sendUserHome() {

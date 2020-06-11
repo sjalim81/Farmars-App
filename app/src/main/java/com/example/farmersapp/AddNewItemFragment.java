@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -98,10 +104,14 @@ public class AddNewItemFragment extends Fragment {
     private String imageUriString1;
 
     private SliderView sliderView;
+    private ScrollView scrollView;
+    private RelativeLayout relativeLayout;
 
     String productCondition;
 
     private AlertDialog dialog;
+    private ProgressDialog progressDialog;
+
 
     private String mParam1;
     private String mParam2;
@@ -141,7 +151,6 @@ public class AddNewItemFragment extends Fragment {
         radioButtonUsed = contentView.findViewById(R.id.radioButton_used);
         radioButtonBoth = contentView.findViewById(R.id.radioButton_both);
 
-
         buttonPreview = contentView.findViewById(R.id.button_preview);
         buttonSubmit = contentView.findViewById(R.id.button_submit);
         imageView1 = contentView.findViewById(R.id.imageView_demopic1);
@@ -152,6 +161,10 @@ public class AddNewItemFragment extends Fragment {
         editTextTitle = contentView.findViewById(R.id.editText_title);
         editTextPrice = contentView.findViewById(R.id.editText_price);
         editTextDescription = contentView.findViewById(R.id.editText_description);
+
+        scrollView = contentView.findViewById(R.id.scrollview_item_info);
+
+        progressDialog = new ProgressDialog(getContext());
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -307,7 +320,6 @@ public class AddNewItemFragment extends Fragment {
         });
 
 
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -328,8 +340,14 @@ public class AddNewItemFragment extends Fragment {
                 final String productDescription = editTextDescription.getText().toString();
                 final String productPrice = editTextPrice.getText().toString();
 
-                Log.d("checkedDes",productDescription);
+                Log.d("checkedDes", productDescription);
                 if (!TextUtils.isEmpty(productArea) && !TextUtils.isEmpty(productRegion) && !TextUtils.isEmpty(productCategory) && !TextUtils.isEmpty(productCondition) && !TextUtils.isEmpty(productDescription) && !TextUtils.isEmpty(productPrice) && !TextUtils.isEmpty(productTitle) && imageUri != null && imageUri1 != null) {
+
+                    progressDialog.show();
+                    progressDialog.setContentView(R.layout.progress_dialog);
+                    progressDialog.getWindow().setBackgroundDrawableResource(R.color.fui_transparent);
+                    progressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
                     final StorageReference riversRef = storageReference.child("user_image1/" + productId + ".jpg");
@@ -441,7 +459,7 @@ public class AddNewItemFragment extends Fragment {
                     if (TextUtils.isEmpty(productCondition)) {
                         textViewErrorMessage.setText("Fill the Condition/Type!!!!");
                     } else if (TextUtils.isEmpty(productDescription)) {
-                        Log.d("checked",productDescription);
+                        Log.d("checked", productDescription);
                         textViewErrorMessage.setText("Description!!!!");
                     } else if (TextUtils.isEmpty(productPrice)) {
                         textViewErrorMessage.setText("Price!!!!");
@@ -543,14 +561,21 @@ public class AddNewItemFragment extends Fragment {
         userDocRef.update("marketProductList", FieldValue.arrayUnion(productId));
 
 
-
         firebaseFirestore.collection("products_of_market").document(productIdString).set(productData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
 
+                progressDialog.dismiss();
+                progressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-
+                Fragment fragment = new MarketFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
                 Toast.makeText(getContext(), "product is uploaded successfully", Toast.LENGTH_SHORT).show();
 
@@ -565,7 +590,6 @@ public class AddNewItemFragment extends Fragment {
                 });
 
 
-
         productId++;
 
         productIdString = Integer.toString(productId);
@@ -576,7 +600,7 @@ public class AddNewItemFragment extends Fragment {
 
     }
 
-    private String banglaDateTimeMaker(String dateText) {
+    public String banglaDateTimeMaker(String dateText) {
         StringBuilder dateTime = new StringBuilder();
 
         String[] tokens = dateText.split(" ");

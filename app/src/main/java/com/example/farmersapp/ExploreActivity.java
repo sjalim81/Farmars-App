@@ -18,6 +18,7 @@ import com.example.farmersapp.util.CurrentUserApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ExploreActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,6 +30,7 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
     NavigationView navigationView;
     ConstraintLayout contentView;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser mFirebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         animateNavigationDrawer();
+
+        mFirebaseUser = firebaseAuth.getCurrentUser();
 
 //        Log.d("Tag", CurrentUserApi.getInstance().getName()+"   "
 //                +CurrentUserApi.getInstance().getPhoneNumber()+"     "+CurrentUserApi.getInstance().getUserId());
@@ -133,6 +137,8 @@ public class ExploreActivity extends AppCompatActivity implements NavigationView
 
                 break;
             case R.id.nav_signout:
+
+
                 firebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getBaseContext(),
                         MainActivity.class);
