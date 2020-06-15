@@ -1,6 +1,7 @@
 package com.example.farmersapp.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-;import com.example.farmersapp.R;
+;import com.example.farmersapp.AddNewBlogFragment;
+import com.example.farmersapp.CommentsFragment;
+import com.example.farmersapp.FarmerLoginActivity;
+import com.example.farmersapp.R;
 import com.example.farmersapp.model.BlogItem;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -82,7 +90,7 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        Object item = items.get(position);
+        final Object item = items.get(position);
 
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_WITH_PIC:
@@ -172,11 +180,25 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
 
 
+
+
                     }
                 });
                 viewHolderPic.commentImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Fragment fragment = new CommentsFragment();
+                        Bundle args = new Bundle();
+
+                        args.putString("BlogId",items.get(position).getBlogId());
+                        args.putString("name",items.get(position).getOwnerName());
+                        fragment.setArguments(args);
+                        FragmentManager fragmentManager = ((FragmentActivity)viewHolderPic.commentImageButton.getContext()).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                        fragmentTransaction.replace(R.id.container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
 
 
 
@@ -265,6 +287,18 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                 viewHolderNoPic.commentImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Fragment fragment = new CommentsFragment();
+                        Bundle args = new Bundle();
+
+                        args.putString("BlogId",items.get(position).getBlogId());
+                        args.putString("name",items.get(position).getOwnerName());
+                        fragment.setArguments(args);
+                        FragmentManager fragmentManager = ((FragmentActivity)viewHolderNoPic.commentImageButton.getContext()).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                        fragmentTransaction.replace(R.id.container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
 
 
 
@@ -290,8 +324,6 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
         ExpandableTextView postExpandableTextView;
         ShimmerFrameLayout shimmerFrameLayout;
 
-
-
         public WithPicViewHolder(View itemView) {
             super(itemView);
             dateTextView = itemView.findViewById(R.id.textView_date);
@@ -302,12 +334,7 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
             sliderView = itemView.findViewById(R.id.imageSlider);
             likeImageButton = itemView.findViewById(R.id.imageButton_like);
             commentImageButton = itemView.findViewById(R.id.imageButton_comment);
-
-
             postExpandableTextView = itemView.findViewById(R.id.expand_text_view);
-
-
-
         }
 
     }
