@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.farmersapp.adapter.GridBlogImages_Adapter;
+import com.example.farmersapp.model.CommentItemDetails;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +47,7 @@ import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,7 +86,7 @@ public class AddNewBlogFragment extends Fragment {
     //Firebase
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
-    private CollectionReference collectionReferenceBlog, collectionReferenceBlogId, collectionReferenceusers;
+    private CollectionReference collectionReferenceBlog, collectionReferenceBlogId, collectionReferenceUsers,collectionReferenceComment;
     private FirebaseFirestore firebaseFirestore;
     private DocumentReference documentReferenceBlogId, documentReferenceBlog;
 
@@ -147,7 +151,8 @@ public class AddNewBlogFragment extends Fragment {
         storageReference = FirebaseStorage.getInstance().getReference();
         collectionReferenceBlog = firebaseFirestore.collection("Blog");
         collectionReferenceBlogId = firebaseFirestore.collection("BlogId");
-        collectionReferenceusers = firebaseFirestore.collection("users");
+        collectionReferenceUsers = firebaseFirestore.collection("users");
+        collectionReferenceComment = firebaseFirestore.collection("Comment");
         documentReferenceBlogId = collectionReferenceBlogId.document("currentId");
 
         setName();
@@ -212,6 +217,14 @@ public class AddNewBlogFragment extends Fragment {
                 }
                 storeData();
 
+                Fragment fragment = new BlogFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
 
             }
         });
@@ -222,6 +235,7 @@ public class AddNewBlogFragment extends Fragment {
 
     private void storeData() {
         HashMap<String, String> dataMap = new HashMap<>();
+        final HashMap<String,List<CommentItemDetails>> dataMapComment = new HashMap<>();
 
         dataMap.put("blogId", blogId);
         dataMap.put("like", "0");
@@ -234,8 +248,10 @@ public class AddNewBlogFragment extends Fragment {
         dataMap.put("date", banglaDateTime);
         dataMap.put("ownerName", ownerName);
 
-        DocumentReference userDocRef = collectionReferenceusers.document(userId);
+        CommentItemDetails itemDetails = new CommentItemDetails();
+        dataMapComment.put("commentList", Arrays.asList(itemDetails));
 
+        DocumentReference userDocRef = collectionReferenceUsers.document(userId);
         userDocRef.update("blogList", FieldValue.arrayUnion(blogId));
 
 
@@ -245,6 +261,9 @@ public class AddNewBlogFragment extends Fragment {
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Blog posted", Toast.LENGTH_LONG).show();
                 collectionReferenceBlog.document(blogId).update("peopleWhoLiked",FieldValue.arrayUnion("testText"));
+//                collectionReferenceBlog.document().update("commentList",FieldValue.arrayUnion());
+                collectionReferenceComment.document(blogId).set(dataMapComment);
+                
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -277,7 +296,7 @@ public class AddNewBlogFragment extends Fragment {
     private void setName() {
 
 
-        collectionReferenceusers.document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        collectionReferenceUsers.document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 ownerName = documentSnapshot.getString("name");
