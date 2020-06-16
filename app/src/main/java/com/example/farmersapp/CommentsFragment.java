@@ -107,13 +107,15 @@ public class CommentsFragment extends Fragment {
                     editTextComment.setError("Enter comment.");
                 } else {
 
-                    CommentItemDetails newComment = new CommentItemDetails(mAuth.getUid(), editTextComment.getText().toString(), ownerName);
+                    CommentItemDetails newComment = new CommentItemDetails(mAuth.getUid(), editTextComment.getText().toString(), ownerName,blogId);
 
 //                    collectionReferenceBlog.document(blogId).update("commentList", FieldValue.arrayUnion(newComment));
                     Map<String, String> newData = new HashMap<>();
                     newData.put("name", ownerName);
                     newData.put("comment", editTextComment.getText().toString());
                     newData.put("userId", mAuth.getUid());
+                    newData.put("blogId",blogId);
+
 
 
                     collectionReferenceComment.document(blogId).update("commentList", FieldValue.arrayUnion(newComment));
@@ -125,7 +127,8 @@ public class CommentsFragment extends Fragment {
                     recyclerViewComment.setAdapter(adapter);
                     editTextComment.setText("");
 
-                    collectionReferenceBlog.document(blogId).update("comment",String.valueOf(mCommentItems.size()));
+                    collectionReferenceBlog.document(blogId).update("comment",mCommentItems.size());
+
 
                 }
             }

@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/imageView_user"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="37dp"
+            android:layout_height="31dp"
             expandableTextView:srcCompat="@drawable/demo_pic2" />
 
         <LinearLayout
@@ -56,7 +56,16 @@
 
             </com.ms.square.android.expandabletextview.ExpandableTextView>
 
+            <EditText
+                android:id="@+id/editText_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+
             <LinearLayout
+                android:id="@+id/linearLayout_edit_remove_buttons"
                 android:layout_width="79dp"
                 android:layout_height="9dp"
                 android:orientation="horizontal">
@@ -74,6 +83,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     expandableTextView:srcCompat="@drawable/ic_remove_text_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_cancel_save_buttons"
+                android:layout_width="138dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="220dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/button_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="SAVE"
+                    android:textSize="10sp" />
             </LinearLayout>
 
 

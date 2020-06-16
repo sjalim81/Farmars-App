@@ -90,20 +90,6 @@
 
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/ic_watchers" />
-
-        <TextView
-            android:id="@+id/textView_views"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="watch" />
-
-
-        <ImageView
             android:id="@+id/imageView4"
             android:layout_width="18dp"
             android:layout_height="12dp"
