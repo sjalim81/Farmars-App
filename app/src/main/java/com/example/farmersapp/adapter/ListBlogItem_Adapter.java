@@ -41,7 +41,7 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
     public static final String TAG = "checked";
     List<BlogItem> items;
     Context mContext;
-     String tempLikedCount;
+     long tempLikedCount;
     FirebaseAuth mAuth;
     DocumentReference documentReferenceUser;
     FirebaseFirestore firebaseFirestore;
@@ -104,9 +104,9 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                 Slider_Adapter sliderAdapter = new Slider_Adapter(viewHolderPic.sliderView.getContext(), images);
                 viewHolderPic.sliderView.setSliderAdapter(sliderAdapter);
 
-                viewHolderPic.likeTextView.setText(items.get(position).getLike());
-                viewHolderPic.commentTextView.setText(items.get(position).getComment());
-                viewHolderPic.viewTextView.setText(items.get(position).getView());
+                viewHolderPic.likeTextView.setText(String.valueOf(items.get(position).getLike()));
+                viewHolderPic.commentTextView.setText(String.valueOf(items.get(position).getComment()));
+
                 viewHolderPic.nameTextView.setText(items.get(position).getOwnerName());
                 viewHolderPic.dateTextView.setText(items.get(position).getDate());
                 viewHolderPic.postExpandableTextView.setText(items.get(position).getPost());
@@ -136,10 +136,10 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                             blogDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    tempLikedCount = documentSnapshot.getString("like");
-                                    blogDocumentReference.update("like",String.valueOf(Integer.parseInt(tempLikedCount)-1));
+                                    tempLikedCount = documentSnapshot.getLong("like");
+                                    blogDocumentReference.update("like",tempLikedCount-1);
 
-                                    viewHolderPic.likeTextView.setText(String.valueOf(Integer.parseInt(tempLikedCount)-1));
+                                    viewHolderPic.likeTextView.setText(String.valueOf(tempLikedCount-1));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -162,10 +162,10 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                             blogDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    tempLikedCount = documentSnapshot.getString("like");
-                                    blogDocumentReference.update("like",String.valueOf(Integer.parseInt(tempLikedCount)+1));
+                                    tempLikedCount = documentSnapshot.getLong("like");
+                                    blogDocumentReference.update("like",tempLikedCount+1);
 
-                                    viewHolderPic.likeTextView.setText(String.valueOf(Integer.parseInt(tempLikedCount)+1));
+                                    viewHolderPic.likeTextView.setText(String.valueOf(tempLikedCount+1));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -209,9 +209,9 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             case ITEM_TYPE_WITHOUT_PIC:
                 final WithoutPicViewHolder viewHolderNoPic = (WithoutPicViewHolder) holder;
-                viewHolderNoPic.likeTextView.setText(items.get(position).getLike());
-                viewHolderNoPic.commentTextView.setText(items.get(position).getComment());
-                viewHolderNoPic.viewTextView.setText(items.get(position).getView());
+                viewHolderNoPic.likeTextView.setText(String.valueOf(items.get(position).getLike()));
+                viewHolderNoPic.commentTextView.setText(String.valueOf(items.get(position).getComment()));
+
                 viewHolderNoPic.nameTextView.setText(items.get(position).getOwnerName());
                 viewHolderNoPic.dateTextView.setText(items.get(position).getDate());
                 viewHolderNoPic.postExpandableTextView.setText(items.get(position).getPost());
@@ -239,11 +239,11 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                             blogDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                               tempLikedCount = documentSnapshot.getString("like");
+                               tempLikedCount = documentSnapshot.getLong("like");
 
-                                    blogDocumentReference.update("like",String.valueOf(Integer.parseInt(tempLikedCount)-1));
+                                    blogDocumentReference.update("like",tempLikedCount-1);
 
-                                    viewHolderNoPic.likeTextView.setText(String.valueOf(Integer.parseInt(tempLikedCount)-1));
+                                    viewHolderNoPic.likeTextView.setText(String.valueOf(tempLikedCount-1));
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -266,11 +266,11 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
                             blogDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    tempLikedCount = documentSnapshot.getString("like");
+                                    tempLikedCount = documentSnapshot.getLong("like");
 
-                                    blogDocumentReference.update("like",String.valueOf(Integer.parseInt(tempLikedCount)+1));
+                                    blogDocumentReference.update("like",tempLikedCount+1);
 
-                                    viewHolderNoPic.likeTextView.setText(String.valueOf(Integer.parseInt(tempLikedCount)+1));
+                                    viewHolderNoPic.likeTextView.setText(String.valueOf(tempLikedCount+1));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -322,13 +322,13 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
         SliderView sliderView;
         ImageButton likeImageButton, commentImageButton;
         ExpandableTextView postExpandableTextView;
-        ShimmerFrameLayout shimmerFrameLayout;
+
 
         public WithPicViewHolder(View itemView) {
             super(itemView);
             dateTextView = itemView.findViewById(R.id.textView_date);
             nameTextView = itemView.findViewById(R.id.textView_name);
-            viewTextView = itemView.findViewById(R.id.textView_views);
+
             likeTextView = itemView.findViewById(R.id.textView_likes);
             commentTextView = itemView.findViewById(R.id.textView_comments);
             sliderView = itemView.findViewById(R.id.imageSlider);
@@ -352,7 +352,7 @@ public class ListBlogItem_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
             dateTextView = itemView.findViewById(R.id.textView_date);
             nameTextView = itemView.findViewById(R.id.textView_name);
-            viewTextView = itemView.findViewById(R.id.textView_views);
+
             likeTextView = itemView.findViewById(R.id.textView_likes);
             commentTextView = itemView.findViewById(R.id.textView_comments);
             likeImageButton = itemView.findViewById(R.id.imageButton_like);

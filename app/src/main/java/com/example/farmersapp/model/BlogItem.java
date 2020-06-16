@@ -1,27 +1,34 @@
 package com.example.farmersapp.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class BlogItem {
 
-    private String date,post,like,comment,numberOfPhotos,ownerId,photoUploadStatus,view,blogId,ownerName;
+    private String date,post,numberOfPhotos,ownerId,view,blogId,ownerName;
     private List<String>peopleWhoLiked;
+    int like,comment;
+    Timestamp timestamp;
 
-    public BlogItem(String date, String post, String like, String comment, String numberOfPhotos, String ownerId, String photoUploadStatus, String view, String blogId, String ownerName, List<String> peopleWhoLiked) {
+    public BlogItem(String date, String post, String numberOfPhotos, String ownerId, String view, String blogId, String ownerName, List<String> peopleWhoLiked, int like, int comment,Timestamp timestamp) {
         this.date = date;
         this.post = post;
-        this.like = like;
-        this.comment = comment;
         this.numberOfPhotos = numberOfPhotos;
         this.ownerId = ownerId;
-        this.photoUploadStatus = photoUploadStatus;
         this.view = view;
         this.blogId = blogId;
         this.ownerName = ownerName;
         this.peopleWhoLiked = peopleWhoLiked;
+        this.like = like;
+        this.comment = comment;
+        this.timestamp = timestamp;
     }
 
     public BlogItem() {
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
     public List<String> getPeopleWhoLiked() {
@@ -36,11 +43,11 @@ public class BlogItem {
         return post;
     }
 
-    public String getLike() {
+    public int getLike() {
         return like;
     }
 
-    public String getComment() {
+    public int getComment() {
         return comment;
     }
 
@@ -50,10 +57,6 @@ public class BlogItem {
 
     public String getOwnerId() {
         return ownerId;
-    }
-
-    public String getPhotoUploadStatus() {
-        return photoUploadStatus;
     }
 
     public String getView() {

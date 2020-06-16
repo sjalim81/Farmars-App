@@ -32,6 +32,7 @@ import com.example.farmersapp.model.CommentItemDetails;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,9 +50,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -67,10 +70,7 @@ public class AddNewBlogFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    //widgets
-    private ImageButton addPictureButton;
-    private Button postButton;
-    private TextView nameTextView, dateTextView;
+    private TextView nameTextView;
     private GridView imagesGridView;
     private EditText postEditText;
 
@@ -86,7 +86,7 @@ public class AddNewBlogFragment extends Fragment {
     //Firebase
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
-    private CollectionReference collectionReferenceBlog, collectionReferenceBlogId, collectionReferenceUsers,collectionReferenceComment;
+    private CollectionReference collectionReferenceBlog, collectionReferenceBlogId, collectionReferenceUsers, collectionReferenceComment;
     private FirebaseFirestore firebaseFirestore;
     private DocumentReference documentReferenceBlogId, documentReferenceBlog;
 
@@ -119,6 +119,7 @@ public class AddNewBlogFragment extends Fragment {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,9 +130,10 @@ public class AddNewBlogFragment extends Fragment {
 
         imagesGridView = contentView.findViewById(R.id.gridView_pic);
         nameTextView = contentView.findViewById(R.id.textView_name);
-        dateTextView = contentView.findViewById(R.id.textView_date);
-        addPictureButton = contentView.findViewById(R.id.imageButton_add_pic);
-        postButton = contentView.findViewById(R.id.button_post);
+        TextView dateTextView = contentView.findViewById(R.id.textView_date);
+        //widgets
+        ImageButton addPictureButton = contentView.findViewById(R.id.imageButton_add_pic);
+        Button postButton = contentView.findViewById(R.id.button_post);
         postEditText = contentView.findViewById(R.id.editText_post);
         imagesLoc = new ArrayList<>();
 
@@ -164,10 +166,9 @@ public class AddNewBlogFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 if (postEditText.hasFocus()) {
                     v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_SCROLL:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            return true;
+                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_SCROLL) {
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        return true;
                     }
                 }
                 return false;
@@ -234,36 +235,39 @@ public class AddNewBlogFragment extends Fragment {
     }
 
     private void storeData() {
-        HashMap<String, String> dataMap = new HashMap<>();
-        final HashMap<String,List<CommentItemDetails>> dataMapComment = new HashMap<>();
+
+        Map<String, Object> dataMap = new HashMap<>();
+        final Map<String, Object> dataMapComment = new HashMap<>();
+        List<String>peopleWhoLikedList=new ArrayList<>();
+        List<String>commentList = new ArrayList<>();
 
         dataMap.put("blogId", blogId);
-        dataMap.put("like", "0");
-        dataMap.put("comment", "0");
-        dataMap.put("view", "0");
+        dataMap.put("like", 0);
+        dataMap.put("comment", 0);
         dataMap.put("ownerId", userId);
         dataMap.put("numberOfPhotos", String.valueOf(imagesLoc.size()));
-        dataMap.put("photoUploadStatus", String.valueOf(imagesLoc.size()));
-        dataMap.put("post", String.valueOf(postEditText.getText()));
+        dataMap.put("post", postEditText.getText().toString());
         dataMap.put("date", banglaDateTime);
         dataMap.put("ownerName", ownerName);
+        dataMap.put("timeStamp", new Timestamp(new Date()));
+        dataMap.put("peopleWhoLiked",peopleWhoLikedList);
+
+
 
         CommentItemDetails itemDetails = new CommentItemDetails();
-        dataMapComment.put("commentList", Arrays.asList(itemDetails));
+        dataMapComment.put("commentList", commentList);
 
         DocumentReference userDocRef = collectionReferenceUsers.document(userId);
         userDocRef.update("blogList", FieldValue.arrayUnion(blogId));
-
 
 
         collectionReferenceBlog.document(blogId).set(dataMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Blog posted", Toast.LENGTH_LONG).show();
-                collectionReferenceBlog.document(blogId).update("peopleWhoLiked",FieldValue.arrayUnion("testText"));
-//                collectionReferenceBlog.document().update("commentList",FieldValue.arrayUnion());
+//                collectionReferenceBlog.document(blogId).set("peopleWhoLiked", FieldValue.arrayUnion(""));
                 collectionReferenceComment.document(blogId).set(dataMapComment);
-                
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -271,7 +275,6 @@ public class AddNewBlogFragment extends Fragment {
                 Toast.makeText(getContext(), "Blog post failed", Toast.LENGTH_LONG).show();
             }
         });
-
 
 
         int tempBlogId = Integer.parseInt(blogId);
@@ -303,7 +306,7 @@ public class AddNewBlogFragment extends Fragment {
                 nameTextView.setText(ownerName);
                 Log.d(TAG, "user name retrieve success");
             }
-        }).addOnFailureListener( new OnFailureListener() {
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "user name retrieve error");
