@@ -69,7 +69,11 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
 
 
+    implementation 'com.github.tibolte:elasticdownload:1.0.+'
 
+
+    //json creator
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'

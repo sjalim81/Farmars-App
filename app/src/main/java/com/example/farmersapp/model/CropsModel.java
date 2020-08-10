@@ -1,18 +1,20 @@
 package com.example.farmersapp.model;
 
-public class CustomListItem_Cultivation {
+public class CropsModel {
 
 
     public String nameBangla;
     public String nameEnglish;
-    public String userPhoto;
 
-    public CustomListItem_Cultivation(String nameBangla, String nameEnglish, String userPhoto) {
-        this.nameBangla = nameBangla;
-        this.nameEnglish = nameEnglish;
-        this.userPhoto = userPhoto;
+
+    public CropsModel() {
     }
 
+    public CropsModel(String nameBangla, String nameEnglish) {
+        this.nameBangla = nameBangla;
+        this.nameEnglish = nameEnglish;
+
+    }
 
     public String getNameBangla() {
         return nameBangla;
@@ -22,7 +24,13 @@ public class CustomListItem_Cultivation {
         return nameEnglish;
     }
 
-    public String getUserPhoto() {
-        return userPhoto;
+
+
+    public void setNameBangla(String nameBangla) {
+        this.nameBangla = nameBangla;
+    }
+
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
     }
 }

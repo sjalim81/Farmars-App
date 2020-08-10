@@ -1,5 +1,6 @@
 package com.example.farmersapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,9 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersapp.adapter.ListCultivation_Adapter;
 import com.example.farmersapp.model.CustomListItem_Cultivation;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CultivationFragment extends Fragment {
 
@@ -50,20 +56,15 @@ public class CultivationFragment extends Fragment {
 
         searchInput.setBackgroundResource(R.drawable.search_input_style);
         rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
-        mData.add(new CustomListItem_Cultivation("Apple",R.raw.apple));
-        mData.add(new CustomListItem_Cultivation("Jack fruit",R.raw.jackfruit));
-        mData.add(new CustomListItem_Cultivation("Ladies Finger",R.raw.ladies_finger));
-        mData.add(new CustomListItem_Cultivation("Peanut",R.raw.peanut));
-        mData.add(new CustomListItem_Cultivation("Potato",R.raw.potato));
-        mData.add(new CustomListItem_Cultivation("Red Amarnath",R.raw.red_amarnath));
-        mData.add(new CustomListItem_Cultivation("Tomato",R.raw.tomato));
-        mData.add(new CustomListItem_Cultivation("Apple",R.raw.apple));
-        mData.add(new CustomListItem_Cultivation("Jack fruit",R.raw.jackfruit));
-        mData.add(new CustomListItem_Cultivation("Ladies Finger",R.raw.ladies_finger));
-        mData.add(new CustomListItem_Cultivation("Peanut",R.raw.peanut));
-        mData.add(new CustomListItem_Cultivation("Potato",R.raw.potato));
-        mData.add(new CustomListItem_Cultivation("Red Amarnath",R.raw.red_amarnath));
-        mData.add(new CustomListItem_Cultivation("Tomato",R.raw.tomato));
+
+
+
+        Type type = new TypeToken<List<CustomListItem_Cultivation>>() {
+        }.getType();
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(DataLoadActivity.SHARED_PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(DataLoadActivity.CULTIVATION_ITEMS, "");
+        mData = gson.fromJson(json, type);
 
 
         cultivationListAdapterCultivation = new ListCultivation_Adapter(this.getContext(),mData);

@@ -1,7 +1,10 @@
 package com.example.farmersapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +62,7 @@ public class ListCultivation_Adapter extends RecyclerView.Adapter<ListCultivatio
                     List<CustomListItem_Cultivation> lstFiltered = new ArrayList<>();
                     for (CustomListItem_Cultivation row : mData) {
 
-                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase())){
+                        if (row.getNameBangla().contains(Key)){
                             lstFiltered.add(row);
                         }
 
@@ -110,9 +113,11 @@ public class ListCultivation_Adapter extends RecyclerView.Adapter<ListCultivatio
         holder.itemContainer.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_scale_animation));
 
 
-        holder.title.setText(mDataFiltered.get(position).getTitle());
-        holder.imageView.setImageResource(mDataFiltered.get(position).getUserPhoto());
-
+        holder.title.setText(mDataFiltered.get(position).getNameBangla());
+        byte[] decodedByte = Base64.decode(mDataFiltered.get(position).getUserPhoto(), 0);
+        Log.d("datasetAdapter",mDataFiltered.get(position).getNameEnglish()+   " " +mDataFiltered.get(position).getUserPhoto());
+        Bitmap bmp = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+        holder.imageView.setImageBitmap(bmp);
     }
 
     @Override
