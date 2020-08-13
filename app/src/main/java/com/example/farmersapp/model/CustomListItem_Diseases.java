@@ -1,7 +1,6 @@
 package com.example.farmersapp.model;
 
-public class DiseasesModel {
-
+public class CustomListItem_Diseases  {
 
     String diseaseBiologicalControl;
     String diseaseBrief;
@@ -11,11 +10,9 @@ public class DiseasesModel {
     String diseaseTitle;
     String diseaseType;
     String diseaseId;
+    String diseasePhoto;
 
-    public DiseasesModel() {
-    }
-
-    public DiseasesModel(String diseaseBiologicalControl, String diseaseBrief, String diseaseCause, String diseaseChemicalControl, String diseaseScientificName, String diseaseTitle, String diseaseType, String diseaseId, String diseasePhoto) {
+    public CustomListItem_Diseases(String diseaseBiologicalControl, String diseaseBrief, String diseaseCause, String diseaseChemicalControl, String diseaseScientificName, String diseaseTitle, String diseaseType, String diseaseId, String diseasePhoto) {
         this.diseaseBiologicalControl = diseaseBiologicalControl;
         this.diseaseBrief = diseaseBrief;
         this.diseaseCause = diseaseCause;
@@ -24,12 +21,7 @@ public class DiseasesModel {
         this.diseaseTitle = diseaseTitle;
         this.diseaseType = diseaseType;
         this.diseaseId = diseaseId;
-    }
-
-
-
-    public String getDiseaseId() {
-        return diseaseId;
+        this.diseasePhoto = diseasePhoto;
     }
 
     public String getDiseaseBiologicalControl() {
@@ -58,5 +50,13 @@ public class DiseasesModel {
 
     public String getDiseaseType() {
         return diseaseType;
+    }
+
+    public String getDiseaseId() {
+        return diseaseId;
+    }
+
+    public String getDiseasePhoto() {
+        return diseasePhoto;
     }
 }

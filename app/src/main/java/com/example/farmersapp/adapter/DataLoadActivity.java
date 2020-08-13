@@ -1,9 +1,5 @@
-package com.example.farmersapp;
+package com.example.farmersapp.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,33 +10,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.farmersapp.ExploreActivity;
+import com.example.farmersapp.R;
 import com.example.farmersapp.model.CropsModel;
 import com.example.farmersapp.model.CustomListItem_Cultivation;
 import com.example.farmersapp.model.CustomListItem_DiseaseCategories;
 import com.example.farmersapp.model.CustomListItem_Diseases;
 import com.example.farmersapp.model.DiseaseCategoriesModel;
 import com.example.farmersapp.model.DiseasesModel;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import is.arontibo.library.ElasticDownloadView;
 
@@ -252,42 +245,42 @@ public class DataLoadActivity extends AppCompatActivity {
     private void addDisease(final List<DiseasesModel> data) {
 
 
-        for (final DiseasesModel disease : data)
-        {
+            for (final DiseasesModel disease : data)
+            {
 
-            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/diseases/").child(disease.getDiseaseId() + ".jpg");
+                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://farmersapp-31e06.appspot.com/diseases/").child(disease.getDiseaseId() + ".jpg");
 
-            storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-
-
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, baos);
-
-                    byte[] b = baos.toByteArray();
-
-                    String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-                    mDataDisease.add(new CustomListItem_Diseases(disease.getDiseaseBiologicalControl(),disease.getDiseaseBrief(),disease.getDiseaseCause(),disease.getDiseaseChemicalControl(),disease.getDiseaseScientificName(),disease.getDiseaseTitle(),disease.getDiseaseType(),disease.getDiseaseId(),imageEncoded));
-                    Log.d("check data disese size" , String.valueOf(mDataDisease.size()));
-                    if(data.size()==iterationCntDisease)
-                    {
-
-                        Gson gson = new Gson();
-                        String json = gson.toJson(mDataDisease);
-                        editor.putString(DISEASES_MODEL, json);
-                        editor.apply();
-
-                    }
+                storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
 
 
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-                    iterationCntDisease++;
-                }});
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 90, baos);
 
-        }
+                        byte[] b = baos.toByteArray();
+
+                        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+                        mDataDisease.add(new CustomListItem_Diseases(disease.getDiseaseBiologicalControl(),disease.getDiseaseBrief(),disease.getDiseaseCause(),disease.getDiseaseChemicalControl(),disease.getDiseaseScientificName(),disease.getDiseaseTitle(),disease.getDiseaseType(),disease.getDiseaseId(),imageEncoded));
+                        Log.d("check data disese size" , String.valueOf(mDataDisease.size()));
+                        if(data.size()==iterationCntDisease)
+                        {
+
+                            Gson gson = new Gson();
+                            String json = gson.toJson(mDataDisease);
+                            editor.putString(DISEASES_MODEL, json);
+                            editor.apply();
+
+                        }
+
+
+
+                        iterationCntDisease++;
+                    }});
+
+            }
 
     }
 
